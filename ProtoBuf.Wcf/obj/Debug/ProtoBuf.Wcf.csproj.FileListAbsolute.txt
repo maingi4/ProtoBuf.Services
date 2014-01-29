@@ -1,0 +1,15 @@
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\bin\Debug\protobuf-net.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\bin\Debug\protobuf-net.pdb
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\bin\Debug\protobuf-net.xml
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\bin\Debug\ProtoBuf.Wcf.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\bin\Debug\ProtoBuf.Wcf.pdb
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\obj\Debug\ProtoBuf.Wcf.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto.Wcf\obj\Debug\ProtoBuf.Wcf.pdb
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\ProtoBuf.Wcf.dll
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\ProtoBuf.Wcf.pdb
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.dll
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.pdb
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.xml
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.csprojResolveAssemblyReference.cache
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.dll
+D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.pdb

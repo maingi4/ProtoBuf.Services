@@ -1,0 +1,8 @@
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\bin\Debug\Maingi.Proto.Wcf.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\bin\Debug\Maingi.Proto.Wcf.pdb
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\bin\Debug\protobuf-net.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\bin\Debug\protobuf-net.pdb
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\bin\Debug\protobuf-net.xml
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\obj\Debug\Maingi.Proto.Wcf.dll
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\obj\Debug\Maingi.Proto.Wcf.pdb
+D:\Research\ProtoBinding\Maingi.Proto\Maingi.Proto\obj\Debug\Maingi.Proto.Wcf.csprojResolveAssemblyReference.cache
