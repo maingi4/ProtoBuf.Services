@@ -35,6 +35,7 @@
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -47,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Bindings\Enumerations.cs" />
     <Compile Include="Bindings\ProtoBasicHttpBinding.cs" />
+    <Compile Include="Bindings\ProtoBufMessageFormatter.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />
     <Compile Include="Contracts\IModelProvider.cs" />

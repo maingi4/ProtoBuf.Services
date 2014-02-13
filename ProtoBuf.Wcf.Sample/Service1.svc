@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Maingi.Proto.Wcf.Sample.Service1" CodeBehind="Service1.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ProtoBuf.Wcf.Sample.Service1" CodeBehind="Service1.svc.cs" %>

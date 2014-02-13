@@ -18,3 +18,13 @@ D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.
 D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.dll
 D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\ProtoBuf.Wcf.Tests.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\ProtoBuf.Wcf.Tests.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\ProtoBuf.Wcf.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\ProtoBuf.Wcf.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.xml
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.pdb
