@@ -33,7 +33,7 @@ namespace ProtoBuf.Wcf.Bindings
         private void InitializeValue()
         {
             this._encoding = new BinaryMessageEncodingBindingElement();
-            this._metaDataComponent = new MetaDataUploaderBindingElement();
+            this._metaDataComponent = new MetaDataUploaderBindingElement(new HttpTransportBindingElement());
         }
     }
 }

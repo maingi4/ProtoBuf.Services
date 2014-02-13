@@ -5,4 +5,5 @@
   <Module PersistentId="F8C828DF-1F35-4F8B-ADE6-961DB4BC22FB" ModuleId="ProtoBuf.Wcf.Tests" />
   <Module PersistentId="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67" ModuleId="protobuf-net" />
   <Module PersistentId="F1514883-B0DA-4B57-BCB0-E98412C394CD" ModuleId="ProtoBuf.Wcf.Sample" />
+  <Module PersistentId="System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.ServiceModel_1" />
 </Modules>

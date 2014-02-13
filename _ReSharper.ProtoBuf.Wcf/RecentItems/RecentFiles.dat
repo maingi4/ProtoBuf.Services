@@ -4,16 +4,18 @@
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMessageFormatter.cs" caret="0" fromTop="0" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:IService1.cs" caret="304" fromTop="7" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ModelProvider.cs" caret="439" fromTop="17" />
-    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:XmlProtoSerializer.cs" caret="5437" fromTop="33" />
-    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:BinaryFormatter.cs" caret="19901" fromTop="11" />
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc.cs" caret="46" fromTop="2" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="5361" fromTop="10" />
+    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:HttpChannelFactory.cs" caret="2137" fromTop="19" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
+    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:HttpChannelListener.cs" caret="3885" fromTop="15" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="9957" fromTop="6" />
+    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
   </RecentFiles>
   <RecentEdits>
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="1886" fromTop="3" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="11827" fromTop="29" />
   </RecentEdits>
 </RecentFiles>
