@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Bindings\Enumerations.cs" />
     <Compile Include="Bindings\ProtoBasicHttpBinding.cs" />
+    <Compile Include="Bindings\ProtoBufBinding.cs" />
+    <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
     <Compile Include="Bindings\ProtoBufMessageFormatter.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />

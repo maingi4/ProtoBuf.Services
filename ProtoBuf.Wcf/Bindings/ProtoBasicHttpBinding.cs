@@ -7,78 +7,6 @@ using System.ServiceModel.Configuration;
 
 namespace ProtoBuf.Wcf.Bindings
 {
-    public class ProtoBufBindingCollectionElement
-        : BindingCollectionElement
-    {
-        // type of custom binding class
-        public override Type BindingType
-        {
-            get { return typeof(ProtoBufBinding); }
-        }
-
-        // override ConfiguredBindings
-        public override ReadOnlyCollection<IBindingConfigurationElement> ConfiguredBindings
-        {
-            get
-            {
-                return new ReadOnlyCollection<IBindingConfigurationElement>(
-                new List<IBindingConfigurationElement>());
-            }
-        }
-
-        // return Binding class object
-        protected override Binding GetDefault()
-        {
-            return new ProtoBufBinding();
-        }
-
-        public override bool ContainsKey(string name)
-        {
-            return false;
-        }
-
-        protected override bool TryAdd(string name, Binding binding, System.Configuration.Configuration config)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ProtoBufBinding : Binding
-    {
-        private HttpTransportBindingElement _transport;
-        private BinaryMessageEncodingBindingElement _encoding;
-        private MetaDataUploaderBindingElement _metaDataComponent;
-
-        public ProtoBufBinding()
-            : base()
-        {
-            this.InitializeValue();
-        }
-
-        public override BindingElementCollection CreateBindingElements()
-        {
-            var elements = new BindingElementCollection
-                {
-                    this._encoding,
-                    this._metaDataComponent
-                };
-
-            return elements;
-        }
-
-        public override string Scheme
-        {
-            get { return this._metaDataComponent.Scheme; }
-        }
-
-        private void InitializeValue()
-        {
-            this._encoding = new BinaryMessageEncodingBindingElement();
-            this._metaDataComponent = new MetaDataUploaderBindingElement();
-        }
-    }
-
-
     public class MetaDataDownloaderBindingElement : BindingElement
     {
         public override BindingElement Clone()
@@ -145,7 +73,7 @@ namespace ProtoBuf.Wcf.Bindings
                 throw new ArgumentException(String.Format("Unsupported channel type: {0}.", typeof(TChannel).Name));
             }
 
-            return (IChannelListener<TChannel>)new MetaReplyChannelListener();
+            return (IChannelListener<TChannel>)new MetaReplyChannelListener(this, context);
         }
     }
 
@@ -174,8 +102,50 @@ namespace ProtoBuf.Wcf.Bindings
 
     public class MetaReplyChannelListener : ChannelListenerBase<IReplyChannel>
     {
+        private BufferManager _bufferManager;
+        private MessageEncoderFactory _encoderFactory;
+        private Uri _uri;
+
+        protected long MaxReceivedMessageSize { get; set; }
+
+        public MetaReplyChannelListener(TransportBindingElement transportElement, BindingContext context)
+            : base(context.Binding)
+        {
+            this.MaxReceivedMessageSize = transportElement.MaxReceivedMessageSize;
+            var messageElement = context.BindingParameters.Remove<MessageEncodingBindingElement>();
+            this._bufferManager = BufferManager.CreateBufferManager(transportElement.MaxBufferPoolSize, (int)this.MaxReceivedMessageSize);
+            this._encoderFactory = messageElement.CreateMessageEncoderFactory();
+            this._uri = new Uri(context.ListenUriBaseAddress, context.ListenUriRelativeAddress);
+        }
 
         protected override IReplyChannel OnAcceptChannel(TimeSpan timeout)
+        {
+            var address = new EndpointAddress(this.Uri);
+
+            return new ProtoBufMetaDataReplyChannel(this._bufferManager, this._encoderFactory, address, this);
+        }
+
+        protected override bool OnWaitForChannel(TimeSpan timeout)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Uri Uri
+        {
+            get { return this._uri; }
+        }
+
+        protected override void OnOpen(TimeSpan timeout)
+        {
+            //TODO: do something with the timeout at least.
+        }
+
+        protected override void OnClose(TimeSpan timeout)
+        {
+
+        }
+
+        protected override void OnAbort()
         {
             throw new NotImplementedException();
         }
@@ -200,21 +170,6 @@ namespace ProtoBuf.Wcf.Bindings
             throw new NotImplementedException();
         }
 
-        protected override bool OnWaitForChannel(TimeSpan timeout)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Uri Uri
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        protected override void OnAbort()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override IAsyncResult OnBeginClose(TimeSpan timeout, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
@@ -225,22 +180,12 @@ namespace ProtoBuf.Wcf.Bindings
             throw new NotImplementedException();
         }
 
-        protected override void OnClose(TimeSpan timeout)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void OnEndClose(IAsyncResult result)
         {
             throw new NotImplementedException();
         }
 
         protected override void OnEndOpen(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnOpen(TimeSpan timeout)
         {
             throw new NotImplementedException();
         }
@@ -307,134 +252,72 @@ namespace ProtoBuf.Wcf.Bindings
         }
     }
 
-    //public class ProtoBufMetaDataDownloaderChannel : ProtoBufMetaDataChannelBase
-    //{
+    public class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
+    {
+        public ProtoBufMetaDataReplyChannel(BufferManager bufferManager, MessageEncoderFactory encoderFactory,
+            EndpointAddress address, ChannelManagerBase parent):base(bufferManager, encoderFactory, address, parent)
+        {
+            
+        }
 
-    //}
+        public IAsyncResult BeginReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
 
-    //public class ProtoBufEncodingElement : MessageEncodingBindingElement
-    //{
-    //    public ProtoBufEncodingElement()
-    //    {
+        public IAsyncResult BeginReceiveRequest(AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    }
+        public IAsyncResult BeginTryReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    private ProtoBufEncodingElement(ProtoBufEncodingElement clone)
-    //        : base(clone)
-    //    {
+        public IAsyncResult BeginWaitForRequest(TimeSpan timeout, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    }
+        public RequestContext EndReceiveRequest(IAsyncResult result)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public override BindingElement Clone()
-    //    {
-    //        return new ProtoBufEncodingElement(this);
-    //    }
+        public bool EndTryReceiveRequest(IAsyncResult result, out RequestContext context)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public override MessageEncoderFactory CreateMessageEncoderFactory()
-    //    {
-    //        return new ProtoBugMessageEncoderFactory();
-    //    }
+        public bool EndWaitForRequest(IAsyncResult result)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public override MessageVersion MessageVersion { get; set; }
-    //}
+        public EndpointAddress LocalAddress
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-    //public class ProtoBugMessageEncoderFactory : MessageEncoderFactory
-    //{
-    //    #region MessageEncoderFactory Members
+        public RequestContext ReceiveRequest(TimeSpan timeout)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    private MessageEncoder _messageEncoder;
+        public RequestContext ReceiveRequest()
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public override MessageEncoder Encoder
-    //    {
-    //        get
-    //        {
-    //            return _messageEncoder ??
-    //                    (_messageEncoder = new BinaryMessageEncodingBindingElement());
-    //        }
-    //    }
+        public bool TryReceiveRequest(TimeSpan timeout, out RequestContext context)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public override MessageVersion MessageVersion
-    //    {
-    //        get { return MessageVersion.None; }
-    //    }
-
-    //    public string MediaType
-    //    {
-    //        get { return null; }
-    //    }
-
-    //    #endregion
-    //}
-
-    //public class ProtoBufMessageEncoder : MessageEncoder
-    //{
-    //    #region Fields
-
-    //    private readonly ProtoBugMessageEncoderFactory _protoBugMessageEncoderFactory;
-
-    //    #endregion
-
-    //    #region Constructors
-
-    //    public ProtoBufMessageEncoder(ProtoBugMessageEncoderFactory protoBugMessageEncoderFactory)
-    //    {
-    //        _protoBugMessageEncoderFactory = protoBugMessageEncoderFactory;
-    //    }
-
-    //    #endregion
-
-    //    #region MessageEncoder Members
-
-    //    public override Message ReadMessage(Stream stream, int maxSizeOfHeaders, string contentType)
-    //    {
-    //        var data = new byte[maxSizeOfHeaders];
-    //        stream.Write(data, 0, data.Length);
-
-    //        return Message.CreateMessage()
-    //    }
-
-    //    public override Message ReadMessage(ArraySegment<byte> buffer, BufferManager bufferManager,
-    //        string contentType)
-    //    {
-    //        var msgContents = new byte[buffer.Count];
-
-    //        Array.Copy(buffer.Array, buffer.Offset, msgContents, 0, msgContents.Length);
-
-    //        bufferManager.ReturnBuffer(buffer.Array);
-
-    //        var stream = new MemoryStream(msgContents);
-
-    //        return ReadMessage(stream, int.MaxValue);
-    //    }
-
-    //    public override void WriteMessage(Message message, Stream stream)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public override ArraySegment<byte> WriteMessage(Message message, int maxMessageSize, BufferManager bufferManager, int messageOffset)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public override string ContentType
-    //    {
-    //        get { return "binary"; }
-    //    }
-
-    //    public override string MediaType
-    //    {
-    //        get
-    //        {
-    //            return _protoBugMessageEncoderFactory.MediaType;
-    //        }
-    //    }
-
-    //    public override MessageVersion MessageVersion
-    //    {
-    //        get { return _protoBugMessageEncoderFactory.MessageVersion; }
-    //    }
-
-    //    #endregion
-    //}
+        public bool WaitForRequest(TimeSpan timeout)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
