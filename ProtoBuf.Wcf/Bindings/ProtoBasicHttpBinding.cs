@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
@@ -102,9 +103,9 @@ namespace ProtoBuf.Wcf.Bindings
 
     public class MetaReplyChannelListener : ChannelListenerBase<IReplyChannel>
     {
-        private BufferManager _bufferManager;
-        private MessageEncoderFactory _encoderFactory;
-        private Uri _uri;
+        private readonly BufferManager _bufferManager;
+        private readonly MessageEncoderFactory _encoderFactory;
+        private readonly Uri _uri;
 
         protected long MaxReceivedMessageSize { get; set; }
 
@@ -152,12 +153,14 @@ namespace ProtoBuf.Wcf.Bindings
 
         protected override IAsyncResult OnBeginAcceptChannel(TimeSpan timeout, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            Func<IReplyChannel> accepting = () => this.AcceptChannel(timeout);
+
+            return accepting.BeginInvoke(callback, state);
         }
 
         protected override IReplyChannel OnEndAcceptChannel(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            return ((Func<IReplyChannel>) ((AsyncResult) result).AsyncDelegate).EndInvoke(result);
         }
 
         protected override IAsyncResult OnBeginWaitForChannel(TimeSpan timeout, AsyncCallback callback, object state)
@@ -233,7 +236,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         protected override void OnClose(TimeSpan timeout)
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void OnEndClose(IAsyncResult result)
@@ -248,16 +251,18 @@ namespace ProtoBuf.Wcf.Bindings
 
         protected override void OnOpen(TimeSpan timeout)
         {
-            throw new NotImplementedException();
+            
         }
     }
 
     public class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
     {
+        private EndpointAddress _localAddress;
+
         public ProtoBufMetaDataReplyChannel(BufferManager bufferManager, MessageEncoderFactory encoderFactory,
             EndpointAddress address, ChannelManagerBase parent):base(bufferManager, encoderFactory, address, parent)
         {
-            
+            this._localAddress = address;    
         }
 
         public IAsyncResult BeginReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
@@ -297,7 +302,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         public EndpointAddress LocalAddress
         {
-            get { throw new NotImplementedException(); }
+            get { return this._localAddress; }
         }
 
         public RequestContext ReceiveRequest(TimeSpan timeout)
@@ -307,7 +312,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         public RequestContext ReceiveRequest()
         {
-            throw new NotImplementedException();
+            return ReceiveRequest(DefaultReceiveTimeout);
         }
 
         public bool TryReceiveRequest(TimeSpan timeout, out RequestContext context)
