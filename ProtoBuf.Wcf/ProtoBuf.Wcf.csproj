@@ -46,12 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\Enumerations.cs" />
+    <Compile Include="Bindings\ProtoBufMetaDataBindingElement.cs" />
     <Compile Include="Bindings\MetaReplyChannelListener.cs" />
-    <Compile Include="Bindings\ProtoBasicHttpBinding.cs" />
+    <Compile Include="Bindings\MetaRequestChannelFactory.cs" />
     <Compile Include="Bindings\ProtoBufBinding.cs" />
     <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
     <Compile Include="Bindings\ProtoBufMessageFormatter.cs" />
+    <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
+    <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />
+    <Compile Include="Bindings\ProtoBufMetaDataRquestChannel.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />
     <Compile Include="Contracts\IModelProvider.cs" />

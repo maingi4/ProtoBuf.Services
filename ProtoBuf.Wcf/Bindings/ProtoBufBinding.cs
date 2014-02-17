@@ -6,7 +6,7 @@ namespace ProtoBuf.Wcf.Bindings
     {
         private HttpTransportBindingElement _transport;
         private BinaryMessageEncodingBindingElement _encoding;
-        private MetaDataUploaderBindingElement _metaDataComponent;
+        private ProtoBufMetaDataBindingElement _metaDataComponent;
 
         public ProtoBufBinding()
             : base()
@@ -33,7 +33,7 @@ namespace ProtoBuf.Wcf.Bindings
         private void InitializeValue()
         {
             this._encoding = new BinaryMessageEncodingBindingElement();
-            this._metaDataComponent = new MetaDataUploaderBindingElement(new HttpTransportBindingElement());
+            this._metaDataComponent = new ProtoBufMetaDataBindingElement(new HttpTransportBindingElement());
         }
     }
 }
