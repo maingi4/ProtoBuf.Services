@@ -92,195 +92,115 @@ namespace ProtoBuf.Wcf.Bindings
             _innerFactory = innerFactory;
         }
 
-        protected override IRequestChannel OnCreateChannel(System.ServiceModel.EndpointAddress address, Uri via)
+        #region ChannelFactoryBase Members
+
+        protected override IRequestChannel OnCreateChannel(EndpointAddress address, Uri via)
         {
-            throw new NotImplementedException();
+            var innerChannel = _innerFactory.CreateChannel(address, via);
+
+            return WrapChannel(innerChannel);
         }
 
         protected override IAsyncResult OnBeginOpen(TimeSpan timeout, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            return _innerFactory.BeginOpen(timeout, callback, state);
         }
 
         protected override void OnEndOpen(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            _innerFactory.EndOpen(result);
         }
 
         protected override void OnOpen(TimeSpan timeout)
         {
+            _innerFactory.Open();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected IRequestChannel WrapChannel(IRequestChannel innerChannel)
+        {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 
-    public class MetaReplyChannelListener : ChannelListenerBase<IReplyChannel>
-    {
-        private readonly IChannelListener<IReplyChannel> _innerChannel;
-        private readonly BufferManager _bufferManager;
-        //private readonly MessageEncoderFactory _encoderFactory;
-        private readonly Uri _uri;
+    //public abstract class ProtoBufMetaDataChannelBase : ChannelBase
+    //{
+    //    private readonly EndpointAddress _address;
+    //    private readonly IReplyChannel _innerChannel;
 
-        protected long MaxReceivedMessageSize { get; set; }
+    //    protected ProtoBufMetaDataChannelBase(EndpointAddress address, ChannelManagerBase parent,
+    //        IReplyChannel innerChannel)
+    //        : base(parent)
+    //    {
+    //        _address = address;
+    //        _innerChannel = innerChannel;
+    //    }
 
-        public MetaReplyChannelListener(TransportBindingElement transportElement, BindingContext context, IChannelListener<IReplyChannel> innerChannel)
-            : base(context.Binding)
-        {
-            _innerChannel = innerChannel;
-            this.MaxReceivedMessageSize = transportElement.MaxReceivedMessageSize;
-            //var messageElement = context.BindingParameters.Remove<MessageEncodingBindingElement>();
-            this._bufferManager = BufferManager.CreateBufferManager(transportElement.MaxBufferPoolSize, (int)this.MaxReceivedMessageSize);
-            //this._encoderFactory = messageElement.CreateMessageEncoderFactory();
-            this._uri = new Uri(context.ListenUriBaseAddress, context.ListenUriRelativeAddress);
-        }
+    //    public EndpointAddress RemoteAddress
+    //    {
+    //        get { return this._address; }
+    //    }
 
-        protected override IReplyChannel OnAcceptChannel(TimeSpan timeout)
-        {
-            var address = new EndpointAddress(this.Uri);
+    //    protected Message GetMetaDataFor(string typeName)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-            return new ProtoBufMetaDataReplyChannel(this._bufferManager, address, this, _innerChannel.AcceptChannel());
-        }
+    //    protected override void OnAbort()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        protected override bool OnWaitForChannel(TimeSpan timeout)
-        {
-            throw new NotImplementedException();
-        }
+    //    protected override IAsyncResult OnBeginClose(TimeSpan timeout, AsyncCallback callback, object state)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public override Uri Uri
-        {
-            get { return this._uri; }
-        }
+    //    protected override IAsyncResult OnBeginOpen(TimeSpan timeout, AsyncCallback callback, object state)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        protected override void OnOpen(TimeSpan timeout)
-        {
-            _innerChannel.Open(timeout);
-        }
+    //    protected override void OnClose(TimeSpan timeout)
+    //    {
 
-        protected override void OnClose(TimeSpan timeout)
-        {
-            _innerChannel.Close(timeout);
-        }
+    //    }
 
-        protected override void OnAbort()
-        {
-            _innerChannel.Abort();
-        }
+    //    protected override void OnEndClose(IAsyncResult result)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        protected override IAsyncResult OnBeginAcceptChannel(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            Func<IReplyChannel> accepting = () => this.AcceptChannel(timeout);
+    //    protected override void OnEndOpen(IAsyncResult result)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-            return accepting.BeginInvoke(callback, state);
-        }
+    //    protected override void OnOpen(TimeSpan timeout)
+    //    {
 
-        protected override IReplyChannel OnEndAcceptChannel(IAsyncResult result)
-        {
-            return ((Func<IReplyChannel>)((AsyncResult)result).AsyncDelegate).EndInvoke(result);
-        }
+    //    }
+    //}
 
-        protected override IAsyncResult OnBeginWaitForChannel(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool OnEndWaitForChannel(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IAsyncResult OnBeginClose(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IAsyncResult OnBeginOpen(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnEndClose(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnEndOpen(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public abstract class ProtoBufMetaDataChannelBase : ChannelBase
-    {
-        private readonly BufferManager _bufferManager;
-        //private readonly MessageEncoderFactory _encoderFactory;
-        private readonly EndpointAddress _address;
-
-        protected ProtoBufMetaDataChannelBase(BufferManager bufferManager ,EndpointAddress address, 
-            ChannelManagerBase parent)
-            : base(parent)
-        {
-            _bufferManager = bufferManager;
-            //_encoderFactory = encoderFactory;
-            _address = address;
-        }
-
-        public EndpointAddress RemoteAddress
-        {
-            get { return this._address; }
-        }
-
-        protected Message GetMetaDataFor(string typeName)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnAbort()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IAsyncResult OnBeginClose(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IAsyncResult OnBeginOpen(TimeSpan timeout, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnClose(TimeSpan timeout)
-        {
-
-        }
-
-        protected override void OnEndClose(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnEndOpen(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnOpen(TimeSpan timeout)
-        {
-
-        }
-    }
-
-    public class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
+    public class ProtoBufMetaDataReplyChannel : ChannelBase, IReplyChannel
     {
         private readonly EndpointAddress _localAddress;
         private readonly IReplyChannel _innerChannel;
 
-        public ProtoBufMetaDataReplyChannel(BufferManager bufferManager,
-            EndpointAddress address, ChannelManagerBase parent, IReplyChannel innerChannel)
-            : base(bufferManager, address, parent)
+        public ProtoBufMetaDataReplyChannel(EndpointAddress address, 
+            ChannelManagerBase parent, IReplyChannel innerChannel):
+            base(parent)
         {
             this._localAddress = address;
             _innerChannel = innerChannel;
         }
+
+        #region IReplyChannel Members
 
         public IAsyncResult BeginReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
         {
@@ -327,27 +247,9 @@ namespace ProtoBuf.Wcf.Bindings
             return _innerChannel.ReceiveRequest(timeout);
         }
 
-        protected override void OnOpen(TimeSpan timeout)
-        {
-            _innerChannel.Open(timeout);
-            base.OnOpen(timeout);
-        }
-
-        protected override void OnClose(TimeSpan timeout)
-        {
-            _innerChannel.Close(timeout);
-            base.OnClose(timeout);
-        }
-
-        protected override void OnAbort()
-        {
-            _innerChannel.Abort();
-            base.OnAbort();
-        }
-
         public RequestContext ReceiveRequest()
         {
-            return ReceiveRequest(DefaultReceiveTimeout);
+            return _innerChannel.ReceiveRequest();
         }
 
         public bool TryReceiveRequest(TimeSpan timeout, out RequestContext context)
@@ -359,5 +261,46 @@ namespace ProtoBuf.Wcf.Bindings
         {
             return _innerChannel.WaitForRequest(timeout);
         }
+
+        #endregion
+
+        #region ChannelBase Members
+
+        protected override IAsyncResult OnBeginClose(TimeSpan timeout, AsyncCallback callback, object state)
+        {
+            return _innerChannel.BeginClose(timeout, callback, state);
+        }
+
+        protected override void OnOpen(TimeSpan timeout)
+        {
+            _innerChannel.Open(timeout);
+        }
+
+        protected override IAsyncResult OnBeginOpen(TimeSpan timeout, AsyncCallback callback, object state)
+        {
+            return _innerChannel.BeginOpen(timeout, callback, state);
+        }
+
+        protected override void OnEndOpen(IAsyncResult result)
+        {
+            _innerChannel.EndOpen(result);
+        }
+
+        protected override void OnClose(TimeSpan timeout)
+        {
+            _innerChannel.Close(timeout);
+        }
+
+        protected override void OnEndClose(IAsyncResult result)
+        {
+            _innerChannel.EndClose(result);
+        }
+
+        protected override void OnAbort()
+        {
+            _innerChannel.Abort();
+        }
+
+        #endregion
     }
 }

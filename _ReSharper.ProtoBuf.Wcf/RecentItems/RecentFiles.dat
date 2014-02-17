@@ -6,16 +6,18 @@
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ModelProvider.cs" caret="439" fromTop="17" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc.cs" caret="46" fromTop="2" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
-    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:HttpChannelFactory.cs" caret="2137" fromTop="19" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
-    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:HttpChannelListener.cs" caret="3885" fromTop="15" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="9957" fromTop="6" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ProtoBufModelGenerator.cs" caret="8549" fromTop="0" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:MetaReplyChannelListener.cs" caret="359" fromTop="10" />
+    <File id="7020124F-9FFC-4AC3-8F3D-AAB8E0240759/f:ReplyChannel.cs/z:2-0" caret="5564" fromTop="17" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="6491" fromTop="24" />
   </RecentFiles>
   <RecentEdits>
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="11827" fromTop="29" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ProtoBufModelGenerator.cs" caret="9392" fromTop="17" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBasicHttpBinding.cs" caret="9744" fromTop="22" />
   </RecentEdits>
 </RecentFiles>

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\Enumerations.cs" />
+    <Compile Include="Bindings\MetaReplyChannelListener.cs" />
     <Compile Include="Bindings\ProtoBasicHttpBinding.cs" />
     <Compile Include="Bindings\ProtoBufBinding.cs" />
     <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />

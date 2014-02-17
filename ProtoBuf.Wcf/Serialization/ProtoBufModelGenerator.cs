@@ -267,7 +267,7 @@ namespace ProtoBuf.Wcf.Serialization
                    && type != typeof(Enum)
                    && type.Namespace != null
                    && type.IsArray == false
-                   && !type.Namespace.StartsWith("System") &&
+                   && !type.Namespace.StartsWith("System.") &&
                    type.GetCustomAttribute<ProtoIgnoreAttribute>() == null
                    && type.GetCustomAttribute<DataContractAttribute>() != null;
         }
