@@ -4,11 +4,11 @@ using System.ServiceModel.Channels;
 
 namespace ProtoBuf.Wcf.Bindings
 {
-    public class ProtoBufMetaDataRquestChannel : ProtoBufMetaDataChannelBase, IRequestChannel
+    public class ProtoBufMetaDataRequestChannel : ProtoBufMetaDataChannelBase, IRequestChannel
     {
         private readonly IRequestChannel _innerChannel;
 
-        public ProtoBufMetaDataRquestChannel(ChannelManagerBase parent, IRequestChannel innerChannel):
+        public ProtoBufMetaDataRequestChannel(ChannelManagerBase parent, IRequestChannel innerChannel):
             base(parent, innerChannel)
         {
             _innerChannel = innerChannel;
@@ -33,11 +33,14 @@ namespace ProtoBuf.Wcf.Bindings
 
         public Message Request(Message message)
         {
+            
             return _innerChannel.Request(message);
         }
 
         public Message Request(Message message, TimeSpan timeout)
         {
+            CheckAndMakeMetaDataRequest(message, timeout);
+
             return _innerChannel.Request(message, timeout);
         }
 
@@ -48,6 +51,8 @@ namespace ProtoBuf.Wcf.Bindings
 
         public IAsyncResult BeginRequest(Message message, TimeSpan timeout, AsyncCallback callback, object state)
         {
+            CheckAndMakeMetaDataRequest(message, timeout);
+
             return _innerChannel.BeginRequest(message, timeout, callback, state);
         }
 
@@ -56,6 +61,18 @@ namespace ProtoBuf.Wcf.Bindings
             return _innerChannel.EndRequest(result);
         }
         
+        #endregion
+
+        #region Proteted Methods
+
+        protected void CheckAndMakeMetaDataRequest(Message originalMessage, TimeSpan timeout)
+        {
+            //TODO: check for existence of meta data here, before sending the request.
+            //TODO: If request does not exist, send a custom request beforehand to download the meta data.
+            //TODO: Save the meta data in a store. -- Abstract.
+            //TODO: Upon recieving the meta data, continue with the original request.
+        }
+
         #endregion
     }
 }

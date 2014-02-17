@@ -43,7 +43,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         protected IRequestChannel WrapChannel(IRequestChannel innerChannel)
         {
-            return new ProtoBufMetaDataRquestChannel(this, innerChannel);
+            return new ProtoBufMetaDataRequestChannel(this, innerChannel);
         }
 
         #endregion

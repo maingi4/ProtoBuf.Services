@@ -56,7 +56,7 @@
     <Compile Include="Bindings\ProtoBufMessageFormatter.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />
-    <Compile Include="Bindings\ProtoBufMetaDataRquestChannel.cs" />
+    <Compile Include="Bindings\ProtoBufMetaDataRequestChannel.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />
     <Compile Include="Contracts\IModelProvider.cs" />
