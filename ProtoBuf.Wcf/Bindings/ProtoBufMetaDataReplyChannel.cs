@@ -61,11 +61,15 @@ namespace ProtoBuf.Wcf.Bindings
 
         public RequestContext ReceiveRequest(TimeSpan timeout)
         {
+            CheckAndReplyMetaDataRequest(timeout);
+
             return _innerChannel.ReceiveRequest(timeout);
         }
 
         public RequestContext ReceiveRequest()
         {
+            CheckAndReplyMetaDataRequest(TimeSpan.FromMinutes(1)); //TODO: extract to configuration.
+
             return _innerChannel.ReceiveRequest();
         }
 
@@ -77,6 +81,15 @@ namespace ProtoBuf.Wcf.Bindings
         public bool WaitForRequest(TimeSpan timeout)
         {
             return _innerChannel.WaitForRequest(timeout);
+        }
+
+        #endregion
+
+        #region PRotected Members
+
+        protected void CheckAndReplyMetaDataRequest(TimeSpan timeout)
+        {
+            //TODO: check if its a meta data request and reply.
         }
 
         #endregion

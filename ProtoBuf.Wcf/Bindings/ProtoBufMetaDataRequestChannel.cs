@@ -67,10 +67,12 @@ namespace ProtoBuf.Wcf.Bindings
 
         protected void CheckAndMakeMetaDataRequest(Message originalMessage, TimeSpan timeout)
         {
+            //TODO: Check if the meta data request is being made here, this function will call innerchannel.request, which will again call this function itself.
             //TODO: check for existence of meta data here, before sending the request.
             //TODO: If request does not exist, send a custom request beforehand to download the meta data.
             //TODO: Save the meta data in a store. -- Abstract.
             //TODO: Upon recieving the meta data, continue with the original request.
+            //TODO: Extend the protoBuf ProtoXmlSerializer, to consider meta data (from store), -- can we just use formatter?
         }
 
         #endregion
