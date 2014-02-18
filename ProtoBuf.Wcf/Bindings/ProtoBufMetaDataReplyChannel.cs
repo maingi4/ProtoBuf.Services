@@ -1,6 +1,7 @@
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Xml;
 
 namespace ProtoBuf.Wcf.Bindings
 {
@@ -61,16 +62,22 @@ namespace ProtoBuf.Wcf.Bindings
 
         public RequestContext ReceiveRequest(TimeSpan timeout)
         {
-            CheckAndReplyMetaDataRequest(timeout);
+            var context = _innerChannel.ReceiveRequest(timeout);
 
-            return _innerChannel.ReceiveRequest(timeout);
+            var isMetaDataRequest = CheckAndReplyMetaDataRequest(context, timeout);
+
+            return isMetaDataRequest ? null : context;
         }
 
         public RequestContext ReceiveRequest()
         {
-            CheckAndReplyMetaDataRequest(TimeSpan.FromMinutes(1)); //TODO: extract to configuration.
+            var timeout = ((IDefaultCommunicationTimeouts)this.Manager).ReceiveTimeout;
+            
+            var context = _innerChannel.ReceiveRequest();
 
-            return _innerChannel.ReceiveRequest();
+            var isMetaDataRequest = CheckAndReplyMetaDataRequest(context, timeout);
+
+            return isMetaDataRequest ? null : context;
         }
 
         public bool TryReceiveRequest(TimeSpan timeout, out RequestContext context)
@@ -85,12 +92,35 @@ namespace ProtoBuf.Wcf.Bindings
 
         #endregion
 
-        #region PRotected Members
+        #region Protected Members
 
-        protected void CheckAndReplyMetaDataRequest(TimeSpan timeout)
+        protected bool CheckAndReplyMetaDataRequest(RequestContext context, TimeSpan timeout)
         {
-            //TODO: check if its a meta data request and reply.
+            if (context == null || context.RequestMessage == null)
+                return false;
+
+            var buffer = context.RequestMessage.CreateBufferedCopy(int.MaxValue);
+
+            var clonedMessage = buffer.CreateMessage();
+
+            var reader = clonedMessage.GetReaderAtBodyContents();
+
+            var isMetaDataRequest = IsMetaDataRequest(reader);
+
+            if (isMetaDataRequest)
+            {
+                //TODO: send meta data reply here.
+                return true;
+            }
+
+            return false;
         }
+
+        protected bool IsMetaDataRequest(XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
     }
