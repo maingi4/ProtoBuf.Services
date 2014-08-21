@@ -1,8 +1,8 @@
 ﻿using System;
-using ProtoBuf.Wcf.Contracts;
-using ProtoBuf.Wcf.Infrastructure;
+using ProtoBuf.Wcf.Channels.Contracts;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
     public class ModelProvider : IModelProvider
     {
@@ -10,14 +10,28 @@ namespace ProtoBuf.Wcf.Serialization
 
         public ModelInfo CreateModelInfo(Type type)
         {
-            var modelInfo = GetModelInfoFromCache(type) ?? CreateNewModelInfo(type);
+            var modelInfo = GetModelInfoFromCache(type);
+
+            if (modelInfo == null)
+            {
+                modelInfo = CreateNewModelInfo(type);
+
+                SetModelInfoIntoCache(type, modelInfo);
+            }
 
             return modelInfo;
         }
 
         public ModelInfo CreateModelInfo(Type type, TypeMetaData metaData)
         {
-            var modelInfo = GetModelInfoFromCache(type) ?? CreateNewModelInfo(type, metaData);
+            var modelInfo = GetModelInfoFromCache(type);
+
+            if (modelInfo == null)
+            {
+                modelInfo = CreateNewModelInfo(type, metaData);
+
+                SetModelInfoIntoCache(type, modelInfo);
+            }
 
             return modelInfo;
         }
@@ -31,6 +45,13 @@ namespace ProtoBuf.Wcf.Serialization
             var store = ObjectBuilder.GetModelStore();
 
             return store.GetModel(type);
+        }
+
+        protected virtual void SetModelInfoIntoCache(Type type, ModelInfo modelInfo)
+        {
+            var store = ObjectBuilder.GetModelStore();
+
+            store.SetModel(type, modelInfo);
         }
 
         protected virtual ModelInfo CreateNewModelInfo(Type type)

@@ -1,7 +1,7 @@
 using System;
 using System.ServiceModel.Channels;
 
-namespace ProtoBuf.Wcf.Bindings
+namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufMetaDataBindingElement : TransportBindingElement
     {
@@ -42,6 +42,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         public override IChannelFactory<TChannel> BuildChannelFactory<TChannel>(BindingContext context)
         {
+
             if (context == null)
                 throw new ArgumentNullException("context");
 

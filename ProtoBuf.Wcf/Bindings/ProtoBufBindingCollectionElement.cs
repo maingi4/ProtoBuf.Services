@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 
-namespace ProtoBuf.Wcf.Bindings
+namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufBindingCollectionElement
         : BindingCollectionElement
@@ -33,7 +33,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         public override bool ContainsKey(string name)
         {
-            return false;
+            return true;
         }
 
         protected override bool TryAdd(string name, Binding binding, System.Configuration.Configuration config)

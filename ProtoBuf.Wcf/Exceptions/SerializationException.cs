@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ProtoBuf.Wcf.Exceptions
+namespace ProtoBuf.Wcf.Channels.Exceptions
 {
     [Serializable]
     public class SerializationException : Exception

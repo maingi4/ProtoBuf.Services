@@ -2,9 +2,9 @@ using System;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 using ProtoBuf.ServiceModel;
-using ProtoBuf.Wcf.Infrastructure;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
-namespace ProtoBuf.Wcf.Bindings
+namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufMessageFormatter : IDispatchMessageFormatter
     {

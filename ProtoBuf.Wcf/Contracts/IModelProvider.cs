@@ -1,7 +1,7 @@
 using System;
-using ProtoBuf.Wcf.Serialization;
+using ProtoBuf.Wcf.Channels.Serialization;
 
-namespace ProtoBuf.Wcf.Contracts
+namespace ProtoBuf.Wcf.Channels.Contracts
 {
     public interface IModelProvider
     {

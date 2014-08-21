@@ -1,4 +1,4 @@
-﻿namespace ProtoBuf.Wcf.Serialization
+﻿namespace ProtoBuf.Wcf.Channels.Serialization
 {
     public sealed class SerializationResult
     {

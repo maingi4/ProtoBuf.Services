@@ -1,6 +1,6 @@
 using ProtoBuf.Meta;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
     public class ModelInfo
     {

@@ -2,7 +2,7 @@ using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 
-namespace ProtoBuf.Wcf.Bindings
+namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class MetaReplyChannelListener : ChannelListenerBase<IReplyChannel>
     {

@@ -3,29 +3,29 @@
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ModelInfo.cs" caret="82" fromTop="4" />
     <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:IService1.cs" caret="304" fromTop="7" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ModelProvider.cs" caret="439" fromTop="17" />
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc.cs" caret="46" fromTop="2" />
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
+    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="711" fromTop="21" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ProtoBufModelGenerator.cs" caret="8549" fromTop="0" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:MetaReplyChannelListener.cs" caret="359" fromTop="10" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataChannelBase.cs" caret="399" fromTop="9" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:MetaRequestChannelFactory.cs" caret="0" fromTop="0" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataBindingElement.cs" caret="496" fromTop="14" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:Constants.cs" caret="266" fromTop="10" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMessageFormatter.cs" caret="155" fromTop="4" />
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataRequestChannel.cs" caret="2649" fromTop="40" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataReplyChannel.cs" caret="3629" fromTop="0" />
+    <File id="F8C828DF-1F35-4F8B-ADE6-961DB4BC22FB/f:ServiceTests.cs" caret="324" fromTop="13" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:MetaReplyChannelListener.cs" caret="691" fromTop="16" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataReplyChannel.cs" caret="3243" fromTop="0" />
+    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:TestService.svc.cs" caret="190" fromTop="8" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataRequestChannel.cs" caret="1934" fromTop="14" />
   </RecentFiles>
   <RecentEdits>
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Service1.svc" caret="71" fromTop="0" />
-    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="710" fromTop="21" />
+    <File id="F1514883-B0DA-4B57-BCB0-E98412C394CD/f:Web.config" caret="711" fromTop="21" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufBinding.cs" caret="1097" fromTop="25" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Serialization/f:ProtoBufModelGenerator.cs" caret="9392" fromTop="17" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataChannelBase.cs" caret="199" fromTop="7" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:Constants.cs" caret="266" fromTop="10" />
     <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataBindingElement.cs" caret="137" fromTop="5" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataRequestChannel.cs" caret="2134" fromTop="10" />
-    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataReplyChannel.cs" caret="4028" fromTop="18" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataReplyChannel.cs" caret="5326" fromTop="18" />
+    <File id="F8C828DF-1F35-4F8B-ADE6-961DB4BC22FB/f:ServiceTests.cs" caret="214" fromTop="9" />
+    <File id="E6F888C3-60EC-4684-A76C-99654CD8B2DF/d:Bindings/f:ProtoBufMetaDataRequestChannel.cs" caret="3001" fromTop="22" />
   </RecentEdits>
 </RecentFiles>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProtoBuf.Wcf.Infrastructure;
-using ProtoBuf.Wcf.Serialization;
+using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Wcf.Channels.Serialization;
 using ProtoBuf.Wcf.Tests.Models;
 
 namespace ProtoBuf.Wcf.Tests

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using ProtoBuf.Meta;
-using SerializationException = ProtoBuf.Wcf.Exceptions.SerializationException;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
     public sealed class ProtoBufModelGenerator
     {
@@ -32,7 +31,7 @@ namespace ProtoBuf.Wcf.Serialization
 
         #region Fields
 
-        private Type _targetType;
+        private readonly Type _targetType;
         private readonly TypeMetaData _typeMetaData;
         private readonly bool _usePreDefinedFieldNumbers;
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using ProtoBuf.Meta;
-using ProtoBuf.Wcf.Contracts;
-using ProtoBuf.Wcf.Exceptions;
-using ProtoBuf.Wcf.Infrastructure;
+using ProtoBuf.Wcf.Channels.Contracts;
+using ProtoBuf.Wcf.Channels.Exceptions;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
     public sealed class ProtoBufSerializer : ISerializer
     {
