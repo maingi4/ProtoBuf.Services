@@ -1,4 +1,4 @@
-﻿namespace ProtoBuf.Wcf.Bindings
+﻿namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public enum ModeOptions
     {

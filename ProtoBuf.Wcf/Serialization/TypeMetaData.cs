@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
     [DataContract]
     public sealed class TypeMetaData
@@ -13,7 +13,7 @@ namespace ProtoBuf.Wcf.Serialization
         private IDictionary<string, IDictionary<string, int>> _internalStore = new Dictionary<string, IDictionary<string, int>>();
         [DataMember]
         private IDictionary<string, int> _baseNumberStore = new Dictionary<string, int>();
-        
+
         #endregion
 
         #region Public Methods
@@ -97,7 +97,7 @@ namespace ProtoBuf.Wcf.Serialization
 
         private string GetTypeFullName(string typeNameSpace, string typeName)
         {
-            return string.Concat(typeNameSpace, typeName);
+            return string.Concat(typeNameSpace, "/", typeName);
         }
 
         #endregion

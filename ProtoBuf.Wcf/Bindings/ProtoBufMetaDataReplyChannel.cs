@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Wcf.Channels.Serialization;
+using TypeInfo = ProtoBuf.Wcf.Channels.Infrastructure.TypeInfo;
 
-namespace ProtoBuf.Wcf.Bindings
+namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
     {
         private readonly EndpointAddress _localAddress;
         private readonly IReplyChannel _innerChannel;
 
-        public ProtoBufMetaDataReplyChannel(EndpointAddress address, 
-                                            ChannelManagerBase parent, IReplyChannel innerChannel):
-                                                base(parent, innerChannel)
+        public ProtoBufMetaDataReplyChannel(EndpointAddress address,
+                                            ChannelManagerBase parent, IReplyChannel innerChannel) :
+            base(parent, innerChannel)
         {
             this._localAddress = address;
             _innerChannel = innerChannel;
@@ -31,7 +38,7 @@ namespace ProtoBuf.Wcf.Bindings
 
         public IAsyncResult BeginTryReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
         {
-            return _innerChannel.BeginTryReceiveRequest(timeout, callback, state);
+            return new ChainedAsyncResult(_innerChannel, timeout, callback, state);
         }
 
         public IAsyncResult BeginWaitForRequest(TimeSpan timeout, AsyncCallback callback, object state)
@@ -46,7 +53,13 @@ namespace ProtoBuf.Wcf.Bindings
 
         public bool EndTryReceiveRequest(IAsyncResult result, out RequestContext context)
         {
-            return _innerChannel.EndTryReceiveRequest(result, out context);
+            _innerChannel.EndTryReceiveRequest(result, out context);
+
+            var timeout = ((IDefaultCommunicationTimeouts)this.Manager).ReceiveTimeout;
+
+            context = ProcessContext(context, timeout);
+
+            return context != null;
         }
 
         public bool EndWaitForRequest(IAsyncResult result)
@@ -61,16 +74,18 @@ namespace ProtoBuf.Wcf.Bindings
 
         public RequestContext ReceiveRequest(TimeSpan timeout)
         {
-            CheckAndReplyMetaDataRequest(timeout);
+            var context = _innerChannel.ReceiveRequest(timeout);
 
-            return _innerChannel.ReceiveRequest(timeout);
+            return ProcessContext(context, timeout);
         }
 
         public RequestContext ReceiveRequest()
         {
-            CheckAndReplyMetaDataRequest(TimeSpan.FromMinutes(1)); //TODO: extract to configuration.
+            var timeout = ((IDefaultCommunicationTimeouts)this.Manager).ReceiveTimeout;
 
-            return _innerChannel.ReceiveRequest();
+            var context = _innerChannel.ReceiveRequest();
+
+            return ProcessContext(context, timeout);
         }
 
         public bool TryReceiveRequest(TimeSpan timeout, out RequestContext context)
@@ -85,11 +100,99 @@ namespace ProtoBuf.Wcf.Bindings
 
         #endregion
 
-        #region PRotected Members
+        #region Protected Members
 
-        protected void CheckAndReplyMetaDataRequest(TimeSpan timeout)
+        protected RequestContext ProcessContext(RequestContext context, TimeSpan timeout)
         {
-            //TODO: check if its a meta data request and reply.
+            var isMetaDataRequest = CheckAndReplyMetaDataRequest(context, timeout);
+
+            return isMetaDataRequest ? null : context;
+        }
+
+        protected bool CheckAndReplyMetaDataRequest(RequestContext context, TimeSpan timeout)
+        {
+            if (context == null || context.RequestMessage == null)
+                return false;
+
+            //var buffer = context.RequestMessage.CreateBufferedCopy(int.MaxValue);
+
+            //var clonedMessage = buffer.CreateMessage();
+
+            //SetClonedContext(context, buffer.CreateMessage());
+
+            var isMetaDataRequest = IsMetaDataRequest(context.RequestMessage);
+
+            if (isMetaDataRequest)
+            {
+                ReplyWithMetaData(context);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        //private void SetClonedContext(RequestContext context, Message clonedMessage)
+        //{
+        //    var type = context.GetType();
+
+        //    var field = type.BaseType.BaseType.GetField("requestMessage",
+        //                                                BindingFlags.Instance | BindingFlags.NonPublic);
+
+        //    field.SetValue(context, clonedMessage);
+        //}
+
+        protected bool IsMetaDataRequest(Message message)
+        {
+            var headerLocation = message.Headers.FindHeader("MetaData", "Maingi");
+
+            if (headerLocation > -1)
+                return message.Headers.GetHeader<string>(headerLocation) == "Y";
+
+            return false;
+        }
+
+        protected void ReplyWithMetaData(RequestContext context)
+        {
+            var action = context.RequestMessage.Headers.Action;
+
+            var contractInfo = ContractInfo.FromAction(action);
+
+            var contractType = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);
+
+            var paramTypes = TypeFinder.GetContractParamTypes(contractType, contractInfo.OperationContractName, contractInfo.Action);
+
+            var modelProvider = ObjectBuilder.GetModelProvider();
+
+            var typeMetaDatas = new Dictionary<string, string>();
+            var serializer = ObjectBuilder.GetSerializer();
+
+            foreach (var paramType in paramTypes)
+            {
+                if (typeMetaDatas.ContainsKey(paramType.Name))
+                    continue;
+
+                var modelInfo = modelProvider.CreateModelInfo(paramType.Type);
+
+                var metaData = modelInfo.MetaData;
+
+                var result = serializer.Serialize(metaData);
+
+                var val = BinaryConverter.ToString(result.Data);
+
+                typeMetaDatas.Add(paramType.Name, val);
+            }
+
+            var replyMessage = Message.CreateMessage(MessageVersion.Soap12WSAddressing10, context.RequestMessage.Headers.Action);
+
+            foreach (var typeMetaData in typeMetaDatas)
+            {
+                replyMessage.Headers.Add(MessageHeader.CreateHeader("MetaData-" + typeMetaData.Key, "Maingi", typeMetaData.Value));
+            }
+
+            context.Reply(replyMessage);
+
+            context.Close();
         }
 
         #endregion

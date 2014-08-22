@@ -1,0 +1,8 @@
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\ProtoBuf.Wcf.Channels.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\ProtoBuf.Wcf.Channels.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Debug\protobuf-net.xml
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.Channels.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.Channels.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Debug\ProtoBuf.Wcf.Channels.csprojResolveAssemblyReference.cache

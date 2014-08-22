@@ -1,23 +1,37 @@
 ﻿using System;
-using ProtoBuf.Wcf.Contracts;
-using ProtoBuf.Wcf.Infrastructure;
+using ProtoBuf.Wcf.Channels.Contracts;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
-namespace ProtoBuf.Wcf.Serialization
+namespace ProtoBuf.Wcf.Channels.Serialization
 {
-    public class ModelProvider : IModelProvider
+    internal sealed class ModelProvider : IModelProvider
     {
         #region IModelProvider Members
 
         public ModelInfo CreateModelInfo(Type type)
         {
-            var modelInfo = GetModelInfoFromCache(type) ?? CreateNewModelInfo(type);
+            var modelInfo = GetModelInfoFromCache(type);
+
+            if (modelInfo == null)
+            {
+                modelInfo = CreateNewModelInfo(type);
+
+                SetModelInfoIntoCache(type, modelInfo);
+            }
 
             return modelInfo;
         }
 
         public ModelInfo CreateModelInfo(Type type, TypeMetaData metaData)
         {
-            var modelInfo = GetModelInfoFromCache(type) ?? CreateNewModelInfo(type, metaData);
+            var modelInfo = GetModelInfoFromCache(type);
+
+            if (modelInfo == null)
+            {
+                modelInfo = CreateNewModelInfo(type, metaData);
+
+                SetModelInfoIntoCache(type, modelInfo);
+            }
 
             return modelInfo;
         }
@@ -26,19 +40,26 @@ namespace ProtoBuf.Wcf.Serialization
 
         #region Protected Methods
 
-        protected virtual ModelInfo GetModelInfoFromCache(Type type)
+        private ModelInfo GetModelInfoFromCache(Type type)
         {
             var store = ObjectBuilder.GetModelStore();
 
             return store.GetModel(type);
         }
 
-        protected virtual ModelInfo CreateNewModelInfo(Type type)
+        private void SetModelInfoIntoCache(Type type, ModelInfo modelInfo)
+        {
+            var store = ObjectBuilder.GetModelStore();
+
+            store.SetModel(type, modelInfo);
+        }
+
+        private ModelInfo CreateNewModelInfo(Type type)
         {
             return CreateNewModelInfo(type, null);
         }
 
-        protected virtual ModelInfo CreateNewModelInfo(Type type, TypeMetaData metaData)
+        private ModelInfo CreateNewModelInfo(Type type, TypeMetaData metaData)
         {
             var modelGenerator = metaData == null ? 
                 new ProtoBufModelGenerator(type) :

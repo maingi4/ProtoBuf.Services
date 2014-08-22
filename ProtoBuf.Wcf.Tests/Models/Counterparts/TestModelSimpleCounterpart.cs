@@ -14,5 +14,18 @@ namespace ProtoBuf.Wcf.Tests.Models.Counterparts
 
         [DataMember]
         public DateTime OtherFieldInfo;
+
+        [DataMember]
+        public TestEnum TestEnum { get; set; }
+    }
+
+    [DataContract]
+    public enum TestEnum
+    {
+        [EnumMember]
+        Nothing = 0,
+        [EnumMember]
+        Something = 1,
+        Secret = 2
     }
 }

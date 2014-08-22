@@ -1,6 +1,7 @@
-using ProtoBuf.Wcf.Serialization;
+using System;
+using ProtoBuf.Wcf.Channels.Serialization;
 
-namespace ProtoBuf.Wcf.Contracts
+namespace ProtoBuf.Wcf.Channels.Contracts
 {
     public interface ISerializer
     {
@@ -8,5 +9,6 @@ namespace ProtoBuf.Wcf.Contracts
         SerializationResult Serialize(object obj, TypeMetaData metaData);
         T Deserialize<T>(byte[] data);
         T Deserialize<T>(byte[] data, TypeMetaData metaData);
+        object Deserialize(byte[] data, TypeMetaData metaData, Type type);
     }
 }
