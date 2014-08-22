@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        internal const string ProtoBufScheme = "protoBuf.Maingi";
+        internal const string ProtoBufScheme = "http";
     }
 }

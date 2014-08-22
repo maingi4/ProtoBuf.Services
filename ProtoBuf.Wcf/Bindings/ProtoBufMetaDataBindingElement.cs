@@ -58,7 +58,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         {
             if (context == null)
                 throw new ArgumentNullException("context");
-
+            
             if (!CanBuildChannelListener<TChannel>(context))
             {
                 throw new ArgumentException(String.Format("Unsupported channel type: {0}.", typeof(TChannel).Name));

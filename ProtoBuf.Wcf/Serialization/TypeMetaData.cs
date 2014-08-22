@@ -13,7 +13,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         private IDictionary<string, IDictionary<string, int>> _internalStore = new Dictionary<string, IDictionary<string, int>>();
         [DataMember]
         private IDictionary<string, int> _baseNumberStore = new Dictionary<string, int>();
-        
+
         #endregion
 
         #region Public Methods
@@ -97,7 +97,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         private string GetTypeFullName(string typeNameSpace, string typeName)
         {
-            return string.Concat(typeNameSpace, typeName);
+            return string.Concat(typeNameSpace, "/", typeName);
         }
 
         #endregion

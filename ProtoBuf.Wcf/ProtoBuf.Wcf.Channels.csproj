@@ -48,16 +48,21 @@
   <ItemGroup>
     <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\Enumerations.cs" />
+    <Compile Include="Bindings\ProtoBodyWriter.cs" />
+    <Compile Include="Bindings\ProtoBufBindingEndpointBehaviour.cs" />
+    <Compile Include="Bindings\ProtoBufClientFormatter.cs" />
+    <Compile Include="Bindings\ProtoBufDispatchFormatter.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataBindingElement.cs" />
     <Compile Include="Bindings\MetaReplyChannelListener.cs" />
     <Compile Include="Bindings\MetaRequestChannelFactory.cs" />
     <Compile Include="Bindings\ProtoBufBinding.cs" />
     <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
-    <Compile Include="Bindings\ProtoBufMessageFormatter.cs" />
+    <Compile Include="Bindings\ProtoBufMessageFormatterBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataRequestChannel.cs" />
     <Compile Include="Infrastructure\ContractInfo.cs" />
+    <Compile Include="Infrastructure\BinaryConverter.cs" />
     <Compile Include="Infrastructure\TypeInfo.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />

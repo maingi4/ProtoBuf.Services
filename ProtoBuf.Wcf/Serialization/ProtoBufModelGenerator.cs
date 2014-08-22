@@ -7,7 +7,7 @@ using ProtoBuf.Meta;
 
 namespace ProtoBuf.Wcf.Channels.Serialization
 {
-    public sealed class ProtoBufModelGenerator
+    internal sealed class ProtoBufModelGenerator
     {
         #region Construction
 
@@ -190,7 +190,8 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             var attribute = type.GetCustomAttribute<DataContractAttribute>();
 
-            return attribute == null ? string.Empty : attribute.Namespace;
+            return attribute == null ? string.Empty : 
+                (attribute.Namespace ?? "http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample");
         }
 
         private string GetTypeName(Type type)
@@ -263,7 +264,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         private bool IsValidType(Type type)
         {
             return type != null && type != typeof(object) && type != typeof(ValueType)
-                   && type != typeof(Enum)
+                   //&& type != typeof(Enum)
                    && type.Namespace != null
                    && type.IsArray == false
                    && !type.Namespace.StartsWith("System.") &&
@@ -303,7 +304,8 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
             return fields
                 .Where(x => x.GetCustomAttribute<ProtoIgnoreAttribute>() == null &&
-                    x.GetCustomAttribute<DataMemberAttribute>() != null)
+                    (x.GetCustomAttribute<DataMemberAttribute>() != null
+                    || x.GetCustomAttribute<EnumMemberAttribute>() != null))
                 .SelectMany(x => GetDetailedTypes(GetTypeFromMemberInfo(x)))
                 .Distinct();
         }
@@ -325,6 +327,13 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         private static IEnumerable<MemberInfo> GetValidFields(Type type)
         {
+            if (type.IsEnum)
+            {
+                return type
+                    .GetFields(BindingFlags.Static | BindingFlags.Public)
+                    .Where(x => x.GetCustomAttribute<EnumMemberAttribute>() != null);
+            }
+
             return type
                 .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(x => x.GetCustomAttribute<DataMemberAttribute>() != null);
@@ -357,7 +366,17 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
             var targetAssemblies = GetTargetAssemblies(originalType);
 
-            var targets = targetAssemblies.SelectMany(x => x.GetTypes());
+            var targets = targetAssemblies.SelectMany(x =>
+                {
+                    try
+                    {
+                        return x.GetTypes();
+                    }
+                    catch(ReflectionTypeLoadException)
+                    {
+                        return new Type[0];
+                    }
+                });
 
             var list = new List<Type>();
 

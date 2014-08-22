@@ -9,6 +9,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
     public sealed class ContractInfo
     {
         public string ServiceContractName { get; set; }
+        public string ServiceNamespace { get; set; }
         public string OperationContractName { get; set; }
         public string Action { get; set; }
 
@@ -17,6 +18,8 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
             Action = action;
 
             ServiceContractName = action.Substring(0, action.LastIndexOf('/')).Trim('/');
+
+            ServiceNamespace = ServiceContractName.Substring(0, ServiceContractName.LastIndexOf('/')).Trim('/');
 
             OperationContractName = action.Substring(action.LastIndexOf('/')).Trim('/');
         }

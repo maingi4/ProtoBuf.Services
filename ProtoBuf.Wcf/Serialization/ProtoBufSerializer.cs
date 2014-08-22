@@ -7,7 +7,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Serialization
 {
-    public sealed class ProtoBufSerializer : ISerializer
+    internal sealed class ProtoBufSerializer : ISerializer
     {
         #region ISerializer Members
 
@@ -44,8 +44,13 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         public T Deserialize<T>(byte[] data, TypeMetaData metaData)
         {
-            if (data == null)
-                return default(T);
+            return (T)Deserialize(data, metaData, typeof (T));
+        }
+
+        public object Deserialize(byte[] data, TypeMetaData metaData, Type type)
+        {
+            if (data == null || data.Length == 0)
+                return null;
 
             var modelProvider = ObjectBuilder.GetModelProvider();
 
@@ -53,12 +58,12 @@ namespace ProtoBuf.Wcf.Channels.Serialization
                 throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
 
             var info = metaData == null ?
-                modelProvider.CreateModelInfo(typeof(T)) :
-                modelProvider.CreateModelInfo(typeof(T), metaData);
+                modelProvider.CreateModelInfo(type) :
+                modelProvider.CreateModelInfo(type, metaData);
 
             var model = info.Model;
 
-            var obj = Deserialize<T>(model, data);
+            var obj = Deserialize(model, data, type);
 
             return obj;
         }
@@ -67,13 +72,13 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         #region Private Methods
 
-        private T Deserialize<T>(TypeModel model, byte[] data)
+        private object Deserialize(TypeModel model, byte[] data, Type type)
         {
             try
             {
                 using (var memStream = new MemoryStream(data))
                 {
-                    return (T)model.Deserialize(memStream, null, typeof(T));
+                    return (object)model.Deserialize(memStream, null, type);
                 }
             }
             catch (Exception e)

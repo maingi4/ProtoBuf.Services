@@ -114,13 +114,13 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             if (context == null || context.RequestMessage == null)
                 return false;
 
-            var buffer = context.RequestMessage.CreateBufferedCopy(int.MaxValue);
+            //var buffer = context.RequestMessage.CreateBufferedCopy(int.MaxValue);
 
-            var clonedMessage = buffer.CreateMessage();
+            //var clonedMessage = buffer.CreateMessage();
 
-            SetClonedContext(context, buffer.CreateMessage());
+            //SetClonedContext(context, buffer.CreateMessage());
 
-            var isMetaDataRequest = IsMetaDataRequest(clonedMessage);
+            var isMetaDataRequest = IsMetaDataRequest(context.RequestMessage);
 
             if (isMetaDataRequest)
             {
@@ -132,15 +132,15 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return false;
         }
 
-        private void SetClonedContext(RequestContext context, Message clonedMessage)
-        {
-            var type = context.GetType();
+        //private void SetClonedContext(RequestContext context, Message clonedMessage)
+        //{
+        //    var type = context.GetType();
 
-            var field = type.BaseType.BaseType.GetField("requestMessage",
-                                                        BindingFlags.Instance | BindingFlags.NonPublic);
+        //    var field = type.BaseType.BaseType.GetField("requestMessage",
+        //                                                BindingFlags.Instance | BindingFlags.NonPublic);
 
-            field.SetValue(context, clonedMessage);
-        }
+        //    field.SetValue(context, clonedMessage);
+        //}
 
         protected bool IsMetaDataRequest(Message message)
         {
@@ -178,7 +178,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                 var result = serializer.Serialize(metaData);
 
-                var val = BitConverter.ToString(result.Data);
+                var val = BinaryConverter.ToString(result.Data);
 
                 typeMetaDatas.Add(paramType.Name, val);
             }

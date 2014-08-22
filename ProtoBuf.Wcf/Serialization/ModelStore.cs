@@ -5,7 +5,7 @@ using ProtoBuf.Wcf.Channels.Contracts;
 
 namespace ProtoBuf.Wcf.Channels.Serialization
 {
-    public class StaticModelStore : IModelStore
+    internal sealed class StaticModelStore : IModelStore
     {
         private static readonly ConcurrentDictionary<Type, ModelInfo> InternalStorage = new ConcurrentDictionary<Type, ModelInfo>();
 

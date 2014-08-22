@@ -3,6 +3,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Wcf.Channels.Serialization;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
@@ -91,20 +92,27 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
             var headers = metaDataReply.Headers;
 
+            var serializer = ObjectBuilder.GetSerializer();
+            var modelProvider = ObjectBuilder.GetModelProvider();
+
             foreach (var messageHeader in headers)
             {
                 if (messageHeader.Name.StartsWith("MetaData-"))
                 {
-                    //TODO
+                    var contractNamespace = messageHeader.Name.Replace("MetaData-", string.Empty);
+
+                    var contractType = TypeFinder.FindDataContract(contractNamespace, contractInfo.ServiceContractName,
+                                                                   contractInfo.Action);
+
+                    var contractMetaDataString = headers.GetHeader<string>(messageHeader.Name, messageHeader.Namespace);
+
+                    var contractMeta = BinaryConverter.FromString(contractMetaDataString);
+
+                    var metaData = serializer.Deserialize<TypeMetaData>(contractMeta);
+
+                    modelProvider.CreateModelInfo(contractType, metaData);
                 }
             }
-
-
-            //TODO: Check if the meta data request is being made here, this function will call innerchannel.request, which will again call this function itself.
-            //TODO: check for existence of meta data here, before sending the request.
-            //TODO: If request does not exist, send a custom request beforehand to download the meta data.
-            //TODO: Save the meta data in a store. -- Abstract.
-            //TODO: Upon recieving the meta data, continue with the original request.
             //TODO: Extend the protoBuf ProtoXmlSerializer, to consider meta data (from store), -- can we just use formatter?
         }
 

@@ -1,0 +1,11 @@
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Tests.dll.config
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Tests.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Tests.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\protobuf-net.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Channels.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Channels.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\protobuf-net.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\protobuf-net.xml
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.pdb

@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace ProtoBuf.Wcf.Channels.Infrastructure
 {
-    public class ChainedAsyncResult : IAsyncResult
+    internal sealed class ChainedAsyncResult : IAsyncResult
     {
         private readonly IAsyncResult _original;
         private readonly IReplyChannel _channel;
