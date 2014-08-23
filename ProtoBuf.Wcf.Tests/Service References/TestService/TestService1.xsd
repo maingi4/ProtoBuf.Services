@@ -7,4 +7,16 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="CompositeType" nillable="true" type="tns:CompositeType" />
+  <xs:complexType name="BigContract">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CompositeTypes" nillable="true" type="tns:ArrayOfCompositeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BigContract" nillable="true" type="tns:BigContract" />
+  <xs:complexType name="ArrayOfCompositeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CompositeType" nillable="true" type="tns:CompositeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCompositeType" nillable="true" type="tns:ArrayOfCompositeType" />
 </xs:schema>

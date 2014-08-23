@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 
 namespace ProtoBuf.Wcf.Sample
@@ -14,7 +15,8 @@ namespace ProtoBuf.Wcf.Sample
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
-        // TODO: Add your service operations here
+        [OperationContract]
+        BigContract GetDataUsingBigDataContract(BigContract bigContract);
     }
 
 
@@ -38,5 +40,12 @@ namespace ProtoBuf.Wcf.Sample
             get { return stringValue; }
             set { stringValue = value; }
         }
+    }
+
+    [DataContract]
+    public class BigContract
+    {
+        [DataMember]
+        public List<CompositeType> CompositeTypes { get; set; }
     }
 }

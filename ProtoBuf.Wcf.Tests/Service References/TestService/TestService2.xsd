@@ -29,4 +29,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetDataUsingBigDataContract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample" minOccurs="0" name="bigContract" nillable="true" type="q3:BigContract" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDataUsingBigDataContractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample" minOccurs="0" name="GetDataUsingBigDataContractResult" nillable="true" type="q4:BigContract" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

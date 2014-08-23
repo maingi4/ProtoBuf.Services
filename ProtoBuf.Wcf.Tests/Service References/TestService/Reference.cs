@@ -74,6 +74,51 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BigContract", Namespace="http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample")]
+    [System.SerializableAttribute()]
+    public partial class BigContract : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<ProtoBuf.Wcf.Tests.TestService.CompositeType> CompositeTypesField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<ProtoBuf.Wcf.Tests.TestService.CompositeType> CompositeTypes {
+            get {
+                return this.CompositeTypesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CompositeTypesField, value) != true)) {
+                    this.CompositeTypesField = value;
+                    this.RaisePropertyChanged("CompositeTypes");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TestService.ITestService")]
     public interface ITestService {
@@ -89,6 +134,12 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/ITestService/GetDataUsingDataContractResponse")]
         System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.CompositeType> GetDataUsingDataContractAsync(ProtoBuf.Wcf.Tests.TestService.CompositeType composite);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDataUsingBigDataContract", ReplyAction="http://tempuri.org/ITestService/GetDataUsingBigDataContractResponse")]
+        ProtoBuf.Wcf.Tests.TestService.BigContract GetDataUsingBigDataContract(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDataUsingBigDataContract", ReplyAction="http://tempuri.org/ITestService/GetDataUsingBigDataContractResponse")]
+        System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.BigContract> GetDataUsingBigDataContractAsync(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -132,6 +183,14 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         
         public System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.CompositeType> GetDataUsingDataContractAsync(ProtoBuf.Wcf.Tests.TestService.CompositeType composite) {
             return base.Channel.GetDataUsingDataContractAsync(composite);
+        }
+        
+        public ProtoBuf.Wcf.Tests.TestService.BigContract GetDataUsingBigDataContract(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract) {
+            return base.Channel.GetDataUsingBigDataContract(bigContract);
+        }
+        
+        public System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.BigContract> GetDataUsingBigDataContractAsync(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract) {
+            return base.Channel.GetDataUsingBigDataContractAsync(bigContract);
         }
     }
 }

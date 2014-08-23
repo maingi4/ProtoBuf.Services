@@ -26,6 +26,12 @@
   <wsdl:message name="ITestService_GetDataUsingDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
   </wsdl:message>
+  <wsdl:message name="ITestService_GetDataUsingBigDataContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingBigDataContract" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDataUsingBigDataContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingBigDataContractResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITestService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetData" message="tns:ITestService_GetData_InputMessage" />
@@ -34,6 +40,10 @@
     <wsdl:operation name="GetDataUsingDataContract">
       <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDataUsingDataContract" message="tns:ITestService_GetDataUsingDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDataUsingDataContractResponse" message="tns:ITestService_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingBigDataContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDataUsingBigDataContract" message="tns:ITestService_GetDataUsingBigDataContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDataUsingBigDataContractResponse" message="tns:ITestService_GetDataUsingBigDataContract_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ProtoBufBinding_ITestService" type="tns:ITestService">
@@ -57,10 +67,52 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetDataUsingBigDataContract">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetDataUsingBigDataContract" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpBinding_ITestService" type="tns:ITestService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetData">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingBigDataContract">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDataUsingBigDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="TestService">
     <wsdl:port name="ProtoBufBinding_ITestService" binding="tns:ProtoBufBinding_ITestService">
       <soap12:address location="http://localhost:12034/TestService.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpBinding_ITestService" binding="tns:BasicHttpBinding_ITestService">
+      <soap:address location="http://localhost:12034/TestService.svc/basic" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

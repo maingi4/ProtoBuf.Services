@@ -38,7 +38,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public IAsyncResult BeginTryReceiveRequest(TimeSpan timeout, AsyncCallback callback, object state)
         {
-            return new ChainedAsyncResult(_innerChannel, timeout, callback, state);
+            return _innerChannel.BeginTryReceiveRequest(timeout, callback, state);
+            //return new ChainedAsyncResult(_innerChannel, timeout, callback, state);
         }
 
         public IAsyncResult BeginWaitForRequest(TimeSpan timeout, AsyncCallback callback, object state)
