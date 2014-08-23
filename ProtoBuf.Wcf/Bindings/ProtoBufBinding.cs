@@ -1,12 +1,17 @@
+using System;
+using System.Configuration;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Configuration;
+using ProtoBuf.Wcf.Channels.Exceptions;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufBinding : Binding
     {
-        private HttpTransportBindingElement _transport;
+        private HttpTransportBindingElement _httpTransport;
         private BinaryMessageEncodingBindingElement _encoding;
-        private ProtoBufMetaDataBindingElement _metaDataComponent;
+        private ProtoBufMetaDataBindingElement _mainTransport;
 
         public ProtoBufBinding()
             : base()
@@ -19,7 +24,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var elements = new BindingElementCollection
                 {
                     this._encoding,
-                    this._metaDataComponent
+                    this._mainTransport
                 };
 
             return elements;
@@ -27,13 +32,19 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public override string Scheme
         {
-            get { return this._metaDataComponent.Scheme; }
+            get { return this._mainTransport.Scheme; }
         }
 
         private void InitializeValue()
         {
             this._encoding = new BinaryMessageEncodingBindingElement();
-            this._metaDataComponent = new ProtoBufMetaDataBindingElement(new HttpTransportBindingElement());
+            this._httpTransport = new HttpTransportBindingElement();
+            this._mainTransport = new ProtoBufMetaDataBindingElement(this._httpTransport);
+        }
+
+        public HttpTransportBindingElement GetHttpBindingElement()
+        {
+            return this._httpTransport;
         }
     }
 }

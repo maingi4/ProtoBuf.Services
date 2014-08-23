@@ -1,31 +1,45 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Linq;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
+using ProtoBuf.Wcf.Channels.Bindings.Configuration;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufBindingCollectionElement
         : BindingCollectionElement
     {
-        // type of custom binding class
+        [ConfigurationProperty("", Options = ConfigurationPropertyOptions.IsDefaultCollection)]
+        public ProtoBufBindingElementCollection Bindings
+        {
+            get
+            {
+                return (ProtoBufBindingElementCollection)this[""];
+            }
+        }
+        
         public override Type BindingType
         {
             get { return typeof(ProtoBufBinding); }
         }
 
-        // override ConfiguredBindings
         public override ReadOnlyCollection<IBindingConfigurationElement> ConfiguredBindings
         {
             get
             {
-                return new ReadOnlyCollection<IBindingConfigurationElement>(
-                    new List<IBindingConfigurationElement>());
+                var list = new List<IBindingConfigurationElement>();
+
+                foreach (ProtoBufBindingElement configurationElement in this.Bindings)
+                    list.Add(configurationElement);
+
+                return new ReadOnlyCollection<IBindingConfigurationElement>(list);
             }
         }
 
-        // return Binding class object
         protected override Binding GetDefault()
         {
             return new ProtoBufBinding();
@@ -33,7 +47,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public override bool ContainsKey(string name)
         {
-            return true;
+            return this.ConfiguredBindings.Any(x => x.Name.Equals(name, StringComparison.Ordinal));
         }
 
         protected override bool TryAdd(string name, Binding binding, System.Configuration.Configuration config)

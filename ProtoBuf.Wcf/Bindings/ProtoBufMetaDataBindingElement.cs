@@ -22,7 +22,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public override string Scheme
         {
-            get { return Constants.ProtoBufScheme; }
+            get { return _innerTransportElement.Scheme; }
         }
 
         public override BindingElement Clone()
