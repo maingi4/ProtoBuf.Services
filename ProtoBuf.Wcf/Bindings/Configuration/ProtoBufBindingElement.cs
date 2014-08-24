@@ -144,16 +144,16 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
         {
             var protoBinding = (ProtoBufBinding)binding;
 
-            var httpBindingBase = protoBinding.GetHttpBindingElement();
+            var httpBindingElement = protoBinding.GetHttpBindingElement();
 
-            httpBindingBase.HostNameComparisonMode = this.HostNameComparisonMode;
-            httpBindingBase.MaxBufferPoolSize = this.MaxBufferPoolSize;
-            httpBindingBase.MaxReceivedMessageSize = this.MaxReceivedMessageSize;
-            httpBindingBase.TransferMode = this.TransferMode;
-            httpBindingBase.UseDefaultWebProxy = this.UseDefaultWebProxy;
-            httpBindingBase.AllowCookies = this.AllowCookies;
-
-            httpBindingBase.MaxBufferSize = this.MaxBufferSize;
+            httpBindingElement.HostNameComparisonMode = this.HostNameComparisonMode;
+            httpBindingElement.MaxBufferPoolSize = this.MaxBufferPoolSize;
+            httpBindingElement.MaxReceivedMessageSize = this.MaxReceivedMessageSize;
+            httpBindingElement.TransferMode = this.TransferMode;
+            httpBindingElement.UseDefaultWebProxy = this.UseDefaultWebProxy;
+            httpBindingElement.AllowCookies = this.AllowCookies;
+            
+            httpBindingElement.MaxBufferSize = this.MaxBufferSize;
         }
 
         #endregion

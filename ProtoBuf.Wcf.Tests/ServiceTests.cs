@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProtoBuf.Wcf.Tests.TestService;
 
@@ -9,7 +10,7 @@ namespace ProtoBuf.Wcf.Tests
     public class ServiceTests
     {
         private static readonly BigContract BigContract;
-        private const int BigContractSize = 608;
+        private const int BigContractSize = 6200;
         static ServiceTests()
         {
             BigContract = new BigContract();
