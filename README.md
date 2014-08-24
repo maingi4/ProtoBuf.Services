@@ -10,7 +10,7 @@ Its a library which you can plug into your solution (no code changes required) a
 What is it?
 -----------
 
-Its a custom binding, a custom channel for WCF which basically uses proto-buf serialization to transfer data from server to client and viceversa. It solves the problem which typically arises out of using protobuf serialization in services. It improves over the standard implementation in the following ways:
+Its a custom binding, a custom channel for WCF which basically uses proto-buf serialization to transfer data from server to client and viceversa. It solves the problem which typically arises out of using protobuf serialization in services. It improves over the standard implementation in the following ways:<br/>
 1) There is no need for numbering (and maintaining) those numbers for each and every data member in a contract, not to mention the inheritance numbers.<br/>
 2) This is a plug n play solution, all you have to do is paste the dll, add a couple of references in the host wcf project, do some changes in the web.config and you are ready to code, no need to code anything to make this work!<br/>
 3) It also solves the problem where if the data contract changes on server side, the serialization fails on the client side, this was a major deterrent in using protoBuf as all the clients would need to update their proxy before it can be successfully consumed. This makes the management easy and makes it possible for you to give out the channel to customers as long as they use this library on client side as well.<br/>
