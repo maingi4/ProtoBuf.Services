@@ -4,8 +4,19 @@ ProtoBuf.Wcf
 What does it do?
 ----------------
 
-Its a library which you can plug into your solution (no code changes required) and expose an endpoint which uses protoBuf serialization without the drawbacks that come with it. Check the advantages list in the below section.
+Its a library which you can plug into your solution (no code changes required) and expose an endpoint which uses protoBuf serialization without the drawbacks that come with it. It makes the wcf anywhere between 2-20 times faster depending upon the size of the contract. Check the advantages list in the below section.
 
+What is this Proto-Buf thingie?
+-------------------------------
+
+Proto-Buf or protocol buffers is a serialization technique developed by some guy (or team) in google, Marc Gravell (check credits section) ported google's logic into .Net and even gave a WCF serializer to use.<br/>
+
+ProtoBuf serialization is ultra fast, ultra compact, takes less CPU, the works, however there are some limitations with that serialization which this project aims to resolve. The problems are listed below:
+
+1) Each member to be serialized needs to be numbered, if you use inheritance there needs to be inheritance numbers as well, this causes a lot of maintainance overhead if your contract is large in size and is prone to problems.<br/>
+2) The serialized result can be deserialized into the same object due to the above numbering problem, therefore it works best in an assembly sharing model when using it for WCF serializations.<br/>
+3) The above point also means that if you change the datacontract at the server side, the same needs to flow into the client side before it can work, this makes it impractical to use this for anything other than small internally used services.<br/>
+4) The serialization is intrusive, i.e. code (attributes) needs to be written in the code for it to work with WCF, this adds a lot of dependency on proto-buf throughout the application.<br/>
 
 What is it?
 -----------
