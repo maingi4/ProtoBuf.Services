@@ -45,8 +45,10 @@ Credits
 
 The .proto serialization format is a credit to Google's ingenuity.
 
-This specific .NET implementation is designed and written by Marc Gravell, developer for Stack Exchange / Stack Overflow.
+The specific protobuf serialization .NET implementation is designed and written by Marc Gravell, developer for Stack Exchange / Stack Overflow.
 
 https://code.google.com/p/protobuf-net/
+
+The protoBuf implementation is under open source license of "Apache License 2.0" You can read the terms here: http://www.apache.org/licenses/LICENSE-2.0
 
 This solution is based from the library in the link given above and is designed and created by Sumit Maingi, a developer with Tavisca Solutions.
