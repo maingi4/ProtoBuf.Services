@@ -84,7 +84,7 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Collections.Generic.List<ProtoBuf.Wcf.Tests.TestService.CompositeType> CompositeTypesField;
+        private ProtoBuf.Wcf.Tests.TestService.CompositeType[] CompositeTypesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -97,7 +97,7 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.Generic.List<ProtoBuf.Wcf.Tests.TestService.CompositeType> CompositeTypes {
+        public ProtoBuf.Wcf.Tests.TestService.CompositeType[] CompositeTypes {
             get {
                 return this.CompositeTypesField;
             }

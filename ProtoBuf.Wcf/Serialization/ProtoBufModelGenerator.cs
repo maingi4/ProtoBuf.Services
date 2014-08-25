@@ -263,13 +263,13 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         private bool IsValidType(Type type)
         {
-            return type != null && type != typeof(object) && type != typeof(ValueType)
-                   //&& type != typeof(Enum)
-                   && type.Namespace != null
-                   && type.IsArray == false
-                   && !type.Namespace.StartsWith("System.") &&
-                   type.GetCustomAttribute<ProtoIgnoreAttribute>() == null
-                   && type.GetCustomAttribute<DataContractAttribute>() != null;
+            return type != null && type != typeof (object) && type != typeof (ValueType)
+                         //&& type != typeof(Enum)
+                         && type.Namespace != null
+                         && type.IsArray == false
+                         && !type.Namespace.StartsWith("System.")
+                         && type.GetCustomAttribute<ProtoIgnoreAttribute>() == null
+                         && type.GetCustomAttribute<DataContractAttribute>() != null;
         }
 
         private void PrepareSerializer<T>(RuntimeTypeModel model)
@@ -348,6 +348,12 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         private IEnumerable<Type> GetDetailedTypes(Type type)
         {
+            if (type.IsArray)
+            {
+                yield return type.GetElementType();
+                yield break;
+            }
+
             if (type.IsGenericType)
             {
                 foreach (var genericTypeArgument in type.GenericTypeArguments)

@@ -14,14 +14,14 @@ namespace ProtoBuf.Wcf.Tests
         static ServiceTests()
         {
             BigContract = new BigContract();
-            BigContract.CompositeTypes = new List<CompositeType>(BigContractSize);
+            BigContract.CompositeTypes = new CompositeType[BigContractSize];
             for (var i = 0; i < BigContractSize; i++)
             {
-                BigContract.CompositeTypes.Add(new CompositeType()
+                BigContract.CompositeTypes[i] = new CompositeType()
                     {
                         BoolValue = true,
                         StringValue = "Test"
-                    });
+                    };
             }
         }
 

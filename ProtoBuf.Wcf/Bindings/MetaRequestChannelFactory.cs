@@ -43,6 +43,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         protected IRequestChannel WrapChannel(IRequestChannel innerChannel)
         {
+            if (innerChannel == null)
+                return null;
+
             return new ProtoBufMetaDataRequestChannel(this, innerChannel);
         }
 

@@ -105,8 +105,20 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         protected IReplyChannel WrapChannel(IReplyChannel innerChannel)
         {
             if (innerChannel == null)
+            {
+                /* TODO: Dangerous, rethink
+                 * Problem: Start the service by navigating to the svc.
+                 * Change something in the config, app domain should restart
+                 * inner channel comes as null, apparently this runs in a seperate
+                 * app domain. If i dont return null, then the app pool itself crashes due to
+                 * unhandled object reference errors (eating up exceptions not a good idea)
+                 * If i return null, then some thread goes in an infinite loop in the rogue app domain,
+                 * a seperate app domain is created when the service is restrarted.
+                 * Things to think about: will the inner channel be null in any other scenario?
+                 */
+                AppDomain.Unload(AppDomain.CurrentDomain);
                 return null;
-
+            }
             var address = new EndpointAddress(this.Uri);
 
             return new ProtoBufMetaDataReplyChannel(address, this, innerChannel);
