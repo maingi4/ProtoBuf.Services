@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ProtoBuf.Wcf.Tests.Models.Counterparts
@@ -17,6 +18,9 @@ namespace ProtoBuf.Wcf.Tests.Models.Counterparts
 
         [DataMember]
         public TestEnum TestEnum { get; set; }
+
+        [DataMember]
+        public int[] Ints { get; set; }
     }
 
     [DataContract]

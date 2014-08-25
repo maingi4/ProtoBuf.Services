@@ -17,7 +17,8 @@ namespace ProtoBuf.Wcf.Tests
             {
                 TestProperty1 = "Eureka!!!",
                 TestProperty2 = 2,
-                OtherFieldInfo = new DateTime(1985, 6, 15)
+                OtherFieldInfo = new DateTime(1985, 6, 15),
+                Ints = new List<int>() {1,2}
             };
 
             var ser = ObjectBuilder.GetSerializer();
@@ -35,6 +36,14 @@ namespace ProtoBuf.Wcf.Tests
             Assert.AreEqual(model.TestProperty1, counterpart.TestProperty1);
             Assert.AreEqual(model.TestProperty2, counterpart.TestProperty2);
             Assert.AreEqual(model.OtherFieldInfo, counterpart.OtherFieldInfo);
+
+            Assert.IsNotNull(counterpart.Ints);
+            Assert.AreEqual(model.Ints.Count, counterpart.Ints.Length);
+            
+            for (var i = 0; i < model.Ints.Count; i++)
+            {
+                Assert.AreEqual(model.Ints[i], counterpart.Ints[i]);
+            }
         }
 
         [TestMethod]

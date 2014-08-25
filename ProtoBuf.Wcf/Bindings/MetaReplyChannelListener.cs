@@ -104,6 +104,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         protected IReplyChannel WrapChannel(IReplyChannel innerChannel)
         {
+            if (innerChannel == null)
+                return null;
+
             var address = new EndpointAddress(this.Uri);
 
             return new ProtoBufMetaDataReplyChannel(address, this, innerChannel);
