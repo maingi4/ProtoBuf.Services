@@ -32,7 +32,6 @@ What is it not?
 ---------------
 
 1) Its not intra-operable, works only from .net to .net although there is nothing that ties it down to .Net, a library will need to be created for other languages.<br/>
-2) It currently does not support serialization between lists and arrays which the other contract does, which means if you have a list or an array at the server side, you will need to make sure that its the same on the client side, I will attempt to solve this problem later.<br/>
 
 How does it work?
 -----------------
