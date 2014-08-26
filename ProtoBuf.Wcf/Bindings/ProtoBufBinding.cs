@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using ProtoBuf.Wcf.Channels.Exceptions;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
@@ -12,6 +13,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         private HttpTransportBindingElement _httpTransport;
         private BinaryMessageEncodingBindingElement _encoding;
         private ProtoBufMetaDataBindingElement _mainTransport;
+        private CompressionTypeOptions _compressionTypeOptions;
 
         public ProtoBufBinding()
             : base()
@@ -37,6 +39,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         private void InitializeValue()
         {
+            _compressionTypeOptions = CompressionTypeOptions.None;
+
             this._encoding = new BinaryMessageEncodingBindingElement();
             this._httpTransport = new HttpTransportBindingElement();
             this._mainTransport = new ProtoBufMetaDataBindingElement(this._httpTransport);
@@ -45,6 +49,16 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         public HttpTransportBindingElement GetHttpBindingElement()
         {
             return this._httpTransport;
+        }
+
+        public void SetDefaultCompressionBehaviour(CompressionTypeOptions compressionTypeOptions)
+        {
+            _compressionTypeOptions = compressionTypeOptions;
+        }
+
+        public CompressionTypeOptions GetDefaultCompressionBehaviour()
+        {
+            return _compressionTypeOptions;
         }
     }
 }

@@ -148,9 +148,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
             foreach (var messageHeader in headers)
             {
-                if (messageHeader.Name.StartsWith("MetaData-"))
+                if (messageHeader.Name.StartsWith(Constants.MetaDataHeaderKeySuffix))
                 {
-                    var contractNamespace = messageHeader.Name.Replace("MetaData-", string.Empty);
+                    var contractNamespace = messageHeader.Name.Replace(Constants.MetaDataHeaderKeySuffix, string.Empty);
 
                     var contractType = TypeFinder.FindDataContract(contractNamespace, contractInfo.ServiceContractName,
                                                                    contractInfo.Action);
@@ -170,7 +170,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         {
             var message = Message.CreateMessage(MessageVersion.Soap12WSAddressing10, action);
 
-            message.Headers.Add(MessageHeader.CreateHeader("MetaData", "Maingi", "Y"));
+            message.Headers.Add(MessageHeader.CreateHeader(Constants.MetaDataHeaderKey, Constants.DefaultCustomHeaderNamespace, "Y"));
 
             return message;
         }

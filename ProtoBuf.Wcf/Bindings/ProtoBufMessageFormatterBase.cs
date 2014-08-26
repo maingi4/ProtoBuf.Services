@@ -17,10 +17,13 @@ namespace ProtoBuf.Wcf.Channels.Bindings
     {
         protected IList<TypeInfo> ParameterTypes { get; set; }
         protected ContractInfo ContractInfo { get; set; }
+        protected CompressionTypeOptions DefaultCompressionType { get; set; }
 
-        protected ProtoBufMessageFormatterBase(IList<TypeInfo> parameterTypes, string action)
+        protected ProtoBufMessageFormatterBase(IList<TypeInfo> parameterTypes, string action, 
+            CompressionTypeOptions defaultCompressionType)
         {
             ParameterTypes = parameterTypes;
+            DefaultCompressionType = defaultCompressionType;
             ContractInfo = ContractInfo.FromAction(action);
         }
 
@@ -29,6 +32,12 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var provider = ObjectBuilder.GetModelProvider();
 
             var serializer = ObjectBuilder.GetSerializer();
+
+            var compressionType = GetMessageCompressionTypeOptions(message);
+
+            CompressionProvider compressionProvider = null;
+            if (compressionType != CompressionTypeOptions.None)
+                compressionProvider = new CompressionProvider();
 
             var reader = message.GetReaderAtBodyContents();
 
@@ -43,6 +52,12 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 var val = reader.Value;
 
                 var data = BinaryConverter.FromString(val);
+
+                if (compressionProvider != null)
+                {
+                    data = compressionProvider.DeCompress(data, compressionType);
+                } 
+
                 object retVal;
                 try
                 {
@@ -67,6 +82,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             if (retParamInfo == null)
                 throw new InvalidOperationException("The return parameter type was not found.");
 
+            var compressionType = DefaultCompressionType;
+
             Func<string[]> valueGetter = () =>
                 {
                     var modelProvider = ObjectBuilder.GetModelProvider();
@@ -75,10 +92,17 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                     var serializer = ObjectBuilder.GetSerializer();
 
-                    var data = serializer.Serialize(result, model.MetaData) ??
-                               new SerializationResult(new byte[0], null);
+                    var data = (serializer.Serialize(result, model.MetaData) ??
+                               new SerializationResult(new byte[0], null)).Data;
 
-                    var value = BinaryConverter.ToString(data.Data);
+                    if (compressionType != CompressionTypeOptions.None)
+                    {
+                        var compressionProvider = new CompressionProvider();
+
+                        data = compressionProvider.Compress(data, compressionType);
+                    }
+
+                    var value = BinaryConverter.ToString(data);
 
                     return new[] { value };
                 };
@@ -87,12 +111,19 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 new ProtoBodyWriter(ContractInfo.OperationContractName, ContractInfo.ServiceNamespace,
                     valueGetter));
 
+            if (compressionType != CompressionTypeOptions.None)
+            {
+                AddCompressionHeader(message, DefaultCompressionType);
+            }
+            
             return message;
         }
 
         public Message SerializeRequestInternal(MessageVersion messageVersion, object[] parameters)
         {
             var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
+
+            var compressionType = DefaultCompressionType;
 
             Func<string[]> valueGetter = () =>
             {
@@ -102,6 +133,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                 if (model == null)
                     throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + retParamInfo.Type.FullName);
+
+                CompressionProvider compressionProvider = null;
+                if (compressionType != CompressionTypeOptions.None)
+                    compressionProvider = new CompressionProvider();
 
                 var serializer = ObjectBuilder.GetSerializer();
 
@@ -124,7 +159,15 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                         throw;
                     }
-                    retVal[i] = BinaryConverter.ToString(data.Data);
+                    
+                    var byteData = data.Data;
+
+                    if (compressionProvider != null)
+                    {
+                        byteData = compressionProvider.Compress(byteData, compressionType);
+                    }
+
+                    retVal[i] = BinaryConverter.ToString(byteData);
                 }
 
                 return retVal;
@@ -134,6 +177,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                                                     new ProtoBodyWriter(ContractInfo.OperationContractName,
                                                                         ContractInfo.ServiceNamespace,
                                                                         valueGetter));
+            if (compressionType != CompressionTypeOptions.None)
+            {
+                AddCompressionHeader(message, DefaultCompressionType);
+            }
 
             return message;
         }
@@ -160,6 +207,16 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var val = reader.Value;
 
             var data = BinaryConverter.FromString(val);
+
+            var compressionType = GetMessageCompressionTypeOptions(message);
+
+            if (compressionType != CompressionTypeOptions.None)
+            {
+                var compressionProvider = new CompressionProvider();
+
+                data = compressionProvider.DeCompress(data, compressionType);
+            }
+
             object retVal;
             try
             {
@@ -172,6 +229,27 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 throw;
             }
             return retVal;
+        }
+
+        protected CompressionTypeOptions GetMessageCompressionTypeOptions(Message message)
+        {
+            var headerLocation = message.Headers.FindHeader(Constants.CompressionHeaderKey,
+                                                    Constants.DefaultCustomHeaderNamespace);
+
+            if (headerLocation < 0)
+                return CompressionTypeOptions.None;
+
+            var compressionType = (CompressionTypeOptions)message.Headers.GetHeader<int>(headerLocation);
+
+            return compressionType;
+        }
+
+        protected void AddCompressionHeader(Message message, CompressionTypeOptions compressionType)
+        {
+            message.Headers.Add(
+                MessageHeader.CreateHeader(Constants.CompressionHeaderKey, 
+                Constants.DefaultCustomHeaderNamespace, (int)compressionType)
+                );
         }
     }
 }

@@ -7,12 +7,26 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
 {
     public class ProtoBufBindingElement : StandardBindingElement
     {
         #region Configuration Properties
+
+        [ConfigurationProperty("compressionType", DefaultValue = CompressionTypeOptions.None)]
+        public CompressionTypeOptions CompressionType
+        {
+            get
+            {
+                return (CompressionTypeOptions)this["compressionType"];
+            }
+            set
+            {
+                this["compressionType"] = value;
+            }
+        }
 
         [ConfigurationProperty("maxBufferSize", DefaultValue = 65536)]
         public int MaxBufferSize
@@ -23,7 +37,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
             set
             {
-                this["maxBufferSize"] = (object)value;
+                this["maxBufferSize"] = value;
             }
         }
 
@@ -62,7 +76,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
             set
             {
-                this["transferMode"] = (object)value;
+                this["transferMode"] = value;
             }
         }
 
@@ -75,7 +89,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
             set
             {
-                this["maxReceivedMessageSize"] = (object)value;
+                this["maxReceivedMessageSize"] = value;
             }
         }
 
@@ -88,7 +102,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
             set
             {
-                this["maxBufferPoolSize"] = (object)value;
+                this["maxBufferPoolSize"] = value;
             }
         }
 
@@ -101,7 +115,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
             set
             {
-                this["hostNameComparisonMode"] = (object)value;
+                this["hostNameComparisonMode"] = value;
             }
         }
 
@@ -118,6 +132,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
                 properties.Add(new ConfigurationProperty("maxBufferPoolSize", typeof(long), 524288L));
                 properties.Add(new ConfigurationProperty("maxReceivedMessageSize", typeof(long), 65536L));
                 properties.Add(new ConfigurationProperty("hostNameComparisonMode", typeof(HostNameComparisonMode), HostNameComparisonMode.StrongWildcard));
+                properties.Add(new ConfigurationProperty("compressionType", typeof(CompressionTypeOptions), CompressionTypeOptions.None));
                 
                 return properties;
             }
@@ -143,6 +158,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
         protected override void OnApplyConfiguration(Binding binding)
         {
             var protoBinding = (ProtoBufBinding)binding;
+
+            protoBinding.SetDefaultCompressionBehaviour(this.CompressionType);
 
             var httpBindingElement = protoBinding.GetHttpBindingElement();
 

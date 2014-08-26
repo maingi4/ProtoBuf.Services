@@ -63,6 +63,7 @@
     <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataRequestChannel.cs" />
+    <Compile Include="Infrastructure\CompressionProvider.cs" />
     <Compile Include="Infrastructure\ContractInfo.cs" />
     <Compile Include="Infrastructure\BinaryConverter.cs" />
     <Compile Include="Infrastructure\TypeInfo.cs" />

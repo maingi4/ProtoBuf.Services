@@ -20,7 +20,7 @@ namespace ProtoBuf.Wcf.Tests
                 OtherFieldInfo = new DateTime(1985, 6, 15),
                 Ints = new List<int>() {1,2}
             };
-
+            
             var ser = ObjectBuilder.GetSerializer();
 
             var result = ser.Serialize(model);

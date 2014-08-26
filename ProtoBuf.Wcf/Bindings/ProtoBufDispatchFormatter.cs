@@ -7,8 +7,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufDispatchFormatter : ProtoBufMessageFormatterBase, IDispatchMessageFormatter
     {
-        public ProtoBufDispatchFormatter(IList<TypeInfo> parameterTypes, string action) 
-            : base(parameterTypes, action)
+        public ProtoBufDispatchFormatter(IList<TypeInfo> parameterTypes, string action,
+            CompressionTypeOptions defaultCompressionType) 
+            : base(parameterTypes, action, defaultCompressionType)
         { }
 
         public void DeserializeRequest(Message message, object[] parameters)

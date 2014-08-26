@@ -7,7 +7,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 {
     public class ProtoBufClientFormatter : ProtoBufMessageFormatterBase, IClientMessageFormatter
     {
-        public ProtoBufClientFormatter(IList<TypeInfo> parameterTypes, string action) : base(parameterTypes, action)
+        public ProtoBufClientFormatter(IList<TypeInfo> parameterTypes, string action,
+            CompressionTypeOptions defaultCompressionType)
+            : base(parameterTypes, action, defaultCompressionType)
         { }
 
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)

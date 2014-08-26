@@ -145,7 +145,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         protected bool IsMetaDataRequest(Message message)
         {
-            var headerLocation = message.Headers.FindHeader("MetaData", "Maingi");
+            var headerLocation = message.Headers.FindHeader(Constants.MetaDataHeaderKey, Constants.DefaultCustomHeaderNamespace);
 
             if (headerLocation > -1)
                 return message.Headers.GetHeader<string>(headerLocation) == "Y";
@@ -188,7 +188,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
             foreach (var typeMetaData in typeMetaDatas)
             {
-                replyMessage.Headers.Add(MessageHeader.CreateHeader("MetaData-" + typeMetaData.Key, "Maingi", typeMetaData.Value));
+                replyMessage.Headers.Add(MessageHeader.CreateHeader(Constants.MetaDataHeaderKeySuffix + typeMetaData.Key, 
+                    Constants.DefaultCustomHeaderNamespace, typeMetaData.Value));
             }
 
             context.Reply(replyMessage);
