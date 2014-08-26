@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -11,7 +12,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
     {
         private readonly IRequestChannel _innerChannel;
 
-        public ProtoBufMetaDataRequestChannel(ChannelManagerBase parent, IRequestChannel innerChannel):
+        public ProtoBufMetaDataRequestChannel(ChannelManagerBase parent, IRequestChannel innerChannel) :
             base(parent, innerChannel)
         {
             _innerChannel = innerChannel;
@@ -27,28 +28,40 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             }
         }
 
-        public Uri Via { 
+        public Uri Via
+        {
             get
             {
                 return _innerChannel.Via;
-            } 
+            }
         }
 
         public Message Request(Message message)
         {
-            
-            return _innerChannel.Request(message);
+            var timeout = ((IDefaultCommunicationTimeouts)this.Manager).ReceiveTimeout;
+
+            CheckAndMakeMetaDataRequest(message, timeout);
+
+            var response = _innerChannel.Request(message);
+
+            return TransformAndHandleFault(response);
         }
 
         public Message Request(Message message, TimeSpan timeout)
         {
             CheckAndMakeMetaDataRequest(message, timeout);
 
-            return _innerChannel.Request(message, timeout);
+            var response = _innerChannel.Request(message, timeout);
+
+            return TransformAndHandleFault(response);
         }
 
         public IAsyncResult BeginRequest(Message message, AsyncCallback callback, object state)
         {
+            var timeout = ((IDefaultCommunicationTimeouts)this.Manager).ReceiveTimeout;
+
+            CheckAndMakeMetaDataRequest(message, timeout);
+
             return _innerChannel.BeginRequest(message, callback, state);
         }
 
@@ -61,12 +74,50 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public Message EndRequest(IAsyncResult result)
         {
-            return _innerChannel.EndRequest(result);
+            var response = _innerChannel.EndRequest(result);
+
+            return TransformAndHandleFault(response);
         }
-        
+
         #endregion
 
         #region Proteted Methods
+
+        protected Message TransformAndHandleFault(Message message)
+        {
+            if (message.Headers.Action.EndsWith("/fault"))
+            {
+                var buffer = message.CreateBufferedCopy(int.MaxValue);
+
+                var clonedMessage = buffer.CreateMessage();
+
+                var reader = clonedMessage.GetReaderAtBodyContents();
+
+                reader.Read();
+                reader.Read();
+                reader.Read();
+                reader.Read();
+                reader.Read();
+
+                var val = reader.Value;
+
+                if (string.IsNullOrWhiteSpace(val))
+                {
+                    return buffer.CreateMessage();
+                }
+                
+                if (val == Constants.SerializationFaultCode.ToString(CultureInfo.InvariantCulture))
+                {
+                    var store = ObjectBuilder.GetModelStore();
+
+                    store.RemoveAll();
+                }
+
+                return buffer.CreateMessage();
+            }
+
+            return message;
+        }
 
         protected void CheckAndMakeMetaDataRequest(Message originalMessage, TimeSpan timeout)
         {
@@ -76,7 +127,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
             var serviceContract = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);
 
-            var paramTypes = TypeFinder.GetContractParamTypes(serviceContract, contractInfo.OperationContractName, 
+            var paramTypes = TypeFinder.GetContractParamTypes(serviceContract, contractInfo.OperationContractName,
                 contractInfo.Action);
 
             var store = ObjectBuilder.GetModelStore();
@@ -113,7 +164,6 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                     modelProvider.CreateModelInfo(contractType, metaData);
                 }
             }
-            //TODO: Extend the protoBuf ProtoXmlSerializer, to consider meta data (from store), -- can we just use formatter?
         }
 
         protected Message GetMetaDataRequestMessage(string action)

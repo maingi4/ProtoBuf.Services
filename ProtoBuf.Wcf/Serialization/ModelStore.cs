@@ -22,5 +22,19 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             InternalStorage.AddOrUpdate(type, modelInfo, (type1, info) => info);
         }
+
+        public void RemoveModel(Type type)
+        {
+            ModelInfo modelInfo;
+            InternalStorage.TryRemove(type, out modelInfo);
+        }
+
+        public void RemoveAll()
+        {
+            foreach (var type in InternalStorage.Keys)
+            {
+                RemoveModel(type);
+            }
+        }
     }
 }

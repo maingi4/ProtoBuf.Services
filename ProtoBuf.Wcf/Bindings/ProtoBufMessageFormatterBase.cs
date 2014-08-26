@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using System.Xml.Linq;
 using ProtoBuf.ServiceModel;
+using ProtoBuf.Wcf.Channels.Exceptions;
 using ProtoBuf.Wcf.Channels.Infrastructure;
 using ProtoBuf.Wcf.Channels.Serialization;
 
@@ -40,8 +43,18 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 var val = reader.Value;
 
                 var data = BinaryConverter.FromString(val);
-
-                var retVal = serializer.Deserialize(data, model.MetaData, ParameterTypes[i].Type);
+                object retVal;
+                try
+                {
+                    retVal = serializer.Deserialize(data, model.MetaData, ParameterTypes[i].Type);
+                }
+                catch(SerializationException)
+                {
+                    throw FaultException.CreateFault(
+                        MessageFault.CreateFault(
+                        new FaultCode(Constants.SerializationFaultCode.ToString(CultureInfo.InvariantCulture)),
+                                                 "Serialization failed, meta data removal is recommended."));
+                }
 
                 parameters[i] = retVal;
             }
@@ -96,9 +109,21 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                 for (var i = 0; i < parameters.Length; i++)
                 {
-                    var data = serializer.Serialize(parameters[i], model.MetaData) ??
-                               new SerializationResult(new byte[0], null);
+                    var param = parameters[i];
 
+                    SerializationResult data;
+                    try
+                    {
+                        data = serializer.Serialize(param, model.MetaData) ??
+                               new SerializationResult(new byte[0], null);
+                    }
+                    catch (SerializationException)
+                    {
+                        if (param != null)
+                            store.RemoveModel(param.GetType());
+
+                        throw;
+                    }
                     retVal[i] = BinaryConverter.ToString(data.Data);
                 }
 
@@ -135,9 +160,17 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var val = reader.Value;
 
             var data = BinaryConverter.FromString(val);
+            object retVal;
+            try
+            {
+                retVal = serializer.Deserialize(data, model.MetaData, retParamInfo.Type);
+            }
+            catch (SerializationException)
+            {
+                store.RemoveModel(retParamInfo.Type);
 
-            var retVal = serializer.Deserialize(data, model.MetaData, retParamInfo.Type);
-
+                throw;
+            }
             return retVal;
         }
     }

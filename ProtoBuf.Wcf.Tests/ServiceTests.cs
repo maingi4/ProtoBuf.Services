@@ -88,14 +88,24 @@ namespace ProtoBuf.Wcf.Tests
 
         private void ComplexTest(string bindingName)
         {
-            CompositeType compositeType;
-            using (var client = new TestServiceClient(bindingName))
+            var compositeType = new CompositeType()
+                        {
+                            BoolValue = true,
+                            StringValue = "Test"
+                        };
+            try
             {
-                compositeType = client.GetDataUsingDataContract(new CompositeType()
+                using (var client = new TestServiceClient(bindingName))
                 {
-                    BoolValue = true,
-                    StringValue = "Test"
-                });
+                    compositeType = client.GetDataUsingDataContract(compositeType);
+                }
+            }
+            catch (Exception)
+            {
+                using (var client = new TestServiceClient(bindingName))
+                {
+                    compositeType = client.GetDataUsingDataContract(compositeType);
+                }
             }
 
             AssertComposite(compositeType);

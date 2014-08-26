@@ -13,59 +13,115 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         public SerializationResult Serialize(object obj)
         {
-            return Serialize(obj, null);
+            try
+            {
+                return Serialize(obj, null);
+            }
+            catch (SerializationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("Serialization failed, check inner exception for more details", ex);
+            }
         }
 
         public SerializationResult Serialize(object obj, TypeMetaData metaData)
         {
-            if (obj == null)
-                return null;
+            try
+            {
+                if (obj == null)
+                    return null;
 
-            var modelProvider = ObjectBuilder.GetModelProvider();
+                var modelProvider = ObjectBuilder.GetModelProvider();
 
-            if (modelProvider == null)
-                throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
+                if (modelProvider == null)
+                    throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
 
-            var info = metaData == null ?
-                modelProvider.CreateModelInfo(obj.GetType()) :
-                modelProvider.CreateModelInfo(obj.GetType(), metaData);
+                var info = metaData == null ?
+                    modelProvider.CreateModelInfo(obj.GetType()) :
+                    modelProvider.CreateModelInfo(obj.GetType(), metaData);
 
-            var model = info.Model;
+                var model = info.Model;
 
-            var serializedData = Serialize(model, obj);
+                var serializedData = Serialize(model, obj);
 
-            return new SerializationResult(serializedData, info.MetaData);
+                return new SerializationResult(serializedData, info.MetaData);
+            }
+            catch (SerializationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("Serialization failed, check inner exception for more details", ex);
+            }
         }
 
         public T Deserialize<T>(byte[] data)
         {
-            return Deserialize<T>(data, null);
+            try
+            {
+                return Deserialize<T>(data, null);
+            }
+            catch (SerializationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("Serialization failed, check inner exception for more details", ex);
+            }
         }
 
         public T Deserialize<T>(byte[] data, TypeMetaData metaData)
         {
-            return (T)Deserialize(data, metaData, typeof (T));
+            try
+            {
+                return (T)Deserialize(data, metaData, typeof(T));
+            }
+            catch (SerializationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("Serialization failed, check inner exception for more details", ex);
+            }
+
         }
 
         public object Deserialize(byte[] data, TypeMetaData metaData, Type type)
         {
-            if (data == null || data.Length == 0)
-                return null;
+            try
+            {
+                if (data == null || data.Length == 0)
+                    return null;
 
-            var modelProvider = ObjectBuilder.GetModelProvider();
+                var modelProvider = ObjectBuilder.GetModelProvider();
 
-            if (modelProvider == null)
-                throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
+                if (modelProvider == null)
+                    throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
 
-            var info = metaData == null ?
-                modelProvider.CreateModelInfo(type) :
-                modelProvider.CreateModelInfo(type, metaData);
+                var info = metaData == null ?
+                    modelProvider.CreateModelInfo(type) :
+                    modelProvider.CreateModelInfo(type, metaData);
 
-            var model = info.Model;
+                var model = info.Model;
 
-            var obj = Deserialize(model, data, type);
+                var obj = Deserialize(model, data, type);
 
-            return obj;
+                return obj;
+            }
+            catch (SerializationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("Serialization failed, check inner exception for more details", ex);
+            }
         }
 
         #endregion

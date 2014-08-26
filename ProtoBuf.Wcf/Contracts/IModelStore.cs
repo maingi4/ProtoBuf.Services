@@ -7,5 +7,7 @@ namespace ProtoBuf.Wcf.Channels.Contracts
     {
         ModelInfo GetModel(Type type);
         void SetModel(Type type, ModelInfo modelInfo);
+        void RemoveModel(Type type);
+        void RemoveAll();
     }
 }
