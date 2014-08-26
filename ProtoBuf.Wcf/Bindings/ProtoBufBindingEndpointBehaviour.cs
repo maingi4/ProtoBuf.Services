@@ -27,10 +27,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             if (protoBinding == null)
                 throw new ConfigurationException("The endpoint behaviour, ProtoBufBindingEndpointBehaviour, can only be applied to an endpoint which has ProtoBufBinding as its binding.");
 
-            var compressionBehaviour = protoBinding.GetDefaultCompressionBehaviour();
-            
             foreach (var operation in endpointDispatcher.DispatchRuntime.Operations)
             {
+                var compressionBehaviour = protoBinding.GetOperationCompressionBehaviour(operation.Name);
+
                 var contractInfo = ContractInfo.FromAction(operation.Action);
 
                 var serviceContract = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);
@@ -42,6 +42,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                     compressionBehaviour);
 
                 operation.Formatter = formatter;
+                operation.DeserializeRequest = true;
+                operation.SerializeReply = true;
             }
         }
 
@@ -52,10 +54,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             if (protoBinding == null)
                 throw new ConfigurationException("The endpoint behaviour, ProtoBufBindingEndpointBehaviour, can only be applied to an endpoint which has ProtoBufBinding as its binding.");
 
-            var compressionBehaviour = protoBinding.GetDefaultCompressionBehaviour();
-
             foreach (var clientOperation in clientRuntime.ClientOperations)
             {
+                var compressionBehaviour = protoBinding.GetOperationCompressionBehaviour(clientOperation.Name);
+
                 var contractInfo = ContractInfo.FromAction(clientOperation.Action);
 
                 var serviceContract = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);

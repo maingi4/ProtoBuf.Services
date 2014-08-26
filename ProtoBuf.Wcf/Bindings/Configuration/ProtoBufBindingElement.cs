@@ -15,6 +15,19 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
     {
         #region Configuration Properties
 
+        [ConfigurationProperty("operationBehaviours")]
+        public OperationBehaviourElementCollection OperationBehaviours
+        {
+            get
+            {
+                return (OperationBehaviourElementCollection)this["operationBehaviours"];
+            }
+            set
+            {
+                this["operationBehaviours"] = value;
+            }
+        }
+
         [ConfigurationProperty("compressionType", DefaultValue = CompressionTypeOptions.None)]
         public CompressionTypeOptions CompressionType
         {
@@ -133,6 +146,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
                 properties.Add(new ConfigurationProperty("maxReceivedMessageSize", typeof(long), 65536L));
                 properties.Add(new ConfigurationProperty("hostNameComparisonMode", typeof(HostNameComparisonMode), HostNameComparisonMode.StrongWildcard));
                 properties.Add(new ConfigurationProperty("compressionType", typeof(CompressionTypeOptions), CompressionTypeOptions.None));
+                properties.Add(new ConfigurationProperty("operationBehaviours", typeof(OperationBehaviourElementCollection)));
                 
                 return properties;
             }
@@ -160,6 +174,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             var protoBinding = (ProtoBufBinding)binding;
 
             protoBinding.SetDefaultCompressionBehaviour(this.CompressionType);
+            protoBinding.SetOperationBehaviours(OperationBehaviours);
 
             var httpBindingElement = protoBinding.GetHttpBindingElement();
 

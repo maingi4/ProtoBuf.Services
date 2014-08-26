@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\Configuration\OperationBehaviourElement.cs" />
+    <Compile Include="Bindings\Configuration\OperationBehaviourElementCollection.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElement.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElementCollection.cs" />
     <Compile Include="Bindings\Constants.cs" />
