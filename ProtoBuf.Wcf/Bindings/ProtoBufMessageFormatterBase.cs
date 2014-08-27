@@ -119,10 +119,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return message;
         }
 
-        public Message SerializeRequestInternal(MessageVersion messageVersion, object[] parameters)
+        protected Message SerializeRequestInternal(MessageVersion messageVersion, object[] parameters)
         {
-            //var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
-
             var compressionType = DefaultCompressionType;
 
             var parameterTypes = ParameterTypes;
@@ -130,13 +128,6 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             Func<string[]> valueGetter = () =>
             {
                 var store = ObjectBuilder.GetModelStore();
-
-                //var retType = TypeFinder.GetDetailedTypes(retParamInfo.Type).First();
-
-                //var model = store.GetModel(retType);
-
-                //if (model == null)
-                //    throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + retParamInfo.Type.FullName);
 
                 CompressionProvider compressionProvider = null;
                 if (compressionType != CompressionTypeOptions.None)
@@ -194,7 +185,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return message;
         }
 
-        public object DeserializeReplyInternal(Message message, object[] parameters)
+        protected object DeserializeReplyInternal(Message message, object[] parameters)
         {
             var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
 
@@ -205,8 +196,6 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var reader = message.GetReaderAtBodyContents();
 
             reader.Read();
-
-            //var detailedType = TypeFinder.GetDetailedName(retParamInfo.Type);
 
             var model = store.GetModel(retParamInfo.Type);
 
@@ -242,7 +231,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return retVal;
         }
 
-        protected CompressionTypeOptions GetMessageCompressionTypeOptions(Message message)
+        private CompressionTypeOptions GetMessageCompressionTypeOptions(Message message)
         {
             var headerLocation = message.Headers.FindHeader(Constants.CompressionHeaderKey,
                                                     Constants.DefaultCustomHeaderNamespace);
@@ -255,7 +244,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return compressionType;
         }
 
-        protected void AddCompressionHeader(Message message, CompressionTypeOptions compressionType)
+        private void AddCompressionHeader(Message message, CompressionTypeOptions compressionType)
         {
             message.Headers.Add(
                 MessageHeader.CreateHeader(Constants.CompressionHeaderKey, 
