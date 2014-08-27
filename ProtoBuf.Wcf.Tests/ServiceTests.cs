@@ -26,7 +26,7 @@ namespace ProtoBuf.Wcf.Tests
         }
 
 
-        [TestMethod]
+        [TestMethod, TestCategory("ProtoService")]
         public void BasicCommTest()
         {
             string response;
@@ -50,37 +50,114 @@ namespace ProtoBuf.Wcf.Tests
                 "response was unexpected, expected : {0}, actual: {1}", "2", response);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("ProtoService")]
+        public void ListGetProto()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                var list = client.GetList();
+
+                Assert.IsNotNull(list);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoService")]
+        public void DictionaryComplexGetProto()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                var dictionary = client.GetDictionaryComplex();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoService")]
+        public void DictionarySimpleGetProto()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                var dictionary = client.GetDictionarySimple();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoService")]
+        public void DictionaryListComplexGetProto()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                var dictionary = client.GetDictionaryListComplex();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        //[TestMethod, TestCategory("ProtoService")]
+        //public void ListDictionaryComplexGetProto()
+        //{
+        //    using (var client = new TestServiceClient("proto"))
+        //    {
+        //        var dictionary = client.GetListDictionaryComplex();
+
+        //        Assert.IsNotNull(dictionary);
+        //    }
+        //}
+
+        //[TestMethod, TestCategory("ProtoService")]
+        //public void ListListComplexGetProto()
+        //{
+        //    using (var client = new TestServiceClient("proto"))
+        //    {
+        //        var dictionary = client.GetListListComplex();
+
+        //        Assert.IsNotNull(dictionary);
+        //    }
+        //}
+
+        [TestMethod, TestCategory("ProtoService")]
+        public void DictionaryMixedGetProto()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                var dictionary = client.GetDictionaryMixed();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoService")]
         public void PrimitiveGetProto()
         {
             PrimitiveGet("proto");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("ProtoService")]
         public void ComplexTypeGetProto()
         {
             ComplexTest("proto");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("BasicHttpService")]
         public void PrimitiveGetBasicHttp()
         {
             PrimitiveGet("basic");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("BasicHttpService")]
         public void ComplexTypeGetBasicHttp()
         {
             ComplexTest("basic");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("BasicHttpService")]
         public void BigComplexTypeGetBasicHttp()
         {
             BigComplexTest("basic");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("ProtoService")]
         public void BigComplexTypeGetProto()
         {
             BigComplexTest("proto");

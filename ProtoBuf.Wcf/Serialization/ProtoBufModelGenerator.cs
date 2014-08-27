@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using ProtoBuf.Meta;
+using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Serialization
 {
@@ -64,10 +65,25 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         private void ConfigureType<T>(Type type, bool recursive, bool configureChildren,
             ISet<Type> navigatedTypes, RuntimeTypeModel model, Type originalType)
         {
-            if (!IsValidType(type))
+            var root = type == originalType;
+
+            if (!IsValidType(type, root))
                 return;
 
-            model.Add(type, false);
+            if (type.IsArray)
+            {
+                var eType = type.GetElementType();
+
+                if (!IsValidType(eType, root))
+                    return;
+
+                model.Add(eType, false);
+            }
+            else
+            {
+                model.Add(type, false);
+            }
+            
 
             var baseTypes = GetRecursiveBase(type).ToArray();
 
@@ -261,10 +277,15 @@ namespace ProtoBuf.Wcf.Channels.Serialization
             return Math.Abs(number % nFactor);
         }
 
-        private bool IsValidType(Type type)
+        private bool IsValidType(Type type, bool root = false)
         {
+            if (root)
+            {
+                return type != null && type != typeof (object) && type != typeof (ValueType)
+                       && type.Namespace != null && !type.IsPrimitive && type != typeof(string);
+            }
+
             return type != null && type != typeof (object) && type != typeof (ValueType)
-                         //&& type != typeof(Enum)
                          && type.Namespace != null
                          && type.IsArray == false
                          && !type.Namespace.StartsWith("System.")
@@ -307,6 +328,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
                     (x.GetCustomAttribute<DataMemberAttribute>() != null
                     || x.GetCustomAttribute<EnumMemberAttribute>() != null))
                 .SelectMany(x => GetDetailedTypes(GetTypeFromMemberInfo(x)))
+                .Concat(GetDetailedTypes(type))
                 .Distinct();
         }
 
@@ -348,21 +370,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
         private IEnumerable<Type> GetDetailedTypes(Type type)
         {
-            if (type.IsArray)
-            {
-                yield return type.GetElementType();
-                yield break;
-            }
-
-            if (type.IsGenericType)
-            {
-                foreach (var genericTypeArgument in type.GenericTypeArguments)
-                {
-                    yield return genericTypeArgument;
-                }
-            }
-
-            yield return type;
+            return TypeFinder.GetDetailedTypes(type);
         }
 
         private IEnumerable<Type> GetChildren(Type baseType, Type originalType)

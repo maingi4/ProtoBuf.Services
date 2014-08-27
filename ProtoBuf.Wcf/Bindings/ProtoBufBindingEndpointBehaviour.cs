@@ -36,7 +36,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 var serviceContract = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);
 
                 var paramTypes = TypeFinder.GetContractParamTypes(serviceContract, contractInfo.OperationContractName,
-                                                                  contractInfo.Action);
+                                                                  contractInfo.Action, false);
 
                 var formatter = new ProtoBufDispatchFormatter(new List<TypeInfo>(paramTypes), contractInfo.Action, 
                     compressionBehaviour);
@@ -63,7 +63,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 var serviceContract = TypeFinder.FindServiceContract(contractInfo.ServiceContractName);
 
                 var paramTypes = TypeFinder.GetContractParamTypes(serviceContract, contractInfo.OperationContractName,
-                                                                  contractInfo.Action);
+                                                                  contractInfo.Action, false);
 
                 var formatter = new ProtoBufClientFormatter(new List<TypeInfo>(paramTypes), contractInfo.Action, 
                     compressionBehaviour);

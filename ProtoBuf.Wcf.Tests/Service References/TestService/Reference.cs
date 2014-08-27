@@ -140,6 +140,36 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDataUsingBigDataContract", ReplyAction="http://tempuri.org/ITestService/GetDataUsingBigDataContractResponse")]
         System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.BigContract> GetDataUsingBigDataContractAsync(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetList", ReplyAction="http://tempuri.org/ITestService/GetListResponse")]
+        string[] GetList();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetList", ReplyAction="http://tempuri.org/ITestService/GetListResponse")]
+        System.Threading.Tasks.Task<string[]> GetListAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryMixed", ReplyAction="http://tempuri.org/ITestService/GetDictionaryMixedResponse")]
+        System.Collections.Generic.Dictionary<string, ProtoBuf.Wcf.Tests.TestService.BigContract> GetDictionaryMixed();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryMixed", ReplyAction="http://tempuri.org/ITestService/GetDictionaryMixedResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, ProtoBuf.Wcf.Tests.TestService.BigContract>> GetDictionaryMixedAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionarySimple", ReplyAction="http://tempuri.org/ITestService/GetDictionarySimpleResponse")]
+        System.Collections.Generic.Dictionary<string, string> GetDictionarySimple();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionarySimple", ReplyAction="http://tempuri.org/ITestService/GetDictionarySimpleResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, string>> GetDictionarySimpleAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryComplex", ReplyAction="http://tempuri.org/ITestService/GetDictionaryComplexResponse")]
+        System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract> GetDictionaryComplex();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryComplex", ReplyAction="http://tempuri.org/ITestService/GetDictionaryComplexResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract>> GetDictionaryComplexAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryListComplex", ReplyAction="http://tempuri.org/ITestService/GetDictionaryListComplexResponse")]
+        System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract[]> GetDictionaryListComplex();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetDictionaryListComplex", ReplyAction="http://tempuri.org/ITestService/GetDictionaryListComplexResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract[]>> GetDictionaryListComplexAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -191,6 +221,46 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         
         public System.Threading.Tasks.Task<ProtoBuf.Wcf.Tests.TestService.BigContract> GetDataUsingBigDataContractAsync(ProtoBuf.Wcf.Tests.TestService.BigContract bigContract) {
             return base.Channel.GetDataUsingBigDataContractAsync(bigContract);
+        }
+        
+        public string[] GetList() {
+            return base.Channel.GetList();
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetListAsync() {
+            return base.Channel.GetListAsync();
+        }
+        
+        public System.Collections.Generic.Dictionary<string, ProtoBuf.Wcf.Tests.TestService.BigContract> GetDictionaryMixed() {
+            return base.Channel.GetDictionaryMixed();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, ProtoBuf.Wcf.Tests.TestService.BigContract>> GetDictionaryMixedAsync() {
+            return base.Channel.GetDictionaryMixedAsync();
+        }
+        
+        public System.Collections.Generic.Dictionary<string, string> GetDictionarySimple() {
+            return base.Channel.GetDictionarySimple();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, string>> GetDictionarySimpleAsync() {
+            return base.Channel.GetDictionarySimpleAsync();
+        }
+        
+        public System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract> GetDictionaryComplex() {
+            return base.Channel.GetDictionaryComplex();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract>> GetDictionaryComplexAsync() {
+            return base.Channel.GetDictionaryComplexAsync();
+        }
+        
+        public System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract[]> GetDictionaryListComplex() {
+            return base.Channel.GetDictionaryListComplex();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ProtoBuf.Wcf.Tests.TestService.CompositeType, ProtoBuf.Wcf.Tests.TestService.BigContract[]>> GetDictionaryListComplexAsync() {
+            return base.Channel.GetDictionaryListComplexAsync();
         }
     }
 }

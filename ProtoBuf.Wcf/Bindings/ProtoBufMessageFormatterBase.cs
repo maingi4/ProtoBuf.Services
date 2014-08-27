@@ -121,18 +121,22 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         public Message SerializeRequestInternal(MessageVersion messageVersion, object[] parameters)
         {
-            var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
+            //var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
 
             var compressionType = DefaultCompressionType;
+
+            var parameterTypes = ParameterTypes;
 
             Func<string[]> valueGetter = () =>
             {
                 var store = ObjectBuilder.GetModelStore();
 
-                var model = store.GetModel(retParamInfo.Type);
+                //var retType = TypeFinder.GetDetailedTypes(retParamInfo.Type).First();
 
-                if (model == null)
-                    throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + retParamInfo.Type.FullName);
+                //var model = store.GetModel(retType);
+
+                //if (model == null)
+                //    throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + retParamInfo.Type.FullName);
 
                 CompressionProvider compressionProvider = null;
                 if (compressionType != CompressionTypeOptions.None)
@@ -145,6 +149,11 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 for (var i = 0; i < parameters.Length; i++)
                 {
                     var param = parameters[i];
+
+                    var model = store.GetModel(parameterTypes[i].Type);
+
+                    if (model == null)
+                        throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + parameterTypes[i].Type.FullName);
 
                     SerializationResult data;
                     try
@@ -196,6 +205,8 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var reader = message.GetReaderAtBodyContents();
 
             reader.Read();
+
+            //var detailedType = TypeFinder.GetDetailedName(retParamInfo.Type);
 
             var model = store.GetModel(retParamInfo.Type);
 

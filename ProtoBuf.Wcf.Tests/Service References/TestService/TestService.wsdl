@@ -12,6 +12,7 @@
       <xsd:import schemaLocation="http://localhost:12034/TestService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:12034/TestService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:12034/TestService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample" />
+      <xsd:import schemaLocation="http://localhost:12034/TestService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ITestService_GetData_InputMessage">
@@ -32,6 +33,36 @@
   <wsdl:message name="ITestService_GetDataUsingBigDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingBigDataContractResponse" />
   </wsdl:message>
+  <wsdl:message name="ITestService_GetList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryMixed_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryMixed" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryMixed_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryMixedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionarySimple_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionarySimple" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionarySimple_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionarySimpleResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryComplex_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryComplex" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryComplex_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryComplexResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryListComplex_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryListComplex" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_GetDictionaryListComplex_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDictionaryListComplexResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITestService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetData" message="tns:ITestService_GetData_InputMessage" />
@@ -44,6 +75,26 @@
     <wsdl:operation name="GetDataUsingBigDataContract">
       <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDataUsingBigDataContract" message="tns:ITestService_GetDataUsingBigDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDataUsingBigDataContractResponse" message="tns:ITestService_GetDataUsingBigDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetList" message="tns:ITestService_GetList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetListResponse" message="tns:ITestService_GetList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryMixed">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDictionaryMixed" message="tns:ITestService_GetDictionaryMixed_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDictionaryMixedResponse" message="tns:ITestService_GetDictionaryMixed_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionarySimple">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDictionarySimple" message="tns:ITestService_GetDictionarySimple_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDictionarySimpleResponse" message="tns:ITestService_GetDictionarySimple_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryComplex">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDictionaryComplex" message="tns:ITestService_GetDictionaryComplex_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDictionaryComplexResponse" message="tns:ITestService_GetDictionaryComplex_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryListComplex">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetDictionaryListComplex" message="tns:ITestService_GetDictionaryListComplex_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDictionaryListComplexResponse" message="tns:ITestService_GetDictionaryListComplex_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ProtoBufBinding_ITestService" type="tns:ITestService">
@@ -76,6 +127,51 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryMixed">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetDictionaryMixed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionarySimple">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetDictionarySimple" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryComplex">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetDictionaryComplex" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryListComplex">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/GetDictionaryListComplex" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="BasicHttpBinding_ITestService" type="tns:ITestService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -99,6 +195,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetDataUsingBigDataContract">
       <soap:operation soapAction="http://tempuri.org/ITestService/GetDataUsingBigDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryMixed">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDictionaryMixed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionarySimple">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDictionarySimple" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryComplex">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDictionaryComplex" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryListComplex">
+      <soap:operation soapAction="http://tempuri.org/ITestService/GetDictionaryListComplex" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

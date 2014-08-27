@@ -106,6 +106,9 @@
     <None Include="Service References\TestService\TestService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\TestService\TestService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtoBuf.Wcf\ProtoBuf.Wcf.Channels.csproj">

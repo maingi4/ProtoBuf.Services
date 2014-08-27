@@ -19,4 +19,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfCompositeType" nillable="true" type="tns:ArrayOfCompositeType" />
+  <xs:complexType name="ArrayOfBigContract">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BigContract" nillable="true" type="tns:BigContract" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBigContract" nillable="true" type="tns:ArrayOfBigContract" />
 </xs:schema>
