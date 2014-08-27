@@ -41,7 +41,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         #region Protected Methods
 
-        protected IRequestChannel WrapChannel(IRequestChannel innerChannel)
+        private IRequestChannel WrapChannel(IRequestChannel innerChannel)
         {
             if (innerChannel == null)
                 return null;

@@ -10,7 +10,7 @@ using ProtoBuf.Wcf.Channels.Bindings.Configuration;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufBindingCollectionElement
+    public sealed class ProtoBufBindingCollectionElement
         : BindingCollectionElement
     {
         [ConfigurationProperty("", Options = ConfigurationPropertyOptions.IsDefaultCollection)]

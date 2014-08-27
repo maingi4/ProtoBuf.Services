@@ -5,7 +5,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufDispatchFormatter : ProtoBufMessageFormatterBase, IDispatchMessageFormatter
+    public sealed class ProtoBufDispatchFormatter : ProtoBufMessageFormatterBase, IDispatchMessageFormatter
     {
         public ProtoBufDispatchFormatter(IList<TypeInfo> parameterTypes, string action,
             CompressionTypeOptions defaultCompressionType) 

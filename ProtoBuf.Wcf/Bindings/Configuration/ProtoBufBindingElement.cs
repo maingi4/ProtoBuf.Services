@@ -11,7 +11,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
 {
-    public class ProtoBufBindingElement : StandardBindingElement
+    public sealed class ProtoBufBindingElement : StandardBindingElement
     {
         #region Configuration Properties
 

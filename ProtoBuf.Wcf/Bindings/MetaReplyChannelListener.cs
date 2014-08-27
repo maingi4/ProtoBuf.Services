@@ -102,7 +102,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         #region Protected Methods
 
-        protected IReplyChannel WrapChannel(IReplyChannel innerChannel)
+        private IReplyChannel WrapChannel(IReplyChannel innerChannel)
         {
             if (innerChannel == null)
             {

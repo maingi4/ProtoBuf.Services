@@ -10,7 +10,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufBinding : Binding
+    public sealed class ProtoBufBinding : Binding
     {
         private HttpTransportBindingElement _httpTransport;
         private BinaryMessageEncodingBindingElement _encoding;

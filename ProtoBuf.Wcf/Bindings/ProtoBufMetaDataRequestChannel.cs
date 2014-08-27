@@ -8,7 +8,7 @@ using ProtoBuf.Wcf.Channels.Serialization;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufMetaDataRequestChannel : ProtoBufMetaDataChannelBase, IRequestChannel
+    public sealed class ProtoBufMetaDataRequestChannel : ProtoBufMetaDataChannelBase, IRequestChannel
     {
         private readonly IRequestChannel _innerChannel;
 
@@ -81,9 +81,9 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         #endregion
 
-        #region Proteted Methods
+        #region Private Methods
 
-        protected Message TransformAndHandleFault(Message message)
+        private Message TransformAndHandleFault(Message message)
         {
             if (message.Headers.Action.EndsWith("/fault"))
             {
@@ -119,7 +119,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return message;
         }
 
-        protected void CheckAndMakeMetaDataRequest(Message originalMessage, TimeSpan timeout)
+        private void CheckAndMakeMetaDataRequest(Message originalMessage, TimeSpan timeout)
         {
             var action = originalMessage.Headers.Action;
 
@@ -166,7 +166,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             }
         }
 
-        protected Message GetMetaDataRequestMessage(string action)
+        private Message GetMetaDataRequestMessage(string action)
         {
             var message = Message.CreateMessage(MessageVersion.Soap12WSAddressing10, action);
 

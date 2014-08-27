@@ -12,7 +12,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufBindingEndpointBehaviour : BehaviorExtensionElement, IEndpointBehavior
+    public sealed class ProtoBufBindingEndpointBehaviour : BehaviorExtensionElement, IEndpointBehavior
     {
         public void Validate(ServiceEndpoint endpoint)
         { }

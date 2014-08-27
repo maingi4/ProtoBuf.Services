@@ -3,7 +3,7 @@ using System.ServiceModel.Channels;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufMetaDataBindingElement : TransportBindingElement
+    public sealed class ProtoBufMetaDataBindingElement : TransportBindingElement
     {
         private readonly TransportBindingElement _innerTransportElement;
 

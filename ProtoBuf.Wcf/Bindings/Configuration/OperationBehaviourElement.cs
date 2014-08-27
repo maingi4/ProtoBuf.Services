@@ -8,7 +8,7 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
 {
-    public class OperationBehaviourElement : ConfigurationElement
+    public sealed class OperationBehaviourElement : ConfigurationElement
     {
         [ConfigurationProperty("operationName", IsKey = true, IsRequired = true)]
         public string OperationName

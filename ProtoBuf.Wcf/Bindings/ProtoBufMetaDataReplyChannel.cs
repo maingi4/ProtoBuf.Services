@@ -11,7 +11,7 @@ using TypeInfo = ProtoBuf.Wcf.Channels.Infrastructure.TypeInfo;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
+    public sealed class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
     {
         private readonly EndpointAddress _localAddress;
         private readonly IReplyChannel _innerChannel;
@@ -101,25 +101,19 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         #endregion
 
-        #region Protected Members
+        #region Private Members
 
-        protected RequestContext ProcessContext(RequestContext context, TimeSpan timeout)
+        private RequestContext ProcessContext(RequestContext context, TimeSpan timeout)
         {
             var isMetaDataRequest = CheckAndReplyMetaDataRequest(context, timeout);
 
             return isMetaDataRequest ? null : context;
         }
 
-        protected bool CheckAndReplyMetaDataRequest(RequestContext context, TimeSpan timeout)
+        private bool CheckAndReplyMetaDataRequest(RequestContext context, TimeSpan timeout)
         {
             if (context == null || context.RequestMessage == null)
                 return false;
-
-            //var buffer = context.RequestMessage.CreateBufferedCopy(int.MaxValue);
-
-            //var clonedMessage = buffer.CreateMessage();
-
-            //SetClonedContext(context, buffer.CreateMessage());
 
             var isMetaDataRequest = IsMetaDataRequest(context.RequestMessage);
 
@@ -133,17 +127,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return false;
         }
 
-        //private void SetClonedContext(RequestContext context, Message clonedMessage)
-        //{
-        //    var type = context.GetType();
-
-        //    var field = type.BaseType.BaseType.GetField("requestMessage",
-        //                                                BindingFlags.Instance | BindingFlags.NonPublic);
-
-        //    field.SetValue(context, clonedMessage);
-        //}
-
-        protected bool IsMetaDataRequest(Message message)
+        private bool IsMetaDataRequest(Message message)
         {
             var headerLocation = message.Headers.FindHeader(Constants.MetaDataHeaderKey, Constants.DefaultCustomHeaderNamespace);
 
@@ -153,7 +137,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return false;
         }
 
-        protected void ReplyWithMetaData(RequestContext context)
+        private void ReplyWithMetaData(RequestContext context)
         {
             var action = context.RequestMessage.Headers.Action;
 
