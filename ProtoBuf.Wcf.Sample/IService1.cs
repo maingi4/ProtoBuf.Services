@@ -17,6 +17,27 @@ namespace ProtoBuf.Wcf.Sample
 
         [OperationContract]
         BigContract GetDataUsingBigDataContract(BigContract bigContract);
+
+        [OperationContract]
+        List<string> GetList();
+
+        [OperationContract]
+        Dictionary<string, BigContract> GetDictionaryMixed();
+
+        [OperationContract]
+        Dictionary<string, string> GetDictionarySimple();
+
+        [OperationContract]
+        Dictionary<CompositeType, BigContract> GetDictionaryComplex();
+
+        [OperationContract]
+        Dictionary<CompositeType, List<BigContract>> GetDictionaryListComplex();
+
+        //[OperationContract]
+        //List<Dictionary<CompositeType, List<BigContract>>> GetListDictionaryComplex();
+
+        //[OperationContract]
+        //List<List<CompositeType>> GetListListComplex();
     }
 
 

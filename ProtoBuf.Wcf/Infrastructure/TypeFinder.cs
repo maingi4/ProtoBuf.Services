@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,8 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
         }
 
         private static readonly ConcurrentDictionary<string, ICollection<TypeInfo>> TypeParamCache = new ConcurrentDictionary<string, ICollection<TypeInfo>>();
-        public static ICollection<TypeInfo> GetContractParamTypes(Type serviceContractType, string operationContractName, string action)
+        public static ICollection<TypeInfo> GetContractParamTypes(Type serviceContractType,
+            string operationContractName, string action, bool getDetailedTypes = true)
         {
             Func<Type, string, ICollection<TypeInfo>> paramGetter = (contractType, operationName) =>
                 {
@@ -56,11 +58,11 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
 
                             foreach (var parameterInfo in inputParams)
                             {
-                                retVal.Add(GetTypeInfo(parameterInfo.ParameterType, ParamType.Input));
+                                retVal.AddRange(GetTypeInfo(parameterInfo.ParameterType, ParamType.Input, getDetailedTypes));
                             }
 
                             if (methodInfo.ReturnParameter != null)
-                                retVal.Add(GetTypeInfo(methodInfo.ReturnParameter.ParameterType, ParamType.Return));
+                                retVal.AddRange(GetTypeInfo(methodInfo.ReturnParameter.ParameterType, ParamType.Return, getDetailedTypes));
 
                             break;
                         }
@@ -68,31 +70,103 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
                     return retVal;
                 };
 
-            return TypeParamCache.GetOrAdd(action, actionName => paramGetter(serviceContractType, operationContractName));
+            return TypeParamCache.GetOrAdd(GetCacheKey(action, getDetailedTypes), actionName => paramGetter(serviceContractType, operationContractName));
         }
 
-        public static TypeInfo GetTypeInfo(Type type, ParamType paramType)
+        private static string GetCacheKey(string val, bool param)
+        {
+            return string.Concat(val, "`", param ? 1 : 0);
+        }
+
+        public static IEnumerable<TypeInfo> GetTypeInfo(Type type, ParamType paramType, bool getDetailedTypes)
         {
             var attr = type.GetCustomAttribute<DataContractAttribute>();
 
             if (attr != null)
-                return new TypeInfo()
-                {
-                    Name = (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample").TrimEnd('/') 
-                    + "/" + (attr.Name ?? type.Name),
-                    Type = type,
-                    ParamType = paramType
-                };
+            {
+                yield return new TypeInfo()
+                        {
+                            Name =
+                                (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample").
+                                    TrimEnd(
+                                        '/')
+                                + "/" + (attr.Name ?? type.Name),
+                            Type = type,
+                            ParamType = paramType
+                        };
 
-            if (type.IsPrimitive || type == typeof(string))
-                return new TypeInfo()
-                {
-                    Name = type.Name,
-                    Type = type,
-                    ParamType = paramType
-                };
+            }
+            else if (type.IsPrimitive || type == typeof(string) || type.IsArray || type.IsGenericType)
+            {
+                yield return new TypeInfo()
+                        {
+                            Name = GetDetailedName(type),
+                            Type = type,
+                            ParamType = paramType
+                        };
 
-            throw new InvalidOperationException(string.Format("The type {0} does not have a data contract attribute and is not a primitive type.", type.FullName));
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        "The type {0} does not have a data contract attribute and is not a primitive type.",
+                        type.FullName));
+            }
+        }
+
+        public static string GetDetailedName(Type type)
+        {
+            if (type.IsArray)
+            {
+                return type.Name;
+            }
+
+            if (type.IsGenericType)
+            {
+                var genParams = type.GenericTypeArguments;
+
+                if (genParams.Length == 1)
+                {
+                    return GetDetailedName(genParams[0]) + "[]";
+                }
+                
+                if (type.GetInterfaces().Any(x => x == typeof(IDictionary)))
+                {
+                    return "IDictionary`" + string.Join("`", genParams.Select(GetDetailedName));
+                }
+            }
+
+            return type.Name;
+        }
+
+        public static IEnumerable<Type> GetDetailedTypes(Type type)
+        {
+            if (type.IsArray)
+            {
+                var elementType = type.GetElementType();
+
+                foreach (var detailedType in GetDetailedTypes(elementType))
+                {
+                    yield return detailedType;
+                }
+
+                yield break;
+            }
+
+            if (type.IsGenericType)
+            {
+                foreach (var genericTypeArgument in type.GenericTypeArguments)
+                {
+                    foreach (var detailedType in GetDetailedTypes(genericTypeArgument))
+                    {
+                        yield return detailedType;
+                    }
+                }
+                yield break;
+            }
+
+            yield return type;
         }
 
         private static readonly ConcurrentDictionary<string, Type> ServiceContractCache = new ConcurrentDictionary<string, Type>();
@@ -112,7 +186,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
                         {
                             types = assembly.GetTypes();
                         }
-                        catch(ReflectionTypeLoadException)
+                        catch (ReflectionTypeLoadException)
                         {
                             continue;
                         }
@@ -181,7 +255,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
             name = name.ToLower();
 
             if (name == "string")
-                return typeof (string);
+                return typeof(string);
 
             Type retVal;
 

@@ -10,7 +10,7 @@ namespace ProtoBuf.Wcf.Tests
     [TestClass]
     public class SerializationTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("Serialization")]
         public void SimpleModelTest()
         {
             var model = new TestModelSimple()
@@ -46,7 +46,7 @@ namespace ProtoBuf.Wcf.Tests
             }
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Serialization")]
         public void SimpleInheritanceTest()
         {
             var model = new ChildModelSimple()
@@ -75,7 +75,7 @@ namespace ProtoBuf.Wcf.Tests
             Assert.AreEqual(model.TestChildProperty2, counterpart.TestChildProperty2);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Serialization")]
         public void TestComplexModel()
         {
             var childModelSimple = new ChildModelSimple()
@@ -163,8 +163,8 @@ namespace ProtoBuf.Wcf.Tests
                 }
             }
         }
-         
-        [TestMethod]
+
+        [TestMethod, TestCategory("Serialization")]
         public void TestMetaDataSerialization()
         {
             var metaData = new TypeMetaData();
