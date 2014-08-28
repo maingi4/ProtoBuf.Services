@@ -5,5 +5,4 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Release\protobuf-net.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Release\protobuf-net.xml
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Release\ProtoBuf.Wcf.Channels.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Release\ProtoBuf.Wcf.Channels.pdb
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\obj\Release\ProtoBuf.Wcf.Channels.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf\bin\Release\LZ4.dll

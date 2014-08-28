@@ -33,10 +33,15 @@ namespace ProtoBuf.Wcf.Tests
             var start = Environment.TickCount;
             using (var client = new TestServiceClient("proto"))
             {
-                var d = client.GetDataUsingDataContract(new CompositeType()
+                var d = client.GetDataUsingDataContractAsync(new CompositeType()
                 {
-                    BoolValue = true
+                    BoolValue = true,
+                    StringValue = "Test"
                 });
+
+                var composite = d.GetAwaiter().GetResult();
+
+                AssertComposite(composite);
 
                 response = client.GetData(2);
             }
