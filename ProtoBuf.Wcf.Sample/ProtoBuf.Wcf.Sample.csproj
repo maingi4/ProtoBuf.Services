@@ -65,6 +65,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionCausingBehaviour.cs" />
     <Compile Include="TestService.svc.cs">
       <DependentUpon>TestService.svc</DependentUpon>
     </Compile>

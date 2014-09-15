@@ -182,7 +182,7 @@ namespace ProtoBuf.Wcf.Tests
                     compositeType = client.GetDataUsingDataContract(compositeType);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 using (var client = new TestServiceClient(bindingName))
                 {

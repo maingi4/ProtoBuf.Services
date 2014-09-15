@@ -5,6 +5,7 @@ using System.ServiceModel;
 namespace ProtoBuf.Wcf.Sample
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    //[ExceptionCausingBehaviour]
     public class TestService : ITestService
     {
         public string GetData(int value)

@@ -141,6 +141,13 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
             var metaDataReply = _innerChannel.Request(metadataRequestMessage);
 
+            if (metaDataReply == null)
+                throw new FaultException(
+                    string.Format(
+                    "The service at {0} could not be contacted to get the necessary metadata, make sure the server is available.",
+                    RemoteAddress.Uri.ToString()
+                    ));
+
             var headers = metaDataReply.Headers;
 
             var serializer = ObjectBuilder.GetSerializer();
