@@ -50,4 +50,7 @@ https://code.google.com/p/protobuf-net/
 
 The protoBuf implementation is under open source license of "Apache License 2.0" You can read the terms here: http://www.apache.org/licenses/LICENSE-2.0
 
+LZ4 compression library is taken from https://lz4net.codeplex.com/ and is developed by Krashan, its original implementation is written by Yann Collet in C. The LZ4 library for .Net is protected by New BSD License (BSD) and its terms can be read here: https://lz4net.codeplex.com/license
+
+
 This solution is based from the library in the link given above and is designed and created by Sumit Maingi, a developer with Tavisca Solutions.
