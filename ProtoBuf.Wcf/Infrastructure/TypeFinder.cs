@@ -87,7 +87,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
                 yield return new TypeInfo()
                         {
                             Name =
-                                (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample").
+                                (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/" + type.Namespace).
                                     TrimEnd(
                                         '/')
                                 + "/" + (attr.Name ?? type.Name),

@@ -67,6 +67,8 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             var root = type == originalType;
 
+            //navigatedTypes.Add(type);
+
             if (!IsValidType(type, root))
                 return;
 
@@ -206,8 +208,8 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             var attribute = type.GetCustomAttribute<DataContractAttribute>();
 
-            return attribute == null ? string.Empty : 
-                (attribute.Namespace ?? "http://schemas.datacontract.org/2004/07/ProtoBuf.Wcf.Sample");
+            return attribute == null ? string.Empty :
+                (attribute.Namespace ?? "http://schemas.datacontract.org/2004/07/" + type.Namespace);
         }
 
         private string GetTypeName(Type type)
