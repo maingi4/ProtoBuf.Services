@@ -67,7 +67,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             var root = type == originalType;
 
-            //navigatedTypes.Add(type);
+            navigatedTypes.Add(type);
 
             if (!IsValidType(type, root))
                 return;
@@ -136,10 +136,10 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         private RuntimeTypeModel GetTypeModel(Type type)
         {
             var model = TypeModel.Create();
-            model.AutoAddMissingTypes = true;
+            model.AutoAddMissingTypes = true; //TODO: consider setting to false.
             model.UseImplicitZeroDefaults = true;
             model.AutoCompile = true;
-
+            
             return model;
         }
 
@@ -200,7 +200,9 @@ namespace ProtoBuf.Wcf.Channels.Serialization
                     fieldNumber = tempFieldNumber.Value;
                 }
 
-                model.Add(type, false).AddField(fieldNumber, fieldName);
+                var typeModel = model.Add(type, false).AddField(fieldNumber, fieldName);
+
+                typeModel.OverwriteList = true;
             }
         }
 
@@ -358,15 +360,20 @@ namespace ProtoBuf.Wcf.Channels.Serialization
                     .Where(x => x.GetCustomAttribute<EnumMemberAttribute>() != null);
             }
 
+            var flags = BindingFlags.Instance | BindingFlags.Public;
+
+            if (type == typeof(TypeMetaData))
+                flags = flags | BindingFlags.NonPublic;
+
             return type
-                .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .GetFields(flags)
                 .Where(x => x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
         private static IEnumerable<MemberInfo> GetValidProperties(Type type)
         {
             return type
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(x => x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
