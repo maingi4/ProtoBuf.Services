@@ -79,13 +79,16 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         {
             var retParamInfo = ParameterTypes.FirstOrDefault(x => x.ParamType == ParamType.Return);
 
-            if (retParamInfo == null)
-                throw new InvalidOperationException("The return parameter type was not found.");
+            //if (retParamInfo == null)
+            //    throw new InvalidOperationException("The return parameter type was not found.");
 
             var compressionType = DefaultCompressionType;
 
             Func<string[]> valueGetter = () =>
                 {
+                    if (retParamInfo == null)
+                        return new string[0];
+
                     var modelProvider = ObjectBuilder.GetModelProvider();
 
                     var model = modelProvider.CreateModelInfo(retParamInfo.Type);
@@ -187,7 +190,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
         protected object DeserializeReplyInternal(Message message, object[] parameters)
         {
-            var retParamInfo = ParameterTypes[ParameterTypes.Count - 1];
+            var retParamInfo = ParameterTypes.FirstOrDefault(x => x.ParamType == ParamType.Return);
+
+            if (retParamInfo == null)
+                return null;
 
             var store = ObjectBuilder.GetModelStore();
 

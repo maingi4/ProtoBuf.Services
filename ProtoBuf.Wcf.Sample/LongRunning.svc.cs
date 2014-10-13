@@ -13,7 +13,7 @@ namespace ProtoBuf.Wcf.Sample
     {
         public void DoWork()
         {
-           
+           System.Threading.Thread.Sleep(10);
         }
     }
 }
