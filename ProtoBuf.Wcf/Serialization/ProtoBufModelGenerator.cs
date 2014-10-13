@@ -67,29 +67,25 @@ namespace ProtoBuf.Wcf.Channels.Serialization
         {
             var root = type == originalType;
 
-            navigatedTypes.Add(type);
-
             if (!IsValidType(type, root))
                 return;
 
             if (type.IsArray)
             {
-                var eType = type.GetElementType();
+                type = type.GetElementType();
 
-                if (!IsValidType(eType, root))
+                if (root)
+                    originalType = type;
+
+                if (!IsValidType(type, root))
                     return;
-
-                model.Add(eType, false);
-            }
-            else
-            {
-                model.Add(type, false);
             }
             
+            model.Add(type, false);
 
             var baseTypes = GetRecursiveBase(type).ToArray();
 
-            for (int i = 0; i < baseTypes.Length; i++)
+            for (var i = 0; i < baseTypes.Length; i++)
             {
                 var targetBaseType = baseTypes[i];
 
@@ -109,7 +105,7 @@ namespace ProtoBuf.Wcf.Channels.Serialization
 
             ConfigureTypeOnModel(type, model, originalType);
 
-            if (configureChildren && IsValidType(type))
+            if (configureChildren && IsValidType(type, root))
             {
                 var children = GetReferencedTypes(type).Concat(GetChildren(type, originalType)).Distinct().ToList();
 
