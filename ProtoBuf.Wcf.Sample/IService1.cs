@@ -8,6 +8,8 @@ namespace ProtoBuf.Wcf.Sample
     [ServiceContract]
     public interface ITestService
     {
+        [OperationContract]
+        bool CallLongRunningService();
 
         [OperationContract]
         string GetData(int value);

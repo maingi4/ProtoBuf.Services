@@ -168,6 +168,15 @@ namespace ProtoBuf.Wcf.Tests
             BigComplexTest("proto");
         }
 
+        [TestMethod, TestCategory("Debug Only")]
+        public void LongRunningTest()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                client.CallLongRunningService();
+            }
+        }
+
         private void ComplexTest(string bindingName)
         {
             var compositeType = new CompositeType()

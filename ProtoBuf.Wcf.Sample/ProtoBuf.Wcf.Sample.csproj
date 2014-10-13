@@ -59,6 +59,14 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LongRunning.svc" />
+    <Content Include="Service References\LongRunningService\LongRunning.disco" />
+    <Content Include="Service References\LongRunningService\configuration91.svcinfo" />
+    <Content Include="Service References\LongRunningService\configuration.svcinfo" />
+    <Content Include="Service References\LongRunningService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <Content Include="TestService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -66,6 +74,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionCausingBehaviour.cs" />
+    <Compile Include="ILongRunning.cs" />
+    <Compile Include="LongRunning.svc.cs">
+      <DependentUpon>LongRunning.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\LongRunningService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TestService.svc.cs">
       <DependentUpon>TestService.svc</DependentUpon>
     </Compile>
@@ -76,6 +93,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Service References\LongRunningService\LongRunning.wsdl" />
+    <None Include="Service References\LongRunningService\LongRunning.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -88,6 +109,12 @@
       <Project>{e6f888c3-60ec-4684-a76c-99654cd8b2df}</Project>
       <Name>ProtoBuf.Wcf.Channels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\LongRunningService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -123,6 +123,12 @@ namespace ProtoBuf.Wcf.Tests.TestService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TestService.ITestService")]
     public interface ITestService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/CallLongRunningService", ReplyAction="http://tempuri.org/ITestService/CallLongRunningServiceResponse")]
+        bool CallLongRunningService();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/CallLongRunningService", ReplyAction="http://tempuri.org/ITestService/CallLongRunningServiceResponse")]
+        System.Threading.Tasks.Task<bool> CallLongRunningServiceAsync();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITestService/GetData", ReplyAction="http://tempuri.org/ITestService/GetDataResponse")]
         string GetData(int value);
         
@@ -197,6 +203,14 @@ namespace ProtoBuf.Wcf.Tests.TestService {
         
         public TestServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public bool CallLongRunningService() {
+            return base.Channel.CallLongRunningService();
+        }
+        
+        public System.Threading.Tasks.Task<bool> CallLongRunningServiceAsync() {
+            return base.Channel.CallLongRunningServiceAsync();
         }
         
         public string GetData(int value) {

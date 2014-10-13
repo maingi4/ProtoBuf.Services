@@ -61,7 +61,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
                                 retVal.AddRange(GetTypeInfo(parameterInfo.ParameterType, ParamType.Input, getDetailedTypes));
                             }
 
-                            if (methodInfo.ReturnParameter != null)
+                            if (methodInfo.ReturnParameter != null && methodInfo.ReturnParameter.ParameterType != typeof(void))
                                 retVal.AddRange(GetTypeInfo(methodInfo.ReturnParameter.ParameterType, ParamType.Return, getDetailedTypes));
 
                             break;

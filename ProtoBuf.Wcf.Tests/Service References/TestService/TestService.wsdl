@@ -15,6 +15,12 @@
       <xsd:import schemaLocation="http://localhost:12034/TestService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ITestService_CallLongRunningService_InputMessage">
+    <wsdl:part name="parameters" element="tns:CallLongRunningService" />
+  </wsdl:message>
+  <wsdl:message name="ITestService_CallLongRunningService_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CallLongRunningServiceResponse" />
+  </wsdl:message>
   <wsdl:message name="ITestService_GetData_InputMessage">
     <wsdl:part name="parameters" element="tns:GetData" />
   </wsdl:message>
@@ -64,6 +70,10 @@
     <wsdl:part name="parameters" element="tns:GetDictionaryListComplexResponse" />
   </wsdl:message>
   <wsdl:portType name="ITestService">
+    <wsdl:operation name="CallLongRunningService">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestService/CallLongRunningService" message="tns:ITestService_CallLongRunningService_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestService/CallLongRunningServiceResponse" message="tns:ITestService_CallLongRunningService_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/ITestService/GetData" message="tns:ITestService_GetData_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITestService/GetDataResponse" message="tns:ITestService_GetData_OutputMessage" />
@@ -100,6 +110,15 @@
   <wsdl:binding name="ProtoBufBinding_ITestService" type="tns:ITestService">
     <wsp:PolicyReference URI="#ProtoBufBinding_ITestService_policy" />
     <soap12:binding transport="" />
+    <wsdl:operation name="CallLongRunningService">
+      <soap12:operation soapAction="http://tempuri.org/ITestService/CallLongRunningService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetData">
       <soap12:operation soapAction="http://tempuri.org/ITestService/GetData" style="document" />
       <wsdl:input>
@@ -175,6 +194,15 @@
   </wsdl:binding>
   <wsdl:binding name="BasicHttpBinding_ITestService" type="tns:ITestService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CallLongRunningService">
+      <soap:operation soapAction="http://tempuri.org/ITestService/CallLongRunningService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetData">
       <soap:operation soapAction="http://tempuri.org/ITestService/GetData" style="document" />
       <wsdl:input>

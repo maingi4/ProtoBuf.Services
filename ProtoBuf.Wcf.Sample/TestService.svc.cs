@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using ProtoBuf.Wcf.Sample.LongRunningService;
 
 namespace ProtoBuf.Wcf.Sample
 {
@@ -8,6 +9,16 @@ namespace ProtoBuf.Wcf.Sample
     //[ExceptionCausingBehaviour]
     public class TestService : ITestService
     {
+        public bool CallLongRunningService()
+        {
+            using (var client = new LongRunningClient())
+            {
+                client.DoWork();
+            }
+
+            return true;
+        }
+
         public string GetData(int value)
         {
             if (value == 0)
