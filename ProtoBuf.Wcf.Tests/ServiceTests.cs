@@ -207,6 +207,7 @@ namespace ProtoBuf.Wcf.Tests
             BigContract bigContract;
             using (var client = new TestServiceClient(bindingName))
             {
+                //client.InnerChannel.OperationTimeout = TimeSpan.FromSeconds(5);
                 bigContract = client.GetDataUsingBigDataContract(BigContract);
             }
 

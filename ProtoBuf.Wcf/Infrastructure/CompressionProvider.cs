@@ -87,6 +87,11 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
                     return new DeflateStream(underlyingStream, mode);
                 case CompressionTypeOptions.Zip:
                 default:
+                    if (mode == CompressionMode.Compress)
+                    {
+                        return new GZipStream(underlyingStream, CompressionLevel.Fastest);
+                    }
+
                     return new GZipStream(underlyingStream, mode);
             }
         }
