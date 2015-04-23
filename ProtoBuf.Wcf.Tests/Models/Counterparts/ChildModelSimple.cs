@@ -2,7 +2,7 @@
 
 namespace ProtoBuf.Wcf.Tests.Models.Counterparts
 {
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class ChildModelSimple : BaseModelSimple
     {
         [DataMember]

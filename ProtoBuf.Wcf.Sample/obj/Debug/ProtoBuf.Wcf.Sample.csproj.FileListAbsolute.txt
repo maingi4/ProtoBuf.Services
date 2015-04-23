@@ -28,4 +28,3 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\protobuf-net.xml
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.pdb
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\LZ4.dll

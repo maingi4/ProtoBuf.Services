@@ -2,7 +2,7 @@
 
 namespace ProtoBuf.Wcf.Tests.Models
 {
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class BaseModelSimple
     {
         [DataMember]

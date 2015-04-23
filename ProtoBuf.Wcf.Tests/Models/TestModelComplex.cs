@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace ProtoBuf.Wcf.Tests.Models
 {
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class TestModelComplex
     {
         [DataMember]
@@ -18,14 +18,14 @@ namespace ProtoBuf.Wcf.Tests.Models
         public ShouldNotBeCarriedForward ShouldNotBeCarriedForward { get; set; }
     }
 
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class ShouldNotBeCarriedForward
     {
         [DataMember]
         public string Blah { get; set; }
     }
 
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class ListItem
     {
         [DataMember]

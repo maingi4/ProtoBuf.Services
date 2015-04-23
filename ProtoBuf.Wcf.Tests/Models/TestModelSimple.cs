@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace ProtoBuf.Wcf.Tests.Models
 {
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public class TestModelSimple
     {
         [DataMember]
@@ -23,7 +23,7 @@ namespace ProtoBuf.Wcf.Tests.Models
         public List<int> Ints { get; set; }
     }
 
-    [DataContract]
+    [DataContract(Namespace = "proto")]
     public enum TestEnum
     {
         [EnumMember]

@@ -33,4 +33,3 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BigBasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\Proto.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BigProto.loadtest
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\LZ4.dll

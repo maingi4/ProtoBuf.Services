@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using LZ4;
 
 namespace ProtoBuf.Wcf.Channels.Infrastructure
 {
@@ -24,9 +23,6 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
 
            try
             {
-                if (compressionType == CompressionTypeOptions.Lz4)
-                    return CompressWithLz4(data);
-
                 using (var dataStream = new MemoryStream(data))
                 {
                     var outputStream = new MemoryStream();
@@ -58,9 +54,6 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
 
                 if (data == null || data.Length == 0)
                     return new byte[] { };
-
-                if (compressionType == CompressionTypeOptions.Lz4)
-                    return DecompressWithLz4(data);
 
                 // create an resultant data stream
                 var dataStream = new MemoryStream(data);
@@ -129,23 +122,12 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
             outStream.Read(result, 0, (int)length);
             return result;
         }
-
-        private byte[] CompressWithLz4(byte[] data)
-        {
-            return LZ4Codec.WrapHC(data, 0, data.Length);
-        }
-
-        private byte[] DecompressWithLz4(byte[] data)
-        {
-            return LZ4Codec.Unwrap(data);
-        }
     }
 
     public enum CompressionTypeOptions : int
     {
         None = 0,
         Zip = 1,
-        Deflate = 2,
-        Lz4 = 3
+        Deflate = 2
     }
 }
