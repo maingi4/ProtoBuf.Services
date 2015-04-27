@@ -6,11 +6,9 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Channels.dl
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\ProtoBuf.Wcf.Channels.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\protobuf-net.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\protobuf-net.xml
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\Proto.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BigBasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BigProto.loadtest
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\LZ4.dll
