@@ -4,6 +4,7 @@ using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
+using System.Xml;
 using ProtoBuf.Wcf.Channels.Bindings.Configuration;
 using ProtoBuf.Wcf.Channels.Exceptions;
 using ProtoBuf.Wcf.Channels.Infrastructure;
@@ -45,9 +46,24 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             _compressionTypeOptions = CompressionTypeOptions.None;
             _operationBehaviours = new Dictionary<string, OperationBehaviourElement>();
 
-            this._encoding = new BinaryMessageEncodingBindingElement();
+            this._encoding = new BinaryMessageEncodingBindingElement()
+                                 {
+                                     ReaderQuotas = GetMaxedOutReaderQuota()
+                                 };
             this._transport = GetTransport();
             this._mainTransport = new ProtoBufMetaDataBindingElement(this._transport);
+        }
+
+        private static XmlDictionaryReaderQuotas GetMaxedOutReaderQuota()
+        {
+            return new XmlDictionaryReaderQuotas()
+                            {
+                                MaxArrayLength = int.MaxValue,
+                                MaxBytesPerRead = int.MaxValue,
+                                MaxDepth = int.MaxValue,
+                                MaxNameTableCharCount = int.MaxValue,
+                                MaxStringContentLength = int.MaxValue
+                            };
         }
 
         protected abstract TransportBindingElement GetTransport();

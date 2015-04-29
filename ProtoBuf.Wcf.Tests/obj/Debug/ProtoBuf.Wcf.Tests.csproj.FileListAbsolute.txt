@@ -28,8 +28,8 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\protobuf-net.xml
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.pdb
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BigBasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\Proto.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Debug\BigProto.loadtest
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Debug\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache

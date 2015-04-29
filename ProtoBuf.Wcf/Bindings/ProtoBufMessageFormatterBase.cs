@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
+using System.Xml;
 using System.Xml.Linq;
 using ProtoBuf.ServiceModel;
 using ProtoBuf.Wcf.Channels.Exceptions;
@@ -19,7 +20,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
         protected ContractInfo ContractInfo { get; set; }
         protected CompressionTypeOptions DefaultCompressionType { get; set; }
 
-        protected ProtoBufMessageFormatterBase(IList<TypeInfo> parameterTypes, string action, 
+        protected ProtoBufMessageFormatterBase(IList<TypeInfo> parameterTypes, string action,
             CompressionTypeOptions defaultCompressionType)
         {
             ParameterTypes = parameterTypes;
@@ -56,14 +57,14 @@ namespace ProtoBuf.Wcf.Channels.Bindings
                 if (compressionProvider != null)
                 {
                     data = compressionProvider.DeCompress(data, compressionType);
-                } 
+                }
 
                 object retVal;
                 try
                 {
                     retVal = serializer.Deserialize(data, model.MetaData, ParameterTypes[i].Type);
                 }
-                catch(SerializationException)
+                catch (SerializationException)
                 {
                     throw FaultException.CreateFault(
                         MessageFault.CreateFault(
@@ -118,7 +119,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             {
                 AddCompressionHeader(message, DefaultCompressionType);
             }
-            
+
             return message;
         }
 
@@ -162,7 +163,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
 
                         throw;
                     }
-                    
+
                     var byteData = data.Data;
 
                     if (compressionProvider != null)
@@ -198,7 +199,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             var store = ObjectBuilder.GetModelStore();
 
             var serializer = ObjectBuilder.GetSerializer();
-
+            
             var reader = message.GetReaderAtBodyContents();
 
             reader.Read();
@@ -237,7 +238,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return retVal;
         }
 
-        private CompressionTypeOptions GetMessageCompressionTypeOptions(Message message)
+        private static CompressionTypeOptions GetMessageCompressionTypeOptions(Message message)
         {
             var headerLocation = message.Headers.FindHeader(Constants.CompressionHeaderKey,
                                                     Constants.DefaultCustomHeaderNamespace);
@@ -250,10 +251,10 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             return compressionType;
         }
 
-        private void AddCompressionHeader(Message message, CompressionTypeOptions compressionType)
+        private static void AddCompressionHeader(Message message, CompressionTypeOptions compressionType)
         {
             message.Headers.Add(
-                MessageHeader.CreateHeader(Constants.CompressionHeaderKey, 
+                MessageHeader.CreateHeader(Constants.CompressionHeaderKey,
                 Constants.DefaultCustomHeaderNamespace, (int)compressionType)
                 );
         }
