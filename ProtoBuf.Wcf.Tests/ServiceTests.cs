@@ -25,6 +25,7 @@ namespace ProtoBuf.Wcf.Tests
             }
         }
 
+        #region Proto Http
 
         [TestMethod, TestCategory("ProtoService")]
         public void BasicCommTest()
@@ -99,28 +100,6 @@ namespace ProtoBuf.Wcf.Tests
             }
         }
 
-        //[TestMethod, TestCategory("ProtoService")]
-        //public void ListDictionaryComplexGetProto()
-        //{
-        //    using (var client = new TestServiceClient("proto"))
-        //    {
-        //        var dictionary = client.GetListDictionaryComplex();
-
-        //        Assert.IsNotNull(dictionary);
-        //    }
-        //}
-
-        //[TestMethod, TestCategory("ProtoService")]
-        //public void ListListComplexGetProto()
-        //{
-        //    using (var client = new TestServiceClient("proto"))
-        //    {
-        //        var dictionary = client.GetListListComplex();
-
-        //        Assert.IsNotNull(dictionary);
-        //    }
-        //}
-
         [TestMethod, TestCategory("ProtoService")]
         public void DictionaryMixedGetProto()
         {
@@ -144,6 +123,153 @@ namespace ProtoBuf.Wcf.Tests
             ComplexTest("proto");
         }
 
+        [TestMethod, TestCategory("ProtoService")]
+        public void BigComplexTypeGetProto()
+        {
+            BigComplexTest("proto");
+        }
+
+        [TestMethod, TestCategory("Debug Only")]
+        public void LongRunningTest()
+        {
+            using (var client = new TestServiceClient("proto"))
+            {
+                client.CallLongRunningService();
+            }
+        }
+
+        //[TestMethod, TestCategory("ProtoService")]
+        //public void ListDictionaryComplexGetProto()
+        //{
+        //    using (var client = new TestServiceClient("proto"))
+        //    {
+        //        var dictionary = client.GetListDictionaryComplex();
+
+        //        Assert.IsNotNull(dictionary);
+        //    }
+        //}
+
+        //[TestMethod, TestCategory("ProtoService")]
+        //public void ListListComplexGetProto()
+        //{
+        //    using (var client = new TestServiceClient("proto"))
+        //    {
+        //        var dictionary = client.GetListListComplex();
+
+        //        Assert.IsNotNull(dictionary);
+        //    }
+        //}
+
+        #endregion
+
+        #region Proto Http
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void BasicCommTestTcp()
+        {
+            string response;
+            var start = Environment.TickCount;
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var d = client.GetDataUsingDataContractAsync(new CompositeType()
+                {
+                    BoolValue = true,
+                    StringValue = "Test"
+                });
+
+                var composite = d.GetAwaiter().GetResult();
+
+                AssertComposite(composite);
+
+                response = client.GetData(2);
+            }
+            var end = Environment.TickCount - start;
+
+            Console.WriteLine(end);
+
+            Assert.IsNotNull(response);
+
+            Assert.IsTrue(response.Equals("2", StringComparison.Ordinal),
+                "response was unexpected, expected : {0}, actual: {1}", "2", response);
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void ListGetProtoTcp()
+        {
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var list = client.GetList();
+
+                Assert.IsNotNull(list);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void DictionaryComplexGetProtoTcp()
+        {
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var dictionary = client.GetDictionaryComplex();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void DictionarySimpleGetProtoTcp()
+        {
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var dictionary = client.GetDictionarySimple();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void DictionaryListComplexGetProtoTcp()
+        {
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var dictionary = client.GetDictionaryListComplex();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void DictionaryMixedGetProtoTcp()
+        {
+            using (var client = new TestServiceClient("protoTcp"))
+            {
+                var dictionary = client.GetDictionaryMixed();
+
+                Assert.IsNotNull(dictionary);
+            }
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void PrimitiveGetProtoTcp()
+        {
+            PrimitiveGet("protoTcp");
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void ComplexTypeGetProtoTcp()
+        {
+            ComplexTest("protoTcp");
+        }
+
+        [TestMethod, TestCategory("ProtoServiceTcp")]
+        public void BigComplexTypeGetProtoTcp()
+        {
+            BigComplexTest("protoTcp");
+        }
+
+        #endregion
+
+        #region Basic Http
+
         [TestMethod, TestCategory("BasicHttpService")]
         public void PrimitiveGetBasicHttp()
         {
@@ -162,20 +288,9 @@ namespace ProtoBuf.Wcf.Tests
             BigComplexTest("basic");
         }
 
-        [TestMethod, TestCategory("ProtoService")]
-        public void BigComplexTypeGetProto()
-        {
-            BigComplexTest("proto");
-        }
+        #endregion
 
-        [TestMethod, TestCategory("Debug Only")]
-        public void LongRunningTest()
-        {
-            using (var client = new TestServiceClient("proto"))
-            {
-                client.CallLongRunningService();
-            }
-        }
+        #region Test Helpers
 
         private void ComplexTest(string bindingName)
         {
@@ -238,5 +353,7 @@ namespace ProtoBuf.Wcf.Tests
             Assert.IsTrue(response.Equals("2", StringComparison.Ordinal),
                 "response was unexpected, expected : {0}, actual: {1}", "2", response);
         }
+
+        #endregion
     }
 }

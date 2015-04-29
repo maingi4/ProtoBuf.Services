@@ -114,8 +114,6 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
                 properties.Add(new ConfigurationProperty("maxBufferPoolSize", typeof(long), 524288L));
                 properties.Add(new ConfigurationProperty("maxReceivedMessageSize", typeof(long), 65536L));
                 properties.Add(new ConfigurationProperty("hostNameComparisonMode", typeof(HostNameComparisonMode), HostNameComparisonMode.StrongWildcard));
-                properties.Add(new ConfigurationProperty("compressionType", typeof(CompressionTypeOptions), CompressionTypeOptions.None));
-                properties.Add(new ConfigurationProperty("operationBehaviours", typeof(OperationBehaviourElementCollection)));
                 
                 return properties;
             }

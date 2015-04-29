@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
 {
-    [ConfigurationCollection(typeof(HttpProtoBufBindingElement), AddItemName = "binding")]
     public abstract class ProtoBufBindingElementCollection : ConfigurationElementCollection
     {
         protected override abstract ConfigurationElement CreateNewElement();

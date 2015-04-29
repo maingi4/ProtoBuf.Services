@@ -52,10 +52,12 @@
     <Compile Include="Bindings\Configuration\OperationBehaviourElementCollection.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElement.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElementCollection.cs" />
+    <Compile Include="Bindings\Configuration\TcpProtoBufBindingElement.cs" />
+    <Compile Include="Bindings\Configuration\TcpProtoBufBindingElementCollection.cs" />
     <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\Enumerations.cs" />
     <Compile Include="Bindings\HttpProtoBufBinding.cs" />
-    <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
+    <Compile Include="Bindings\HttpProtoBufBindingCollectionElement.cs" />
     <Compile Include="Bindings\ProtoBodyWriter.cs" />
     <Compile Include="Bindings\ProtoBufBindingEndpointBehaviour.cs" />
     <Compile Include="Bindings\ProtoBufClientFormatter.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataRequestChannel.cs" />
+    <Compile Include="Bindings\TcpProtoBufBinding.cs" />
+    <Compile Include="Bindings\TcpProtoBufBindingCollectionElement.cs" />
     <Compile Include="Infrastructure\CompressionProvider.cs" />
     <Compile Include="Infrastructure\ContractInfo.cs" />
     <Compile Include="Infrastructure\BinaryConverter.cs" />

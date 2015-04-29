@@ -41,6 +41,19 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
             }
         }
 
+        protected override ConfigurationPropertyCollection Properties
+        {
+            get
+            {
+                var properties = base.Properties;
+
+                properties.Add(new ConfigurationProperty("compressionType", typeof(CompressionTypeOptions), CompressionTypeOptions.None));
+                properties.Add(new ConfigurationProperty("operationBehaviours", typeof(OperationBehaviourElementCollection)));
+
+                return properties;
+            }
+        }
+
         protected override abstract void OnApplyConfiguration(Binding binding);
     }
 }
