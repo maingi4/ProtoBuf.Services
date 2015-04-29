@@ -140,8 +140,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
         {
             var protoBinding = (HttpProtoBufBinding)binding;
 
-            protoBinding.SetDefaultCompressionBehaviour(this.CompressionType);
-            protoBinding.SetOperationBehaviours(OperationBehaviours);
+            ApplyBaseConfiguration(protoBinding);
 
             var httpBindingElement = (HttpTransportBindingElement)protoBinding.GetBindingElement();
 

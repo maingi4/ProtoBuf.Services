@@ -46,24 +46,14 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             _compressionTypeOptions = CompressionTypeOptions.None;
             _operationBehaviours = new Dictionary<string, OperationBehaviourElement>();
 
-            this._encoding = new BinaryMessageEncodingBindingElement()
-                                 {
-                                     ReaderQuotas = GetMaxedOutReaderQuota()
-                                 };
+            this._encoding = new BinaryMessageEncodingBindingElement();
             this._transport = GetTransport();
             this._mainTransport = new ProtoBufMetaDataBindingElement(this._transport);
         }
 
-        private static XmlDictionaryReaderQuotas GetMaxedOutReaderQuota()
+        public BinaryMessageEncodingBindingElement GetEncodingElement()
         {
-            return new XmlDictionaryReaderQuotas()
-                            {
-                                MaxArrayLength = int.MaxValue,
-                                MaxBytesPerRead = int.MaxValue,
-                                MaxDepth = int.MaxValue,
-                                MaxNameTableCharCount = int.MaxValue,
-                                MaxStringContentLength = int.MaxValue
-                            };
+            return this._encoding;
         }
 
         protected abstract TransportBindingElement GetTransport();

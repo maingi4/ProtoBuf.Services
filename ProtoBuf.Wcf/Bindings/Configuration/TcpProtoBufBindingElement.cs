@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Configuration;
 
 namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
 {
@@ -141,8 +142,7 @@ namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
         {
             var protoBinding = (TcpProtoBufBinding)binding;
 
-            protoBinding.SetDefaultCompressionBehaviour(this.CompressionType);
-            protoBinding.SetOperationBehaviours(OperationBehaviours);
+            ApplyBaseConfiguration(protoBinding);
 
             var tcpBindingElement = (TcpTransportBindingElement)protoBinding.GetBindingElement();
 
