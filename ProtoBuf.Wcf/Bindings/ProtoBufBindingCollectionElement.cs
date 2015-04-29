@@ -1,58 +1,39 @@
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Linq;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Configuration;
 using ProtoBuf.Wcf.Channels.Bindings.Configuration;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public sealed class ProtoBufBindingCollectionElement
-        : BindingCollectionElement
+    /*in order to keep backward compatability with version 1.0, 
+     * so that not everyone needs to change config files, 
+     * the name prior to introduction of multiple transports still exists and defaults to http.
+     */
+
+    public sealed class ProtoBufBindingCollectionElement: ProtoBufBindingCollectionElementBase
     {
         [ConfigurationProperty("", Options = ConfigurationPropertyOptions.IsDefaultCollection)]
-        public ProtoBufBindingElementCollection Bindings
+        public HttpProtoBufBindingElementCollection Bindings
         {
             get
             {
-                return (ProtoBufBindingElementCollection)this[""];
+                return (HttpProtoBufBindingElementCollection)this[""];
             }
         }
-        
+
+        protected override ProtoBufBindingElementCollection GetBindings()
+        {
+            return this.Bindings;
+        }
+
         public override Type BindingType
         {
-            get { return typeof(ProtoBufBinding); }
-        }
-
-        public override ReadOnlyCollection<IBindingConfigurationElement> ConfiguredBindings
-        {
-            get
-            {
-                var list = new List<IBindingConfigurationElement>();
-
-                foreach (ProtoBufBindingElement configurationElement in this.Bindings)
-                    list.Add(configurationElement);
-
-                return new ReadOnlyCollection<IBindingConfigurationElement>(list);
-            }
+            get { return typeof(HttpProtoBufBinding); }
         }
 
         protected override Binding GetDefault()
         {
-            return new ProtoBufBinding();
-        }
-
-        public override bool ContainsKey(string name)
-        {
-            return this.ConfiguredBindings.Any(x => x.Name.Equals(name, StringComparison.Ordinal));
-        }
-
-        protected override bool TryAdd(string name, Binding binding, System.Configuration.Configuration config)
-        {
-            throw new NotImplementedException();
+            return new HttpProtoBufBinding();
         }
     }
 }

@@ -10,15 +10,15 @@ using ProtoBuf.Wcf.Channels.Infrastructure;
 
 namespace ProtoBuf.Wcf.Channels.Bindings
 {
-    public sealed class ProtoBufBinding : Binding
+    public abstract class ProtoBufBinding : Binding
     {
-        private HttpTransportBindingElement _httpTransport;
+        private TransportBindingElement _transport;
         private BinaryMessageEncodingBindingElement _encoding;
         private ProtoBufMetaDataBindingElement _mainTransport;
         private CompressionTypeOptions _compressionTypeOptions;
         private IDictionary<string, OperationBehaviourElement> _operationBehaviours;
 
-        public ProtoBufBinding()
+        protected ProtoBufBinding()
             : base()
         {
             this.InitializeValue();
@@ -46,13 +46,15 @@ namespace ProtoBuf.Wcf.Channels.Bindings
             _operationBehaviours = new Dictionary<string, OperationBehaviourElement>();
 
             this._encoding = new BinaryMessageEncodingBindingElement();
-            this._httpTransport = new HttpTransportBindingElement();
-            this._mainTransport = new ProtoBufMetaDataBindingElement(this._httpTransport);
+            this._transport = GetTransport();
+            this._mainTransport = new ProtoBufMetaDataBindingElement(this._transport);
         }
 
-        public HttpTransportBindingElement GetHttpBindingElement()
+        protected abstract TransportBindingElement GetTransport();
+
+        public TransportBindingElement GetBindingElement()
         {
-            return this._httpTransport;
+            return this._transport;
         }
 
         public void SetOperationBehaviours(OperationBehaviourElementCollection operationBehaviourElements)

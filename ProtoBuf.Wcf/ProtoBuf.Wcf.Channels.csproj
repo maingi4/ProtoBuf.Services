@@ -46,12 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\Configuration\HttpProtoBufBindingElement.cs" />
+    <Compile Include="Bindings\Configuration\HttpProtoBufBindingElementCollection.cs" />
     <Compile Include="Bindings\Configuration\OperationBehaviourElement.cs" />
     <Compile Include="Bindings\Configuration\OperationBehaviourElementCollection.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElement.cs" />
     <Compile Include="Bindings\Configuration\ProtoBufBindingElementCollection.cs" />
     <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\Enumerations.cs" />
+    <Compile Include="Bindings\HttpProtoBufBinding.cs" />
+    <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
     <Compile Include="Bindings\ProtoBodyWriter.cs" />
     <Compile Include="Bindings\ProtoBufBindingEndpointBehaviour.cs" />
     <Compile Include="Bindings\ProtoBufClientFormatter.cs" />
@@ -60,7 +64,7 @@
     <Compile Include="Bindings\MetaReplyChannelListener.cs" />
     <Compile Include="Bindings\MetaRequestChannelFactory.cs" />
     <Compile Include="Bindings\ProtoBufBinding.cs" />
-    <Compile Include="Bindings\ProtoBufBindingCollectionElement.cs" />
+    <Compile Include="Bindings\ProtoBufBindingCollectionElementBase.cs" />
     <Compile Include="Bindings\ProtoBufMessageFormatterBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataChannelBase.cs" />
     <Compile Include="Bindings\ProtoBufMetaDataReplyChannel.cs" />

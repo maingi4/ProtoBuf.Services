@@ -12,3 +12,4 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\Proto.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BigBasicHttp.loadtest
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\bin\Release\BigProto.loadtest
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Tests\obj\Release\ProtoBuf.Wcf.Tests.csprojResolveAssemblyReference.cache
