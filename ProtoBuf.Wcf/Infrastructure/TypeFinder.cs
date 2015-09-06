@@ -13,7 +13,7 @@ namespace ProtoBuf.Wcf.Channels.Infrastructure
 {
     internal static class TypeFinder
     {
-        private static readonly string[] AssemblyExclusions = new[]
+        internal static readonly string[] AssemblyExclusions = new[]
             {
                 "mscorlib", 
                 "System.",

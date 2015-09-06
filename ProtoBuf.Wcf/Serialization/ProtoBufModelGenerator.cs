@@ -420,11 +420,10 @@ namespace ProtoBuf.Wcf.Channels.Serialization
             return list.Distinct();
         }
 
-        private static readonly string[] TypeExclusions = new[] { "Microsoft", "System", "mscorlib" };
         private IEnumerable<Assembly> GetTargetAssemblies(Type originalType)
         {
             var validAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !TypeExclusions.Any(y => x.FullName.StartsWith(y)));
+                .Where(x => !TypeFinder.AssemblyExclusions.Any(y => x.FullName.StartsWith(y)));
 
             return validAssemblies;
         }
