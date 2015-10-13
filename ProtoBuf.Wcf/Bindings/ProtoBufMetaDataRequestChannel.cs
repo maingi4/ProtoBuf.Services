@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using ProtoBuf.Wcf.Channels.Infrastructure;
-using ProtoBuf.Wcf.Channels.Serialization;
+using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Wcf.Serialization;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class ProtoBufMetaDataRequestChannel : ProtoBufMetaDataChannelBase, IRequestChannel
     {

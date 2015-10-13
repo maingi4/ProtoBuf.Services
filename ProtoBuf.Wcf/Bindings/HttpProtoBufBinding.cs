@@ -1,6 +1,6 @@
 using System.ServiceModel.Channels;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class HttpProtoBufBinding : ProtoBufBinding
     {

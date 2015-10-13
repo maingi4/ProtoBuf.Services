@@ -1,4 +1,4 @@
-﻿namespace ProtoBuf.Wcf.Channels.Bindings
+﻿namespace ProtoBuf.Services.Wcf.Bindings
 {
     internal static class Constants
     {

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
-using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class ProtoBufDispatchFormatter : ProtoBufMessageFormatterBase, IDispatchMessageFormatter
     {

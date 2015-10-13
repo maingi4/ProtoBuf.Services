@@ -4,15 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Configuration;
-using System.Xml;
-using System.Xml.Linq;
-using ProtoBuf.ServiceModel;
-using ProtoBuf.Wcf.Channels.Exceptions;
-using ProtoBuf.Wcf.Channels.Infrastructure;
-using ProtoBuf.Wcf.Channels.Serialization;
+using ProtoBuf.Services.Wcf.Exceptions;
+using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Wcf.Serialization;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public abstract class ProtoBufMessageFormatterBase
     {

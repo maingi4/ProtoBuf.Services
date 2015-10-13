@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using ProtoBuf.Wcf.Channels.Infrastructure;
-using ProtoBuf.Wcf.Channels.Serialization;
-using TypeInfo = ProtoBuf.Wcf.Channels.Infrastructure.TypeInfo;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class ProtoBufMetaDataReplyChannel : ProtoBufMetaDataChannelBase, IReplyChannel
     {

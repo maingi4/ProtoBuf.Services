@@ -2,7 +2,7 @@ using System;
 using System.ServiceModel.Channels;
 using System.Xml;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class ProtoBodyWriter : BodyWriter
     {

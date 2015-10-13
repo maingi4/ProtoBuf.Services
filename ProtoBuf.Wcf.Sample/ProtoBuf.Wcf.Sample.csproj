@@ -105,9 +105,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProtoBuf.Wcf\ProtoBuf.Wcf.Channels.csproj">
+    <ProjectReference Include="..\ProtoBuf.Services.Infrastructure\ProtoBuf.Services.Infrastructure.csproj">
+      <Project>{f47a4743-24cf-4f0b-a1bd-6fe73ddecf06}</Project>
+      <Name>ProtoBuf.Services.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Services.Serialization\ProtoBuf.Services.Serialization.csproj">
+      <Project>{ad49c8c7-6e84-4701-9de0-fdc5ed3d070d}</Project>
+      <Name>ProtoBuf.Services.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Wcf\ProtoBuf.Services.Wcf.csproj">
       <Project>{e6f888c3-60ec-4684-a76c-99654cd8b2df}</Project>
-      <Name>ProtoBuf.Wcf.Channels</Name>
+      <Name>ProtoBuf.Services.Wcf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

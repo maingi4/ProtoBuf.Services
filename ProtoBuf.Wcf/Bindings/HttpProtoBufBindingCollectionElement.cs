@@ -1,9 +1,9 @@
 using System;
 using System.Configuration;
 using System.ServiceModel.Channels;
-using ProtoBuf.Wcf.Channels.Bindings.Configuration;
+using ProtoBuf.Services.Wcf.Bindings.Configuration;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     /*in order to keep backward compatability with version 1.0, 
      * so that not everyone needs to change config files, 

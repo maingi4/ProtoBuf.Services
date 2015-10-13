@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProtoBuf.Wcf.Channels.Infrastructure;
+﻿using System.Configuration;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
+namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {
     public sealed class OperationBehaviourElement : ConfigurationElement
     {

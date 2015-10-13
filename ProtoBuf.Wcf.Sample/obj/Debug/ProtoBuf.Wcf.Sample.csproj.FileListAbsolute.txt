@@ -20,11 +20,15 @@ D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf
 D:\Research\ProtoBinding\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Wcf.Sample.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Wcf.Sample.pdb
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Wcf.Channels.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Wcf.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\protobuf-net.dll
-D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Wcf.Channels.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Wcf.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\protobuf-net.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\protobuf-net.xml
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.csprojResolveAssemblyReference.cache
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\obj\Debug\ProtoBuf.Wcf.Sample.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Infrastructure.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Serialization.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Infrastructure.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Serialization.pdb

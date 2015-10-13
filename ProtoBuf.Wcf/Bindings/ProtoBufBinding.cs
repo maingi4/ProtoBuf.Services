@@ -1,15 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Configuration;
-using System.Xml;
-using ProtoBuf.Wcf.Channels.Bindings.Configuration;
-using ProtoBuf.Wcf.Channels.Exceptions;
-using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Services.Wcf.Bindings.Configuration;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public abstract class ProtoBufBinding : Binding
     {

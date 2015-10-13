@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
-using System.Text;
-using System.Threading.Tasks;
-using ProtoBuf.Wcf.Channels.Exceptions;
-using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Services.Wcf.Exceptions;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public sealed class ProtoBufBindingEndpointBehaviour : BehaviorExtensionElement, IEndpointBehavior
     {

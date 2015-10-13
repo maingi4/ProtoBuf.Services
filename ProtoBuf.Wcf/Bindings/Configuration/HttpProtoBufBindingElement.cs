@@ -2,9 +2,8 @@ using System;
 using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using ProtoBuf.Wcf.Channels.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
+namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {
     public sealed class HttpProtoBufBindingElement : ProtoBufBindingElement
     {

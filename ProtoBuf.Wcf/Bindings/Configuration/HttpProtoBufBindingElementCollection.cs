@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
+namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {
     [ConfigurationCollection(typeof(HttpProtoBufBindingElement), AddItemName = "binding")]
     public sealed class HttpProtoBufBindingElementCollection : ProtoBufBindingElementCollection

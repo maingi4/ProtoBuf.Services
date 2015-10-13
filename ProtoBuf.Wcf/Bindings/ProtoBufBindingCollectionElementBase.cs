@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Linq;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
-using ProtoBuf.Wcf.Channels.Bindings.Configuration;
+using ProtoBuf.Services.Wcf.Bindings.Configuration;
 
-namespace ProtoBuf.Wcf.Channels.Bindings
+namespace ProtoBuf.Services.Wcf.Bindings
 {
     public abstract class ProtoBufBindingCollectionElementBase
         : BindingCollectionElement

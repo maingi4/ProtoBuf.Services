@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using ProtoBuf.Wcf.Channels.Infrastructure;
+using ProtoBuf.Services.Wcf.Infrastructure;
 
-namespace ProtoBuf.Wcf.Channels.Bindings.Configuration
+namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {
     public abstract class ProtoBufBindingElement : StandardBindingElement
     {
