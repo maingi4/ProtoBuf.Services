@@ -41,6 +41,8 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
@@ -52,10 +54,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="IProtoMetaProvider.cs" />
+    <Compile Include="JsonMetaDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtoConfigurator.cs" />
+    <Compile Include="MetaDataHttpHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProtoBuf.Services.Infrastructure\ProtoBuf.Services.Infrastructure.csproj">
+      <Project>{f47a4743-24cf-4f0b-a1bd-6fe73ddecf06}</Project>
+      <Name>ProtoBuf.Services.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Services.Serialization\ProtoBuf.Services.Serialization.csproj">
+      <Project>{ad49c8c7-6e84-4701-9de0-fdc5ed3d070d}</Project>
+      <Name>ProtoBuf.Services.Serialization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

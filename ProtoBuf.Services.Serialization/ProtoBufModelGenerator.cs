@@ -92,7 +92,7 @@ namespace ProtoBuf.Services.Serialization
                 if (IsValidType(targetBaseType))
                     model.Add(targetBaseType, false);
 
-                if (IsValidType(targetBaseType) && targetBaseType.GetCustomAttribute<DataContractAttribute>() == null)
+                if (AppMode.Mode == AppMode.ModeType.Wcf && IsValidType(targetBaseType) && targetBaseType.GetCustomAttribute<DataContractAttribute>() == null)
                     throw new InvalidOperationException("type does not have DataContract attribute: " + targetBaseType.AssemblyQualifiedName);
 
                 var targetChild = i == 0 ? type : baseTypes[i - 1];
@@ -109,7 +109,7 @@ namespace ProtoBuf.Services.Serialization
             {
                 var children = GetReferencedTypes(type).Concat(GetChildren(type, originalType)).Distinct().ToList();
 
-                if (children.Any(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null))
+                if (AppMode.Mode == AppMode.ModeType.Wcf && children.Any(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null))
                 {
                     throw new InvalidOperationException("type does not have DataContract attribute: " +
                         children.Where(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null).Select(x => x.AssemblyQualifiedName)
@@ -204,6 +204,9 @@ namespace ProtoBuf.Services.Serialization
 
         private string GetTypeNameSpace(Type type)
         {
+            if (AppMode.Mode != AppMode.ModeType.Wcf)
+                return type.Namespace;
+
             var attribute = type.GetCustomAttribute<DataContractAttribute>();
 
             return attribute == null ? string.Empty :
@@ -288,9 +291,10 @@ namespace ProtoBuf.Services.Serialization
             return type != null && type != typeof (object) && type != typeof (ValueType)
                          && type.Namespace != null
                          && type.IsArray == false
-                         && !type.Namespace.StartsWith("System.")
+                         && type.IsPrimitive == false
+                         && (type.Namespace != "System" && !type.Namespace.StartsWith("System."))
                          && type.GetCustomAttribute<ProtoIgnoreAttribute>() == null
-                         && type.GetCustomAttribute<DataContractAttribute>() != null;
+                         && (AppMode.Mode != AppMode.ModeType.Wcf || type.GetCustomAttribute<DataContractAttribute>() != null);
         }
 
         private void PrepareSerializer<T>(RuntimeTypeModel model)
@@ -325,7 +329,7 @@ namespace ProtoBuf.Services.Serialization
 
             return fields
                 .Where(x => x.GetCustomAttribute<ProtoIgnoreAttribute>() == null &&
-                    (x.GetCustomAttribute<DataMemberAttribute>() != null
+                    (AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null
                     || x.GetCustomAttribute<EnumMemberAttribute>() != null))
                 .SelectMany(x => GetDetailedTypes(GetTypeFromMemberInfo(x)))
                 .Concat(GetDetailedTypes(type))
@@ -353,7 +357,7 @@ namespace ProtoBuf.Services.Serialization
             {
                 return type
                     .GetFields(BindingFlags.Static | BindingFlags.Public)
-                    .Where(x => x.GetCustomAttribute<EnumMemberAttribute>() != null);
+                    .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<EnumMemberAttribute>() != null);
             }
 
             var flags = BindingFlags.Instance | BindingFlags.Public;
@@ -363,14 +367,14 @@ namespace ProtoBuf.Services.Serialization
 
             return type
                 .GetFields(flags)
-                .Where(x => x.GetCustomAttribute<DataMemberAttribute>() != null);
+                .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
         private static IEnumerable<MemberInfo> GetValidProperties(Type type)
         {
             return type
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => x.GetCustomAttribute<DataMemberAttribute>() != null);
+                .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
         private IEnumerable<Type> GetDetailedTypes(Type type)
