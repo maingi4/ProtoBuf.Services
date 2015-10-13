@@ -4,8 +4,8 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
-using ProtoBuf.Services.Wcf.Exceptions;
-using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Infrastructure;
+using ProtoBuf.Services.Infrastructure.Exceptions;
 
 namespace ProtoBuf.Services.Wcf.Bindings
 {

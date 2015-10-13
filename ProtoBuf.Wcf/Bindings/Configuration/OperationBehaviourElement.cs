@@ -1,5 +1,5 @@
 ﻿using System.Configuration;
-using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Infrastructure;
 
 namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {

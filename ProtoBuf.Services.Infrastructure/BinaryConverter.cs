@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProtoBuf.Services.Wcf.Infrastructure
+namespace ProtoBuf.Services.Infrastructure
 {
     internal static class BinaryConverter
     {

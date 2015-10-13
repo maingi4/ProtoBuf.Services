@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using ProtoBuf.Services.Wcf.Infrastructure;
-using ProtoBuf.Services.Wcf.Serialization;
+using ProtoBuf.Services.Infrastructure;
+using ProtoBuf.Services.Serialization;
 
 namespace ProtoBuf.Services.Wcf.Bindings
 {

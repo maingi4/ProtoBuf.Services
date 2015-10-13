@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBuf.Services.Serializa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBuf.Services.Infrastructure", "ProtoBuf.Services.Infrastructure\ProtoBuf.Services.Infrastructure.csproj", "{F47A4743-24CF-4F0B-A1BD-6FE73DDECF06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBuf.Services.WebAPI", "ProtoBuf.Services.WebAPI\ProtoBuf.Services.WebAPI.csproj", "{E47A545F-1951-4DD4-BA41-AB9E4DA72B3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBuf.Services.WebAPI.Sample", "ProtoBuf.Services.WebAPI.Sample\ProtoBuf.Services.WebAPI.Sample.csproj", "{7E7CF024-F9C8-4667-9A44-0428FDFA167E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,14 @@ Global
 		{F47A4743-24CF-4F0B-A1BD-6FE73DDECF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F47A4743-24CF-4F0B-A1BD-6FE73DDECF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F47A4743-24CF-4F0B-A1BD-6FE73DDECF06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E47A545F-1951-4DD4-BA41-AB9E4DA72B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E47A545F-1951-4DD4-BA41-AB9E4DA72B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E47A545F-1951-4DD4-BA41-AB9E4DA72B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E47A545F-1951-4DD4-BA41-AB9E4DA72B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7CF024-F9C8-4667-9A44-0428FDFA167E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7CF024-F9C8-4667-9A44-0428FDFA167E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7CF024-F9C8-4667-9A44-0428FDFA167E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7CF024-F9C8-4667-9A44-0428FDFA167E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

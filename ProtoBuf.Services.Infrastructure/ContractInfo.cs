@@ -1,4 +1,4 @@
-﻿namespace ProtoBuf.Services.Wcf.Infrastructure
+﻿namespace ProtoBuf.Services.Infrastructure
 {
     public sealed class ContractInfo
     {

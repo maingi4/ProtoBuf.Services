@@ -2,7 +2,7 @@
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
 using System.Xml;
-using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Infrastructure;
 
 namespace ProtoBuf.Services.Wcf.Bindings.Configuration
 {

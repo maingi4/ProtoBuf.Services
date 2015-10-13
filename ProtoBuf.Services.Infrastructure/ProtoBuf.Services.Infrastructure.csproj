@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryConverter.cs" />
-    <Compile Include="ChainedAsyncResult.cs" />
     <Compile Include="CompressionProvider.cs" />
     <Compile Include="ContractInfo.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />

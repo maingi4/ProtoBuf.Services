@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using ProtoBuf.Services.Wcf.Contracts;
+using ProtoBuf.Services.Serialization.Contracts;
 
-namespace ProtoBuf.Services.Wcf.Serialization
+namespace ProtoBuf.Services.Serialization
 {
     internal sealed class StaticModelStore : IModelStore
     {

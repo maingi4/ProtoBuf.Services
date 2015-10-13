@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 
-namespace ProtoBuf.Services.Wcf.Infrastructure
+namespace ProtoBuf.Services.Infrastructure
 {
     internal sealed class CompressionProvider
     {

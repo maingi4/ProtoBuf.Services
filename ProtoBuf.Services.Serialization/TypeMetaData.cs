@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace ProtoBuf.Services.Wcf.Serialization
+namespace ProtoBuf.Services.Serialization
 {
     [DataContract]
     public sealed class TypeMetaData

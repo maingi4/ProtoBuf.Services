@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
-using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Infrastructure;
 
 namespace ProtoBuf.Services.Wcf.Bindings
 {

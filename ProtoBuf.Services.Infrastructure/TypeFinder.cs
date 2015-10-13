@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace ProtoBuf.Services.Wcf.Infrastructure
+namespace ProtoBuf.Services.Infrastructure
 {
     internal static class TypeFinder
     {
@@ -20,7 +20,10 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
                 "protobuf-"
             };
 
+        private static readonly ConcurrentDictionary<string, ICollection<TypeInfo>> TypeParamCache = new ConcurrentDictionary<string, ICollection<TypeInfo>>();
+        private static readonly ConcurrentDictionary<string, Type> ServiceContractCache = new ConcurrentDictionary<string, Type>();
         private static readonly ConcurrentDictionary<string, Type> PrimitiveTypes = new ConcurrentDictionary<string, Type>();
+        private static readonly ConcurrentDictionary<string, Type> DataContractCache = new ConcurrentDictionary<string, Type>();
 
         static TypeFinder()
         {
@@ -35,7 +38,88 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
             }
         }
 
-        private static readonly ConcurrentDictionary<string, ICollection<TypeInfo>> TypeParamCache = new ConcurrentDictionary<string, ICollection<TypeInfo>>();
+        private static string GetCacheKey(string val, bool param)
+        {
+            return string.Concat(val, "`", param ? 1 : 0);
+        }
+
+        private static Type ParsePrimitiveType(string name)
+        {
+            if (name.StartsWith("http"))
+                return null;
+
+            name = name.ToLower();
+
+            if (name == "string")
+                return typeof(string);
+
+            Type retVal;
+
+            return PrimitiveTypes.TryGetValue(name, out retVal) ? retVal : null;
+        }
+
+        private static IEnumerable<TypeInfo> GetTypeInfo(Type type, ParamType paramType, bool getDetailedTypes)
+        {
+            var attr = type.GetCustomAttribute<DataContractAttribute>();
+
+            if (attr != null)
+            {
+                yield return new TypeInfo()
+                {
+                    Name =
+                        (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/" + type.Namespace).
+                            TrimEnd(
+                                '/')
+                        + "/" + (attr.Name ?? type.Name),
+                    Type = type,
+                    ParamType = paramType
+                };
+
+            }
+            else if (type.IsPrimitive || type == typeof(string) || type.IsArray || type.IsGenericType)
+            {
+                yield return new TypeInfo()
+                {
+                    Name = GetDetailedName(type),
+                    Type = type,
+                    ParamType = paramType
+                };
+
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        "The type {0} does not have a data contract attribute and is not a primitive type.",
+                        type.FullName));
+            }
+        }
+
+        private static string GetDetailedName(Type type)
+        {
+            if (type.IsArray)
+            {
+                return type.Name;
+            }
+
+            if (type.IsGenericType)
+            {
+                var genParams = type.GenericTypeArguments;
+
+                if (genParams.Length == 1)
+                {
+                    return GetDetailedName(genParams[0]) + "[]";
+                }
+
+                if (type.GetInterfaces().Any(x => x == typeof(IDictionary)))
+                {
+                    return "IDictionary`" + string.Join("`", genParams.Select(GetDetailedName));
+                }
+            }
+
+            return type.Name;
+        }
+
         public static ICollection<TypeInfo> GetContractParamTypes(Type serviceContractType,
             string operationContractName, string action, bool getDetailedTypes = true)
         {
@@ -71,73 +155,6 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
             return TypeParamCache.GetOrAdd(GetCacheKey(action, getDetailedTypes), actionName => paramGetter(serviceContractType, operationContractName));
         }
 
-        private static string GetCacheKey(string val, bool param)
-        {
-            return string.Concat(val, "`", param ? 1 : 0);
-        }
-
-        public static IEnumerable<TypeInfo> GetTypeInfo(Type type, ParamType paramType, bool getDetailedTypes)
-        {
-            var attr = type.GetCustomAttribute<DataContractAttribute>();
-
-            if (attr != null)
-            {
-                yield return new TypeInfo()
-                        {
-                            Name =
-                                (attr.Namespace ?? "http://schemas.datacontract.org/2004/07/" + type.Namespace).
-                                    TrimEnd(
-                                        '/')
-                                + "/" + (attr.Name ?? type.Name),
-                            Type = type,
-                            ParamType = paramType
-                        };
-
-            }
-            else if (type.IsPrimitive || type == typeof(string) || type.IsArray || type.IsGenericType)
-            {
-                yield return new TypeInfo()
-                        {
-                            Name = GetDetailedName(type),
-                            Type = type,
-                            ParamType = paramType
-                        };
-
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    string.Format(
-                        "The type {0} does not have a data contract attribute and is not a primitive type.",
-                        type.FullName));
-            }
-        }
-
-        public static string GetDetailedName(Type type)
-        {
-            if (type.IsArray)
-            {
-                return type.Name;
-            }
-
-            if (type.IsGenericType)
-            {
-                var genParams = type.GenericTypeArguments;
-
-                if (genParams.Length == 1)
-                {
-                    return GetDetailedName(genParams[0]) + "[]";
-                }
-                
-                if (type.GetInterfaces().Any(x => x == typeof(IDictionary)))
-                {
-                    return "IDictionary`" + string.Join("`", genParams.Select(GetDetailedName));
-                }
-            }
-
-            return type.Name;
-        }
-
         public static IEnumerable<Type> GetDetailedTypes(Type type)
         {
             if (type.IsArray)
@@ -167,7 +184,6 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
             yield return type;
         }
 
-        private static readonly ConcurrentDictionary<string, Type> ServiceContractCache = new ConcurrentDictionary<string, Type>();
         public static Type FindServiceContract(string serviceContractNamespace)
         {
             Func<string, Type> contractGetter = contractNamespace =>
@@ -209,7 +225,6 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
             return ServiceContractCache.GetOrAdd(serviceContractNamespace, contractGetter);
         }
 
-        private static readonly ConcurrentDictionary<string, Type> DataContractCache = new ConcurrentDictionary<string, Type>();
         public static Type FindDataContract(string contractNamespace, string serviceContractNamespace, string action)
         {
             Func<string, string, string, Type> getter = (contractNs, serviceContractNs, actionName) =>
@@ -243,21 +258,6 @@ namespace ProtoBuf.Services.Wcf.Infrastructure
                     throw new KeyNotFoundException("The following contract was not found: " + contractNs);
                 };
             return DataContractCache.GetOrAdd(contractNamespace, s => getter(s, serviceContractNamespace, action));
-        }
-
-        public static Type ParsePrimitiveType(string name)
-        {
-            if (name.StartsWith("http"))
-                return null;
-
-            name = name.ToLower();
-
-            if (name == "string")
-                return typeof(string);
-
-            Type retVal;
-
-            return PrimitiveTypes.TryGetValue(name, out retVal) ? retVal : null;
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using ProtoBuf.Meta;
-using ProtoBuf.Services.Wcf.Infrastructure;
+using ProtoBuf.Services.Infrastructure;
 
-namespace ProtoBuf.Services.Wcf.Serialization
+namespace ProtoBuf.Services.Serialization
 {
     internal sealed class ProtoBufModelGenerator
     {

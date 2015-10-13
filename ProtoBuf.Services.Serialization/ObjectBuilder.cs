@@ -1,7 +1,6 @@
-﻿using ProtoBuf.Services.Wcf.Contracts;
-using ProtoBuf.Services.Wcf.Serialization;
+﻿using ProtoBuf.Services.Serialization.Contracts;
 
-namespace ProtoBuf.Services.Wcf.Infrastructure
+namespace ProtoBuf.Services.Serialization
 {
     public static class ObjectBuilder //TODO: IOC container from configuration?
     {
