@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using ProtoBuf.Services.WebAPI.Sample.Models;
 
@@ -13,7 +15,17 @@ namespace ProtoBuf.Services.WebAPI.Sample.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public IHttpActionResult Index()
         {
-            return Ok(new SampleModel() {StringProp = "testVal"});
+            return Ok(new SampleModel() {StringProp = "testVal", SubComplex1 = new SubSampleModel(){IntProp = 2}});
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        public IHttpActionResult Reverse(SampleModel model)
+        {
+            if (model == null)
+            {
+                return new StatusCodeResult(HttpStatusCode.NoContent, Request);
+            }
+            return Ok("got it!");
         }
 	}
 }

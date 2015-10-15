@@ -80,7 +80,7 @@ namespace ProtoBuf.Services.Serialization
                 if (!IsValidType(type, root))
                     return;
             }
-            
+
             model.Add(type, false);
 
             var baseTypes = GetRecursiveBase(type).ToArray();
@@ -107,7 +107,7 @@ namespace ProtoBuf.Services.Serialization
 
             if (configureChildren && IsValidType(type, root))
             {
-                var children = GetReferencedTypes(type).Concat(GetChildren(type, originalType)).Distinct().ToList();
+                var children = GetReferencedTypes(type, originalType).Concat(GetChildren(type, originalType)).Distinct().ToList();
 
                 if (AppMode.Mode == AppMode.ModeType.Wcf && children.Any(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null))
                 {
@@ -135,7 +135,7 @@ namespace ProtoBuf.Services.Serialization
             model.AutoAddMissingTypes = true; //TODO: consider setting to false.
             model.UseImplicitZeroDefaults = true;
             model.AutoCompile = true;
-            
+
             return model;
         }
 
@@ -284,11 +284,11 @@ namespace ProtoBuf.Services.Serialization
         {
             if (root)
             {
-                return type != null && type != typeof (object) && type != typeof (ValueType)
+                return type != null && type != typeof(object) && type != typeof(ValueType)
                        && type.Namespace != null && !type.IsPrimitive && type != typeof(string);
             }
 
-            return type != null && type != typeof (object) && type != typeof (ValueType)
+            return type != null && type != typeof(object) && type != typeof(ValueType)
                          && type.Namespace != null
                          && type.IsArray == false
                          && type.IsPrimitive == false
@@ -316,7 +316,7 @@ namespace ProtoBuf.Services.Serialization
 
         }
 
-        private IEnumerable<Type> GetReferencedTypes(Type type)
+        private IEnumerable<Type> GetReferencedTypes(Type type, Type originalType)
         {
             var fields = GetValidFields(type).Concat(GetValidProperties(type));
 
@@ -328,12 +328,56 @@ namespace ProtoBuf.Services.Serialization
             }
 
             return fields
-                .Where(x => x.GetCustomAttribute<ProtoIgnoreAttribute>() == null &&
-                    (AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null
-                    || x.GetCustomAttribute<EnumMemberAttribute>() != null))
+                .Where(x => IsFieldTypeValid(x, originalType))
                 .SelectMany(x => GetDetailedTypes(GetTypeFromMemberInfo(x)))
                 .Concat(GetDetailedTypes(type))
                 .Distinct();
+        }
+
+        private bool IsFieldTypeValid(MemberInfo memberInfo, Type originalType)
+        {
+            var memberType = GetTypeFromMemberInfo(memberInfo);
+
+            if (!(memberInfo.GetCustomAttribute<ProtoIgnoreAttribute>() == null &&
+                   memberType != typeof(object) &&
+                   (AppMode.Mode != AppMode.ModeType.Wcf || memberInfo.GetCustomAttribute<DataMemberAttribute>() != null
+                    || memberInfo.GetCustomAttribute<EnumMemberAttribute>() != null)))
+                return false;
+
+            if (AppMode.Mode != AppMode.ModeType.Wcf && originalType != typeof(TypeMetaData))
+            {
+                var propertyType = memberInfo as PropertyInfo;
+
+                if (propertyType != null)
+                {
+                    if (!propertyType.GetGetMethod().IsPublic)
+                    {
+                        return false;
+                    }
+                }
+
+                var fieldType = memberInfo as FieldInfo;
+
+                if (fieldType != null)
+                {
+                    if (!fieldType.IsPublic)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            var types = GetDetailedTypes(memberInfo.GetType());
+
+            foreach (var type in types)
+            {
+                if (type == typeof(object))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private Type GetTypeFromMemberInfo(MemberInfo memberInfo)
@@ -395,7 +439,7 @@ namespace ProtoBuf.Services.Serialization
                     {
                         return x.GetTypes();
                     }
-                    catch(ReflectionTypeLoadException)
+                    catch (ReflectionTypeLoadException)
                     {
                         return new Type[0];
                     }

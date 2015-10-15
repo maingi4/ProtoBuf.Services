@@ -20,6 +20,18 @@ namespace ProtoBuf.Services.WebAPI
             return result;
         }
 
+        public TypeMetaData FromJson(string json)
+        {
+            using (var mem = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
+            {
+                mem.Position = 0;
+
+                var serializer = new DataContractJsonSerializer(typeof(TypeMetaData));
+
+                return (TypeMetaData)serializer.ReadObject(mem);
+            }
+        }
+
         private static string ConvertToJson(TypeMetaData metaData)
         {
             using (var mem = new MemoryStream())
