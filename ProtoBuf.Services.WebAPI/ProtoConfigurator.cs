@@ -13,7 +13,7 @@ namespace ProtoBuf.Services.WebAPI
             config.Routes.MapHttpRoute(
                 name: "protobuf.services.routes.metadata",
                 routeTemplate: GetPath(pathPrefix),
-                defaults: new { name = RouteParameter.Optional },
+                defaults: null,
                 constraints: null,
                 handler: new MetaDataHttpHandler()
             );
@@ -29,7 +29,7 @@ namespace ProtoBuf.Services.WebAPI
             {
                 builder.Append(prefix.TrimEnd('/')).Append('/');
             }
-            builder.Append(Constants.ProtoMetaRouteRoot).Append("/{name}");
+            builder.Append(RestfulServiceConstants.ProtoMetaRouteRoot);
 
             return builder.ToString();
         }

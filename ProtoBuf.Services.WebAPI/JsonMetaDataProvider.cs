@@ -20,31 +20,14 @@ namespace ProtoBuf.Services.WebAPI
             return result;
         }
 
-        public TypeMetaData FromJson(string json)
+        public TypeMetaData FromJson(byte[] json)
         {
-            using (var mem = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
-            {
-                mem.Position = 0;
-
-                var serializer = new DataContractJsonSerializer(typeof(TypeMetaData));
-
-                return (TypeMetaData)serializer.ReadObject(mem);
-            }
+            return JsonSerializer.FromJson<TypeMetaData>(json);
         }
 
         private static string ConvertToJson(TypeMetaData metaData)
         {
-            using (var mem = new MemoryStream())
-            {
-                var serializer = new DataContractJsonSerializer(typeof(TypeMetaData));
-
-                serializer.WriteObject(mem, metaData);
-                mem.Position = 0;
-                using (var sr = new StreamReader(mem))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
+            return JsonSerializer.ConvertToJson(metaData);
         }
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F47A4743-24CF-4F0B-A1BD-6FE73DDECF06}</ProjectGuid>
+    <ProjectGuid>{1E414A1E-B20A-4EE1-BB47-AF0267CB4137}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProtoBuf.Services.Infrastructure</RootNamespace>
-    <AssemblyName>ProtoBuf.Services.Infrastructure</AssemblyName>
+    <RootNamespace>ProtoBuf.Services.WebAPI.Client</RootNamespace>
+    <AssemblyName>ProtoBuf.Services.WebAPI.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,14 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,19 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryConverter.cs" />
-    <Compile Include="CompressionProvider.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="ContractInfo.cs" />
-    <Compile Include="Exceptions\ConfigurationException.cs" />
-    <Compile Include="Exceptions\SerializationException.cs" />
-    <Compile Include="AppMode.cs" />
+    <Compile Include="ExtendedWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProtoBufWebClient.cs" />
+    <Compile Include="IWebClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeFinder.cs" />
-    <Compile Include="TypeInfo.cs" />
+    <Compile Include="ProtoRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\ProtoBuf.Services.Infrastructure\ProtoBuf.Services.Infrastructure.csproj">
+      <Project>{f47a4743-24cf-4f0b-a1bd-6fe73ddecf06}</Project>
+      <Name>ProtoBuf.Services.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Services.Serialization\ProtoBuf.Services.Serialization.csproj">
+      <Project>{ad49c8c7-6e84-4701-9de0-fdc5ed3d070d}</Project>
+      <Name>ProtoBuf.Services.Serialization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

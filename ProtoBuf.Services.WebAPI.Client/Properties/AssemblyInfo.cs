@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ProtoBuf.Services.Infrastructure")]
+[assembly: AssemblyTitle("ProtoBuf.Services.WebAPI.Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ProtoBuf.Services.Infrastructure")]
+[assembly: AssemblyProduct("ProtoBuf.Services.WebAPI.Client")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0d9f631b-65b1-4f88-bc40-26d298e0f829")]
+[assembly: Guid("5df6e8fd-a78b-47fb-a60c-4921401e1c20")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,7 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("ProtoBuf.Services.Serialization")]
-[assembly: InternalsVisibleTo("ProtoBuf.Services.Wcf")]
-[assembly: InternalsVisibleTo("ProtoBuf.Services.WebAPI")]
-[assembly: InternalsVisibleTo("ProtoBuf.Services.WebAPI.Client")]

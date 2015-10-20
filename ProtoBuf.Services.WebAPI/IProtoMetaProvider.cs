@@ -6,6 +6,6 @@ namespace ProtoBuf.Services.WebAPI
     public interface IProtoMetaProvider
     {
         string GetMetaData(Type type);
-        TypeMetaData FromJson(string json);
+        TypeMetaData FromJson(byte[] json);
     }
 }

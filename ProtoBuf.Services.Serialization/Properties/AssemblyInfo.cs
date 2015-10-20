@@ -36,3 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("ProtoBuf.Services.Wcf")]
 [assembly: InternalsVisibleTo("ProtoBuf.Services.WebAPI")]
+[assembly: InternalsVisibleTo("ProtoBuf.Services.WebAPI.Client")]

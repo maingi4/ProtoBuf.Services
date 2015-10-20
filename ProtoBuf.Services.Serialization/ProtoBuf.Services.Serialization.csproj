@@ -47,6 +47,7 @@
     <Compile Include="Contracts\IModelProvider.cs" />
     <Compile Include="Contracts\IModelStore.cs" />
     <Compile Include="Contracts\ISerializer.cs" />
+    <Compile Include="JsonSerializer.cs" />
     <Compile Include="ModelInfo.cs" />
     <Compile Include="ModelProvider.cs" />
     <Compile Include="ModelStore.cs" />

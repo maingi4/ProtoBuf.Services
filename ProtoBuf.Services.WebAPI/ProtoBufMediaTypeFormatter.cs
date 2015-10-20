@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using ProtoBuf.Services.Infrastructure;
 using ProtoBuf.Services.Serialization;
 
 namespace ProtoBuf.Services.WebAPI
@@ -13,7 +14,7 @@ namespace ProtoBuf.Services.WebAPI
     {
         public ProtoBufMediaTypeFormatter()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(Constants.ContentType));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(RestfulServiceConstants.ProtoContentType));
         }
 
         #region Reading / Deserialization

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Routing;
+using ProtoBuf.Services.Infrastructure;
 
 namespace ProtoBuf.Services.WebAPI
 {
@@ -15,10 +16,10 @@ namespace ProtoBuf.Services.WebAPI
         {
             var metaDataProvider = new JsonMetaDataProvider();
 
-            if (!request.Headers.Contains(Constants.RqModelTypeHeaderKey))
+            if (!request.Headers.Contains(RestfulServiceConstants.RqModelTypeHeaderKey))
                 return GetMetaNotFoundResponse("required head key was missing");
 
-            var rqType = request.Headers.GetValues(Constants.RqModelTypeHeaderKey).ToList();
+            var rqType = request.Headers.GetValues(RestfulServiceConstants.RqModelTypeHeaderKey).ToList();
 
             if (rqType.Count == 0)
                 return GetMetaNotFoundResponse("required header key was empty");
