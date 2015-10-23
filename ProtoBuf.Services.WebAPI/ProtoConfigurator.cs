@@ -1,24 +1,38 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Web.Http;
 using ProtoBuf.Services.Infrastructure;
+using ProtoBuf.Services.Infrastructure.Encryption;
+using ProtoBuf.Services.Infrastructure.Exceptions;
 
 namespace ProtoBuf.Services.WebAPI
 {
+    /// <summary>
+    /// Configures the protobuf behaviours for the application
+    /// </summary>
     public static class ProtoConfigurator
     {
-        public static void ConfigureProtoServices(HttpConfiguration config, string pathPrefix = "api")
+        public static void ConfigureProtoServices(HttpConfiguration config, ProtoBufConfig protoBufConfig)
         {
             AppMode.Mode = AppMode.ModeType.WebAPI;
 
+            if (protoBufConfig == null)
+                throw new ArgumentNullException("protoBufConfig");
+
+            if (config == null)
+                throw new ArgumentNullException("config");
+
             config.Routes.MapHttpRoute(
                 name: "protobuf.services.routes.metadata",
-                routeTemplate: GetPath(pathPrefix),
+                routeTemplate: GetPath(protoBufConfig.PathPrefix),
                 defaults: null,
                 constraints: null,
                 handler: new MetaDataHttpHandler()
             );
 
             config.Formatters.Add(new ProtoBufMediaTypeFormatter());
+
+            EncryptionManager.EncryptionKey = protoBufConfig.EncryptionKey;
         }
 
         private static string GetPath(string prefix)

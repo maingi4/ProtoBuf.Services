@@ -49,6 +49,10 @@
     <Compile Include="CompressionProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContractInfo.cs" />
+    <Compile Include="Encryption\EncryptionManager.cs" />
+    <Compile Include="Encryption\IEncryptor.cs" />
+    <Compile Include="Encryption\PlainTextEncryptor.cs" />
+    <Compile Include="Encryption\TripleDESEncryptor.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />
     <Compile Include="AppMode.cs" />

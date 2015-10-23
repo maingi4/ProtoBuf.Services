@@ -20,7 +20,8 @@ namespace ProtoBuf.Services.WebAPI.Client
     {
         #region Fields
 
-        private static readonly ConcurrentDictionary<string, TypeMetaData> MetaDatas = new ConcurrentDictionary<string, TypeMetaData>();
+        private static readonly ConcurrentDictionary<string, TypeMetaData> MetaDatas =
+            new ConcurrentDictionary<string, TypeMetaData>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -103,7 +104,7 @@ namespace ProtoBuf.Services.WebAPI.Client
                 if (!ResponseHeaders.TryGetValue(RestfulServiceConstants.RqModelTypeHeaderKey, out modelKey))
                     throw new InvalidDataException("The server sent a protoBuf response with no model key in the header, the service on the server side is behaving in an unexpected manner, contact the service administrator.");
 
-                var metaDataKey = GetMetaDataKey(protoRequest, typeof(TRS));
+                var metaDataKey = GetMetaDataKey(protoRequest, modelKey);
 
                 var metaData = MetaDatas.GetOrAdd(metaDataKey, s => GetMetaData(protoRequest, modelKey));
 
@@ -115,7 +116,7 @@ namespace ProtoBuf.Services.WebAPI.Client
                 }
                 catch
                 {
-                    ClearMetaData(protoRequest, typeof(TRS));
+                    ClearMetaData(protoRequest);
                     throw;
                 }
             }
@@ -153,22 +154,31 @@ namespace ProtoBuf.Services.WebAPI.Client
 
         #region Meta Data Related
 
-        private static string GetMetaDataKey(ProtoRequest request, Type targetType)
+        private static string GetMetaDataKey(ProtoRequest request, string modelKey)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
-            if (targetType == null)
-                throw new ArgumentNullException("targetType");
+            if (string.IsNullOrEmpty(modelKey))
+                throw new ArgumentNullException("modelKey");
 
-            return string.Join("-", request.ServiceUri.AbsoluteUri, targetType.FullName);
+            return string.Join("-", request.ServiceUri.AbsoluteUri, modelKey);
         }
 
-        private static void ClearMetaData(ProtoRequest request, Type targetType)
+        private static void ClearMetaData(ProtoRequest request)
         {
-            var key = GetMetaDataKey(request, targetType);
+            var keys = new List<string>(10);
 
-            TypeMetaData metaData;
-            MetaDatas.TryRemove(key, out metaData);
+            foreach (var key in MetaDatas.Keys)
+            {
+                if (key.StartsWith(request.ServiceUri.AbsoluteUri, StringComparison.OrdinalIgnoreCase))
+                    keys.Add(key);
+            }
+
+            foreach (var key in keys)
+            {
+                TypeMetaData metaData;
+                MetaDatas.TryRemove(key, out metaData);
+            }
         }
 
         private static TypeMetaData GetMetaData(ProtoRequest request, string modelKey)

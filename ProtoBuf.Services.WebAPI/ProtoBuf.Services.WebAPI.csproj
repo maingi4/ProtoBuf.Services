@@ -57,6 +57,7 @@
     <Compile Include="IProtoMetaProvider.cs" />
     <Compile Include="JsonMetaDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtoBufConfig.cs" />
     <Compile Include="ProtoBufMediaTypeFormatter.cs" />
     <Compile Include="ProtoConfigurator.cs" />
     <Compile Include="MetaDataHttpHandler.cs" />

@@ -16,7 +16,7 @@ namespace ProtoBuf.Services.WebAPI.Sample
         {
             config.MapHttpAttributeRoutes();
 
-            ProtoConfigurator.ConfigureProtoServices(config);
+            ProtoConfigurator.ConfigureProtoServices(config, new ProtoBufConfig("1234567891234567"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

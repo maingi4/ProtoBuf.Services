@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using ProtoBuf.Services.Infrastructure;
+using ProtoBuf.Services.Infrastructure.Encryption;
 using ProtoBuf.Services.Serialization;
 
 namespace ProtoBuf.Services.WebAPI
@@ -128,7 +129,7 @@ namespace ProtoBuf.Services.WebAPI
 
         public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
         {
-            headers.Add(RestfulServiceConstants.RqModelTypeHeaderKey, type.AssemblyQualifiedName);
+            headers.Add(RestfulServiceConstants.RqModelTypeHeaderKey, EncryptionManager.Encrypt(type.AssemblyQualifiedName));
 
             base.SetDefaultContentHeaders(type, headers, mediaType);
         }
