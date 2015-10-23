@@ -126,6 +126,13 @@ namespace ProtoBuf.Services.WebAPI
             }
         }
 
+        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        {
+            headers.Add(RestfulServiceConstants.RqModelTypeHeaderKey, type.AssemblyQualifiedName);
+
+            base.SetDefaultContentHeaders(type, headers, mediaType);
+        }
+
         #endregion
 
         #region Helpers

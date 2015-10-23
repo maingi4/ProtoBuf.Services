@@ -6,5 +6,6 @@ namespace ProtoBuf.Services.WebAPI.Client
     public interface IWebClient
     {
         TRS SendRequest<TRS>(ProtoRequest protoRequest);
+        IDictionary<string, string> ResponseHeaders { get; }
     }
 }

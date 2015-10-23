@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 
 namespace ProtoBuf.Services.WebAPI.Client
 {
+    /// <summary>
+    /// Create a new object for every request, NOT thread safe due to response headers being part of instance.
+    /// Supports JSON and protoBuf, this class can be inherited to support more fallback serialization methods.
+    /// </summary>
     public class ProtoBufWebClient : IWebClient
     {
         #region Fields
@@ -19,6 +23,17 @@ namespace ProtoBuf.Services.WebAPI.Client
         private static readonly ConcurrentDictionary<string, TypeMetaData> MetaDatas = new ConcurrentDictionary<string, TypeMetaData>();
 
         #endregion
+
+        #region Public Properties
+
+        public IDictionary<string, string> ResponseHeaders { get; private set; }
+
+        #endregion
+
+        static ProtoBufWebClient()
+        {
+            AppMode.Mode = AppMode.ModeType.WebAPI;
+        }
 
         #region IWebClient Members
 
@@ -70,17 +85,25 @@ namespace ProtoBuf.Services.WebAPI.Client
                     }
                     response = client.UploadData(protoRequest.ServiceUri, method, requestPayloadBytes);
                 }
-                
+
                 responseHeaders = client.ResponseHeaders;
             }
 
-            var responseContentType = responseHeaders.Get("content-type");
+            ResponseHeaders = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var responseHeaderKey in responseHeaders.AllKeys)
+            {
+                ResponseHeaders.Add(responseHeaderKey, responseHeaders.Get(responseHeaderKey));
+            }
+
+            var responseContentType = ResponseHeaders["content-type"];
 
             if (responseContentType.Equals(RestfulServiceConstants.ProtoContentType, StringComparison.OrdinalIgnoreCase))
             {
-                var modelKey = responseHeaders.Get(RestfulServiceConstants.RqModelTypeHeaderKey);
+                string modelKey;
+                if (!ResponseHeaders.TryGetValue(RestfulServiceConstants.RqModelTypeHeaderKey, out modelKey))
+                    throw new InvalidDataException("The server sent a protoBuf response with no model key in the header, the service on the server side is behaving in an unexpected manner, contact the service administrator.");
 
-                var metaDataKey = GetMetaDataKey(protoRequest, typeof (TRS));
+                var metaDataKey = GetMetaDataKey(protoRequest, typeof(TRS));
 
                 var metaData = MetaDatas.GetOrAdd(metaDataKey, s => GetMetaData(protoRequest, modelKey));
 
@@ -96,7 +119,7 @@ namespace ProtoBuf.Services.WebAPI.Client
                     throw;
                 }
             }
-            
+
             if (IsContentTypeSupported(responseContentType)) //deliberately put before json, in case custom json serialization is required.
             {
                 return DeserializeData<TRS>(responseContentType, response);
@@ -106,12 +129,12 @@ namespace ProtoBuf.Services.WebAPI.Client
             {
                 return JsonSerializer.FromJson<TRS>(response);
             }
-            
+
             throw new InvalidDataException(string.Format(
                 "The response returned by the server did not contain a supported content-type header value, the returned content type was '{0}', supported types are '{1}' & {2}",
                 responseContentType, RestfulServiceConstants.ProtoContentType, RestfulServiceConstants.JsonContentType));
         }
-        
+
         #endregion
 
         #region Custom Content Type

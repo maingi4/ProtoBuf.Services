@@ -58,14 +58,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Models\BaseModelSimple.cs" />
-    <Compile Include="Models\ChildModelSimple.cs" />
-    <Compile Include="Models\Counterparts\BaseModelSimple.cs" />
-    <Compile Include="Models\Counterparts\ChildModelSimple.cs" />
-    <Compile Include="Models\Counterparts\TestModelComplex.cs" />
-    <Compile Include="Models\TestModelComplex.cs" />
-    <Compile Include="Models\TestModelSimple.cs" />
-    <Compile Include="Models\Counterparts\TestModelSimpleCounterpart.cs" />
+    <Compile Include="Models\WCF\BaseModelSimple.cs" />
+    <Compile Include="Models\WCF\ChildModelSimple.cs" />
+    <Compile Include="Models\WCF\Counterparts\BaseModelSimple.cs" />
+    <Compile Include="Models\WCF\Counterparts\ChildModelSimple.cs" />
+    <Compile Include="Models\WCF\Counterparts\TestModelComplex.cs" />
+    <Compile Include="Models\WCF\TestModelComplex.cs" />
+    <Compile Include="Models\WCF\TestModelSimple.cs" />
+    <Compile Include="Models\WCF\Counterparts\TestModelSimpleCounterpart.cs" />
+    <Compile Include="Models\WebAPI\SampleModel.cs" />
     <Compile Include="SerializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\TestService\Reference.cs">
@@ -73,7 +74,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="ServiceTests.cs" />
+    <Compile Include="WcfServiceTests.cs" />
+    <Compile Include="WebApiTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -118,6 +120,14 @@
     <ProjectReference Include="..\ProtoBuf.Services.Serialization\ProtoBuf.Services.Serialization.csproj">
       <Project>{ad49c8c7-6e84-4701-9de0-fdc5ed3d070d}</Project>
       <Name>ProtoBuf.Services.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Services.WebAPI.Client\ProtoBuf.Services.WebAPI.Client.csproj">
+      <Project>{1e414a1e-b20a-4ee1-bb47-af0267cb4137}</Project>
+      <Name>ProtoBuf.Services.WebAPI.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtoBuf.Services.WebAPI\ProtoBuf.Services.WebAPI.csproj">
+      <Project>{e47a545f-1951-4dd4-ba41-ab9e4da72b3e}</Project>
+      <Name>ProtoBuf.Services.WebAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProtoBuf.Wcf\ProtoBuf.Services.Wcf.csproj">
       <Project>{e6f888c3-60ec-4684-a76c-99654cd8b2df}</Project>

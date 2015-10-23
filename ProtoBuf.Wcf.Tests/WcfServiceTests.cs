@@ -7,11 +7,11 @@ using ProtoBuf.Wcf.Tests.TestService;
 namespace ProtoBuf.Wcf.Tests
 {
     [TestClass]
-    public class ServiceTests
+    public class WcfServiceTests
     {
         private static readonly BigContract BigContract;
         private const int BigContractSize = 6200;
-        static ServiceTests()
+        static WcfServiceTests()
         {
             BigContract = new BigContract();
             BigContract.CompositeTypes = new CompositeType[BigContractSize];

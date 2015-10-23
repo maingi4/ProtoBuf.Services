@@ -205,7 +205,7 @@ namespace ProtoBuf.Services.Serialization
         private string GetTypeNameSpace(Type type)
         {
             if (AppMode.Mode != AppMode.ModeType.Wcf)
-                return type.Namespace;
+                return string.Empty;
 
             var attribute = type.GetCustomAttribute<DataContractAttribute>();
 
