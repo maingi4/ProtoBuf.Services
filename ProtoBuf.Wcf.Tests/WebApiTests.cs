@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,35 @@ namespace ProtoBuf.Wcf.Tests
             Assert.AreEqual("testVal", response.StringProp);
             Assert.IsNotNull(response.SubComplex1);
             Assert.AreEqual(2, response.SubComplex1.IntProp);
+
+            var responseHeaders = client.ResponseHeaders;
+
+            AssertResponseHeaders(responseHeaders);
+
+            var contentType = GetContentType(responseHeaders);
+
+            AssertContentType(RestfulServiceConstants.ProtoContentType, contentType);
+        }
+
+        [TestMethod, TestCategory("WebAPI")]
+        public void ListTest()
+        {
+            var client = new ProtoBufWebClient();
+
+            var response = client.SendRequest<List<SampleModel>>(new ProtoRequest(new Uri("http://localhost:62965/api/Sample/getlist"), null, "GET"));
+
+            Assert.IsNotNull(response);
+
+            const int resultCount = 1000;
+
+            Assert.AreEqual(resultCount, response.Count);
+
+            for (int i = 0; i < resultCount; i++)
+            {
+                Assert.AreEqual(i.GetHashCode().ToString(CultureInfo.InvariantCulture), response[i].StringProp);
+                Assert.IsNotNull(response[i].SubComplex1);
+                Assert.AreEqual(i, response[i].SubComplex1.IntProp);
+            }
 
             var responseHeaders = client.ResponseHeaders;
 

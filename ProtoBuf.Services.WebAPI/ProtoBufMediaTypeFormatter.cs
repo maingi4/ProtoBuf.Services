@@ -111,7 +111,7 @@ namespace ProtoBuf.Services.WebAPI
             if (cancellationToken.IsCancellationRequested)
                 return;
 
-            using (var writer = new StreamWriter(writeStream))
+            using (var writer = new BinaryWriter(writeStream))
             {
                 var serializer = ObjectBuilder.GetSerializer();
 
@@ -123,7 +123,7 @@ namespace ProtoBuf.Services.WebAPI
                 if (result == null)
                     return;
 
-                writer.Write(System.Text.Encoding.UTF8.GetString(result.Data));
+                writer.Write(result.Data);
             }
         }
 
