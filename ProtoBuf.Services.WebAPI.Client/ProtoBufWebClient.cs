@@ -31,11 +31,6 @@ namespace ProtoBuf.Services.WebAPI.Client
 
         #endregion
 
-        static ProtoBufWebClient()
-        {
-            AppMode.Mode = AppMode.ModeType.WebAPI;
-        }
-
         #region IWebClient Members
 
         public TRS SendRequest<TRS>(ProtoRequest protoRequest)
@@ -112,7 +107,7 @@ namespace ProtoBuf.Services.WebAPI.Client
 
                 try
                 {
-                    return serializer.Deserialize<TRS>(response, metaData);
+                    return serializer.Deserialize<TRS>(response, metaData, ModeType.WebAPI);
                 }
                 catch
                 {

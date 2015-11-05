@@ -19,22 +19,13 @@ namespace ProtoBuf.Wcf.Tests
         [TestMethod, TestCategory("WebAPI")]
         public void BasicCommTest()
         {
-            var client = new ProtoBufWebClient();
+            DoBasicCommTest("sample");
+        }
 
-            var response = client.SendRequest<SampleModel>(new ProtoRequest(new Uri("http://localhost:62965/api/Sample/"), null, "GET"));
-
-            Assert.IsNotNull(response);
-            Assert.AreEqual("testVal", response.StringProp);
-            Assert.IsNotNull(response.SubComplex1);
-            Assert.AreEqual(2, response.SubComplex1.IntProp);
-
-            var responseHeaders = client.ResponseHeaders;
-
-            AssertResponseHeaders(responseHeaders);
-
-            var contentType = GetContentType(responseHeaders);
-
-            AssertContentType(RestfulServiceConstants.ProtoContentType, contentType);
+        [TestMethod, TestCategory("WebAPI")]
+        public void OtherControllerCommTest()
+        {
+            DoBasicCommTest("other", false);
         }
 
         [TestMethod, TestCategory("WebAPI")]
@@ -42,11 +33,11 @@ namespace ProtoBuf.Wcf.Tests
         {
             var client = new ProtoBufWebClient();
 
-            var response = client.SendRequest<List<SampleModel>>(new ProtoRequest(new Uri("http://localhost:62965/api/Sample/getlist"), null, "GET"));
+            var response = client.SendRequest<List<SampleModel>>(new ProtoRequest(GetUri("getlist"), null, "GET"));
 
             Assert.IsNotNull(response);
 
-            const int resultCount = 1000;
+            const int resultCount = 10000;
 
             Assert.AreEqual(resultCount, response.Count);
 
@@ -70,6 +61,41 @@ namespace ProtoBuf.Wcf.Tests
 
         #region Helpers
 
+        private static void DoBasicCommTest(string controller, bool doReverse = true)
+        {
+            var client = new ProtoBufWebClient();
+
+            var response = client.SendRequest<SampleModel>(new ProtoRequest(GetUri(string.Empty, controller), null, "GET"));
+
+            Assert.IsNotNull(response);
+            Assert.AreEqual("testVal", response.StringProp);
+            Assert.IsNotNull(response.SubComplex1);
+            Assert.AreEqual(2, response.SubComplex1.IntProp);
+
+            var responseHeaders = client.ResponseHeaders;
+
+            AssertResponseHeaders(responseHeaders);
+
+            var contentType = GetContentType(responseHeaders);
+
+            AssertContentType(RestfulServiceConstants.ProtoContentType, contentType);
+
+            if (doReverse)
+            {
+                var resp2 = client.SendRequest<string>(new ProtoRequest(GetUri("Reverse", controller), response, "POST"));
+
+                responseHeaders = client.ResponseHeaders;
+
+                AssertResponseHeaders(responseHeaders);
+
+                contentType = GetContentType(responseHeaders);
+
+                AssertContentType(RestfulServiceConstants.ProtoContentType, contentType);
+
+                Assert.AreEqual("ok", resp2);
+            }
+        }
+
         private static void AssertResponseHeaders(IDictionary<string, string> responseHeaders)
         {
             Assert.IsNotNull(responseHeaders, "response headers cannot be null");
@@ -91,6 +117,11 @@ namespace ProtoBuf.Wcf.Tests
             Assert.AreEqual(expected, actual,
                 "The content type returned was unexpected, expected {0}, we got {1}",
                 expected, actual);
+        }
+
+        private static Uri GetUri(string methodPath, string controller = "sample")
+        {
+            return new Uri(string.Join(string.Empty, "http://localhost:62965/api/", controller, "/", methodPath));
         }
 
         #endregion

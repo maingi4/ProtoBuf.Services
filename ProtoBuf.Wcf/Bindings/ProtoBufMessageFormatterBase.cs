@@ -42,7 +42,7 @@ namespace ProtoBuf.Services.Wcf.Bindings
 
             for (var i = 0; i < parameters.Length; i++)
             {
-                var model = provider.CreateModelInfo(ParameterTypes[i].Type);
+                var model = provider.CreateModelInfo(ParameterTypes[i].Type, ModeType.Wcf);
 
                 reader.Read();
 
@@ -58,7 +58,7 @@ namespace ProtoBuf.Services.Wcf.Bindings
                 object retVal;
                 try
                 {
-                    retVal = serializer.Deserialize(data, model.MetaData, ParameterTypes[i].Type);
+                    retVal = serializer.Deserialize(data, model.MetaData, ParameterTypes[i].Type, ModeType.Wcf);
                 }
                 catch (SerializationException)
                 {
@@ -88,11 +88,11 @@ namespace ProtoBuf.Services.Wcf.Bindings
 
                     var modelProvider = ObjectBuilder.GetModelProvider();
 
-                    var model = modelProvider.CreateModelInfo(retParamInfo.Type);
+                    var model = modelProvider.CreateModelInfo(retParamInfo.Type, ModeType.Wcf);
 
                     var serializer = ObjectBuilder.GetSerializer();
 
-                    var data = (serializer.Serialize(result, model.MetaData) ??
+                    var data = (serializer.Serialize(result, model.MetaData, ModeType.Wcf) ??
                                new SerializationResult(new byte[0], null)).Data;
 
                     if (compressionType != CompressionTypeOptions.None)
@@ -141,7 +141,7 @@ namespace ProtoBuf.Services.Wcf.Bindings
                 {
                     var param = parameters[i];
 
-                    var model = store.GetModel(parameterTypes[i].Type);
+                    var model = store.GetModel(parameterTypes[i].Type, ModeType.Wcf);
 
                     if (model == null)
                         throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + parameterTypes[i].Type.FullName);
@@ -149,13 +149,13 @@ namespace ProtoBuf.Services.Wcf.Bindings
                     SerializationResult data;
                     try
                     {
-                        data = serializer.Serialize(param, model.MetaData) ??
+                        data = serializer.Serialize(param, model.MetaData, ModeType.Wcf) ??
                                new SerializationResult(new byte[0], null);
                     }
                     catch (SerializationException)
                     {
                         if (param != null)
-                            store.RemoveModel(param.GetType());
+                            store.RemoveModel(param.GetType(), ModeType.Wcf);
 
                         throw;
                     }
@@ -200,7 +200,7 @@ namespace ProtoBuf.Services.Wcf.Bindings
 
             reader.Read();
 
-            var model = store.GetModel(retParamInfo.Type);
+            var model = store.GetModel(retParamInfo.Type, ModeType.Wcf);
 
             if (model == null)
                 throw new InvalidOperationException("The model cannot be null, meta data fetch failed. Type: " + retParamInfo.Type.FullName);
@@ -223,11 +223,11 @@ namespace ProtoBuf.Services.Wcf.Bindings
             object retVal;
             try
             {
-                retVal = serializer.Deserialize(data, model.MetaData, retParamInfo.Type);
+                retVal = serializer.Deserialize(data, model.MetaData, retParamInfo.Type, ModeType.Wcf);
             }
             catch (SerializationException)
             {
-                store.RemoveModel(retParamInfo.Type);
+                store.RemoveModel(retParamInfo.Type, ModeType.Wcf);
 
                 throw;
             }

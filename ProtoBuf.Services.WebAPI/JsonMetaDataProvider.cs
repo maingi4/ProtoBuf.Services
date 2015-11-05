@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using ProtoBuf.Services.Infrastructure;
 using ProtoBuf.Services.Serialization;
 
 namespace ProtoBuf.Services.WebAPI
@@ -11,7 +12,7 @@ namespace ProtoBuf.Services.WebAPI
         {
             var modelProvider = ObjectBuilder.GetModelProvider();
 
-            var modelInfo = modelProvider.CreateModelInfo(type);
+            var modelInfo = modelProvider.CreateModelInfo(type, ModeType.WebAPI);
 
             var metaData = modelInfo.MetaData;
 

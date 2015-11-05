@@ -1,39 +1,46 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using ProtoBuf.Services.Infrastructure;
 using ProtoBuf.Services.Serialization.Contracts;
 
 namespace ProtoBuf.Services.Serialization
 {
     internal sealed class StaticModelStore : IModelStore
     {
-        private static readonly ConcurrentDictionary<Type, ModelInfo> InternalStorage = new ConcurrentDictionary<Type, ModelInfo>();
+        private static readonly ConcurrentDictionary<string, ModelInfo> InternalStorage = new ConcurrentDictionary<string, ModelInfo>();
 
-        public ModelInfo GetModel(Type type)
+        public ModelInfo GetModel(Type type, ModeType appMode)
         {
             ModelInfo modelInfo;
 
-            InternalStorage.TryGetValue(type, out modelInfo);
+            InternalStorage.TryGetValue(GetKey(type, appMode), out modelInfo);
 
             return modelInfo;
         }
 
-        public void SetModel(Type type, ModelInfo modelInfo)
+        public void SetModel(Type type, ModelInfo modelInfo, ModeType appMode)
         {
-            InternalStorage.AddOrUpdate(type, modelInfo, (type1, info) => info);
+            InternalStorage.AddOrUpdate(GetKey(type, appMode), modelInfo, (type1, info) => info);
         }
 
-        public void RemoveModel(Type type)
+        public void RemoveModel(Type type, ModeType appMode)
         {
             ModelInfo modelInfo;
-            InternalStorage.TryRemove(type, out modelInfo);
+            InternalStorage.TryRemove(GetKey(type, appMode), out modelInfo);
         }
 
         public void RemoveAll()
         {
-            foreach (var type in InternalStorage.Keys)
+            foreach (var key in InternalStorage.Keys)
             {
-                RemoveModel(type);
+                ModelInfo modelInfo;
+                InternalStorage.TryRemove(key, out modelInfo);
             }
+        }
+
+        private static string GetKey(Type type, ModeType appMode)
+        {
+            return string.Join(string.Empty, type.FullName, appMode == ModeType.Wcf ? "-w" : "-a");
         }
     }
 }

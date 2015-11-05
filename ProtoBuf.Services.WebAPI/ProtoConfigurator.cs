@@ -14,8 +14,6 @@ namespace ProtoBuf.Services.WebAPI
     {
         public static void ConfigureProtoServices(HttpConfiguration config, ProtoBufConfig protoBufConfig)
         {
-            AppMode.Mode = AppMode.ModeType.WebAPI;
-
             if (protoBufConfig == null)
                 throw new ArgumentNullException("protoBufConfig");
 

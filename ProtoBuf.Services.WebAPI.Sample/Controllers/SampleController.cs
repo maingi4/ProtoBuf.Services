@@ -22,7 +22,7 @@ namespace ProtoBuf.Services.WebAPI.Sample.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public IHttpActionResult GetList()
         {
-            const int resultCount = 1000;
+            const int resultCount = 10000;
             var samples = new List<SampleModel>(resultCount);
 
             for (int i = 0; i < resultCount; i++)
@@ -44,7 +44,7 @@ namespace ProtoBuf.Services.WebAPI.Sample.Controllers
             {
                 return new StatusCodeResult(HttpStatusCode.NoContent, Request);
             }
-            return Ok("got it!");
+            return Ok("ok");
         }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ProtoBuf.Meta;
+using ProtoBuf.Services.Infrastructure;
 using ProtoBuf.Services.Infrastructure.Exceptions;
 using ProtoBuf.Services.Serialization.Contracts;
 
@@ -10,11 +11,11 @@ namespace ProtoBuf.Services.Serialization
     {
         #region ISerializer Members
 
-        public SerializationResult Serialize(object obj)
+        public SerializationResult Serialize(object obj, ModeType appMode)
         {
             try
             {
-                return Serialize(obj, null);
+                return Serialize(obj, null, appMode);
             }
             catch (SerializationException)
             {
@@ -26,7 +27,7 @@ namespace ProtoBuf.Services.Serialization
             }
         }
 
-        public SerializationResult Serialize(object obj, TypeMetaData metaData)
+        public SerializationResult Serialize(object obj, TypeMetaData metaData, ModeType appMode)
         {
             try
             {
@@ -39,8 +40,8 @@ namespace ProtoBuf.Services.Serialization
                     throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
 
                 var info = metaData == null ?
-                    modelProvider.CreateModelInfo(obj.GetType()) :
-                    modelProvider.CreateModelInfo(obj.GetType(), metaData);
+                    modelProvider.CreateModelInfo(obj.GetType(), appMode) :
+                    modelProvider.CreateModelInfo(obj.GetType(), metaData, appMode);
 
                 var model = info.Model;
 
@@ -58,11 +59,11 @@ namespace ProtoBuf.Services.Serialization
             }
         }
 
-        public T Deserialize<T>(byte[] data)
+        public T Deserialize<T>(byte[] data, ModeType appMode)
         {
             try
             {
-                return Deserialize<T>(data, null);
+                return Deserialize<T>(data, null, appMode);
             }
             catch (SerializationException)
             {
@@ -74,11 +75,11 @@ namespace ProtoBuf.Services.Serialization
             }
         }
 
-        public T Deserialize<T>(byte[] data, TypeMetaData metaData)
+        public T Deserialize<T>(byte[] data, TypeMetaData metaData, ModeType appMode)
         {
             try
             {
-                return (T)Deserialize(data, metaData, typeof(T));
+                return (T)Deserialize(data, metaData, typeof(T), appMode);
             }
             catch (SerializationException)
             {
@@ -91,7 +92,7 @@ namespace ProtoBuf.Services.Serialization
 
         }
 
-        public object Deserialize(byte[] data, TypeMetaData metaData, Type type)
+        public object Deserialize(byte[] data, TypeMetaData metaData, Type type, ModeType appMode)
         {
             try
             {
@@ -104,8 +105,8 @@ namespace ProtoBuf.Services.Serialization
                     throw new ConfigurationException("ModelProvider could not be resolved, please check configuration.");
 
                 var info = metaData == null ?
-                    modelProvider.CreateModelInfo(type) :
-                    modelProvider.CreateModelInfo(type, metaData);
+                    modelProvider.CreateModelInfo(type, appMode) :
+                    modelProvider.CreateModelInfo(type, metaData, appMode);
 
                 var model = info.Model;
 

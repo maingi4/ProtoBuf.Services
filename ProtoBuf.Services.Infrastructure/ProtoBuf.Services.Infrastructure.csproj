@@ -55,7 +55,7 @@
     <Compile Include="Encryption\TripleDESEncryptor.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\SerializationException.cs" />
-    <Compile Include="AppMode.cs" />
+    <Compile Include="ModeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeFinder.cs" />
     <Compile Include="TypeInfo.cs" />

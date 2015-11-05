@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProtoBuf.Services.Infrastructure
 {
-    internal static class AppMode
+    public enum ModeType
     {
-        public enum ModeType
-        {
-            Wcf = 0,
-            WebAPI = 1
-        }
-
-        public static ModeType Mode { get; set; }
+        Wcf = 0,
+        WebAPI = 1
     }
 }

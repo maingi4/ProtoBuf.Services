@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProtoBuf.Services.Infrastructure;
 using ProtoBuf.Services.Serialization;
 using ProtoBuf.Wcf.Tests.Models;
 
 namespace ProtoBuf.Wcf.Tests
 {
     [TestClass]
-    public class SerializationTests
+    public class WebApiSerializationTests
     {
-        [TestMethod, TestCategory("Serialization")]
+        private const ModeType AppModeType = ModeType.WebAPI;
+
+        [TestMethod, TestCategory("WebAPI Serialization")]
         public void SimpleModelTest()
         {
             var model = new TestModelSimple()
@@ -22,7 +25,7 @@ namespace ProtoBuf.Wcf.Tests
             
             var ser = ObjectBuilder.GetSerializer();
 
-            var result = ser.Serialize(model);
+            var result = ser.Serialize(model, AppModeType);
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
@@ -30,7 +33,7 @@ namespace ProtoBuf.Wcf.Tests
 
             Assert.IsTrue(result.Data.Length > 0, "Serialized data length must be greater than 0, serialization failed.");
 
-            var counterpart = ser.Deserialize<Models.Counterparts.TestModelSimple>(result.Data, result.MetaData);
+            var counterpart = ser.Deserialize<Models.Counterparts.TestModelSimple>(result.Data, result.MetaData, AppModeType);
 
             Assert.AreEqual(model.TestProperty1, counterpart.TestProperty1);
             Assert.AreEqual(model.TestProperty2, counterpart.TestProperty2);
@@ -45,7 +48,7 @@ namespace ProtoBuf.Wcf.Tests
             }
         }
 
-        [TestMethod, TestCategory("Serialization")]
+        [TestMethod, TestCategory("WebAPI Serialization")]
         public void SimpleInheritanceTest()
         {
             var model = new ChildModelSimple()
@@ -58,7 +61,7 @@ namespace ProtoBuf.Wcf.Tests
 
             var ser = ObjectBuilder.GetSerializer();
 
-            var result = ser.Serialize(model);
+            var result = ser.Serialize(model, AppModeType);
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
@@ -66,7 +69,7 @@ namespace ProtoBuf.Wcf.Tests
 
             Assert.IsTrue(result.Data.Length > 0, "Serialized data length must be greater than 0, serialization failed.");
 
-            var counterpart = ser.Deserialize<Models.Counterparts.ChildModelSimple>(result.Data, result.MetaData);
+            var counterpart = ser.Deserialize<Models.Counterparts.ChildModelSimple>(result.Data, result.MetaData, AppModeType);
 
             Assert.AreEqual(model.TestBase1, counterpart.TestBase1);
             Assert.AreEqual(model.TestBase2, counterpart.TestBase2);
@@ -74,7 +77,7 @@ namespace ProtoBuf.Wcf.Tests
             Assert.AreEqual(model.TestChildProperty2, counterpart.TestChildProperty2);
         }
 
-        [TestMethod, TestCategory("Serialization")]
+        [TestMethod, TestCategory("WebAPI Serialization")]
         public void TestComplexModel()
         {
             var childModelSimple = new ChildModelSimple()
@@ -112,7 +115,7 @@ namespace ProtoBuf.Wcf.Tests
 
             var ser = ObjectBuilder.GetSerializer();
 
-            var result = ser.Serialize(complex);
+            var result = ser.Serialize(complex, AppModeType);
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
@@ -120,7 +123,7 @@ namespace ProtoBuf.Wcf.Tests
             
             Assert.IsTrue(result.Data.Length > 0, "Serialized data length must be greater than 0, serialization failed.");
 
-            var counterpart = ser.Deserialize<Models.Counterparts.TestModelComplex>(result.Data, result.MetaData);
+            var counterpart = ser.Deserialize<Models.Counterparts.TestModelComplex>(result.Data, result.MetaData, AppModeType);
 
             Assert.IsNotNull(counterpart, "no data could be deserialized.");
 
@@ -128,7 +131,7 @@ namespace ProtoBuf.Wcf.Tests
 
             Assert.IsNotNull(counterpart.TestModelSimple, "Test model simple was not deserialized correctly.");
 
-            Assert.IsNull(counterpart.ShouldNotBeCarriedForward, "ShouldNotBeCarriedForward does not have the datamember attribute and should not have been serialized/ deserialized, this is a security issue.");
+            Assert.IsNotNull(counterpart.ShouldNotBeCarriedForward, "ShouldNotBeCarriedForward does not have the datamember attribute, in case of webapi this does not matter and should have been carried forward.");
 
             Assert.IsNotNull(counterpart.ListItems, "list of items was not deserialized correctly.");
 
@@ -163,7 +166,7 @@ namespace ProtoBuf.Wcf.Tests
             }
         }
 
-        [TestMethod, TestCategory("Serialization")]
+        [TestMethod, TestCategory("WebAPI Serialization")]
         public void TestMetaDataSerialization()
         {
             var metaData = new TypeMetaData();
@@ -172,11 +175,11 @@ namespace ProtoBuf.Wcf.Tests
 
             var serializer = ObjectBuilder.GetSerializer();
 
-            var result = serializer.Serialize(metaData);
+            var result = serializer.Serialize(metaData, AppModeType);
 
             Assert.IsTrue(result.Data.Length > 0, "Meta data was not successfully serialized. The resultant byte count was zero.");
 
-            var deserialized = serializer.Deserialize<TypeMetaData>(result.Data);
+            var deserialized = serializer.Deserialize<TypeMetaData>(result.Data, AppModeType);
 
             Assert.IsNotNull(deserialized, "Deserialization was not succesfull, the resultant object was null.");
 

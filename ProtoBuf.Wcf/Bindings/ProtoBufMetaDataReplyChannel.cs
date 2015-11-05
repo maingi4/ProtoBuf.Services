@@ -153,11 +153,11 @@ namespace ProtoBuf.Services.Wcf.Bindings
                 if (typeMetaDatas.ContainsKey(paramType.Name))
                     continue;
 
-                var modelInfo = modelProvider.CreateModelInfo(paramType.Type);
+                var modelInfo = modelProvider.CreateModelInfo(paramType.Type, ModeType.Wcf);
 
                 var metaData = modelInfo.MetaData;
 
-                var result = serializer.Serialize(metaData);
+                var result = serializer.Serialize(metaData, ModeType.Wcf);
 
                 var val = BinaryConverter.ToString(result.Data);
 

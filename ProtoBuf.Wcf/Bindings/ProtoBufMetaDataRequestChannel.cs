@@ -132,7 +132,7 @@ namespace ProtoBuf.Services.Wcf.Bindings
 
             var store = ObjectBuilder.GetModelStore();
 
-            var metaDataRequired = paramTypes.Any(paramType => store.GetModel(paramType.Type) == null);
+            var metaDataRequired = paramTypes.Any(paramType => store.GetModel(paramType.Type, ModeType.Wcf) == null);
 
             if (!metaDataRequired)
                 return;
@@ -166,9 +166,9 @@ namespace ProtoBuf.Services.Wcf.Bindings
 
                     var contractMeta = BinaryConverter.FromString(contractMetaDataString);
 
-                    var metaData = serializer.Deserialize<TypeMetaData>(contractMeta);
+                    var metaData = serializer.Deserialize<TypeMetaData>(contractMeta, ModeType.Wcf);
 
-                    modelProvider.CreateModelInfo(contractType, metaData);
+                    modelProvider.CreateModelInfo(contractType, metaData, ModeType.Wcf);
                 }
             }
         }

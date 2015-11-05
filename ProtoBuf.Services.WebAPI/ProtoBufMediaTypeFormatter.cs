@@ -67,7 +67,7 @@ namespace ProtoBuf.Services.WebAPI
 
                 var serializer = ObjectBuilder.GetSerializer();
 
-                var deserialized = serializer.Deserialize(data, null, type);
+                var deserialized = serializer.Deserialize(data, null, type, ModeType.WebAPI);
 
                 return deserialized;
             }
@@ -115,7 +115,7 @@ namespace ProtoBuf.Services.WebAPI
             {
                 var serializer = ObjectBuilder.GetSerializer();
 
-                var result = serializer.Serialize(value);
+                var result = serializer.Serialize(value, ModeType.WebAPI);
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -150,7 +150,7 @@ namespace ProtoBuf.Services.WebAPI
 
             try
             {
-                modelGen.CreateModelInfo(type);
+                modelGen.CreateModelInfo(type, ModeType.WebAPI);
             }
             catch
             {

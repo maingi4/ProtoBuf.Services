@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="WebApiSerializationTests.cs" />
     <Compile Include="Models\WCF\BaseModelSimple.cs" />
     <Compile Include="Models\WCF\ChildModelSimple.cs" />
     <Compile Include="Models\WCF\Counterparts\BaseModelSimple.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Models\WCF\TestModelSimple.cs" />
     <Compile Include="Models\WCF\Counterparts\TestModelSimpleCounterpart.cs" />
     <Compile Include="Models\WebAPI\SampleModel.cs" />
-    <Compile Include="SerializationTests.cs" />
+    <Compile Include="WCFSerializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\TestService\Reference.cs">
       <AutoGen>True</AutoGen>

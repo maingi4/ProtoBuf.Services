@@ -41,33 +41,33 @@ namespace ProtoBuf.Services.Serialization
 
         #endregion
 
-        public ModelInfo ConfigureType(Type type, bool recursive, bool configureChildren)
+        public ModelInfo ConfigureType(Type type, bool recursive, bool configureChildren, ModeType appMode)
         {
             var method = this.GetType().GetMethod("ConfigureTypeInternal", BindingFlags.Instance | BindingFlags.NonPublic);
             var genericMethod = method.MakeGenericMethod(type);
-            var info = genericMethod.Invoke(this, new object[] { true, true });
+            var info = genericMethod.Invoke(this, new object[] { true, true, appMode });
 
             return (ModelInfo)info;
         }
 
-        private ModelInfo ConfigureTypeInternal<T>(bool recursive, bool configureChildren)
+        private ModelInfo ConfigureTypeInternal<T>(bool recursive, bool configureChildren, ModeType appMode)
         {
             var targetType = typeof(T);
 
             var model = GetTypeModel(targetType);
 
             ConfigureType<T>(targetType, recursive, configureChildren, new HashSet<Type>(),
-                model, targetType);
+                model, targetType, appMode);
 
             return new ModelInfo(model, _typeMetaData);
         }
 
         private void ConfigureType<T>(Type type, bool recursive, bool configureChildren,
-            ISet<Type> navigatedTypes, RuntimeTypeModel model, Type originalType)
+            ISet<Type> navigatedTypes, RuntimeTypeModel model, Type originalType, ModeType appMode)
         {
             var root = type == originalType;
 
-            if (!IsValidType(type, root))
+            if (!IsValidType(type, appMode, root))
                 return;
 
             if (type.IsArray)
@@ -77,42 +77,42 @@ namespace ProtoBuf.Services.Serialization
                 if (root)
                     originalType = type;
 
-                if (!IsValidType(type, root))
+                if (!IsValidType(type, appMode, root))
                     return;
             }
 
             model.Add(type, false);
 
-            var baseTypes = GetRecursiveBase(type).ToArray();
+            var baseTypes = GetRecursiveBase(type, appMode).ToArray();
 
             for (var i = 0; i < baseTypes.Length; i++)
             {
                 var targetBaseType = baseTypes[i];
 
-                if (IsValidType(targetBaseType))
+                if (IsValidType(targetBaseType, appMode))
                     model.Add(targetBaseType, false);
 
-                if (AppMode.Mode == AppMode.ModeType.Wcf && IsValidType(targetBaseType) && targetBaseType.GetCustomAttribute<DataContractAttribute>() == null)
+                if (appMode == ModeType.Wcf && IsValidType(targetBaseType, appMode) && targetBaseType.GetCustomAttribute<DataContractAttribute>() == null)
                     throw new InvalidOperationException("type does not have DataContract attribute: " + targetBaseType.AssemblyQualifiedName);
 
                 var targetChild = i == 0 ? type : baseTypes[i - 1];
 
-                ConfigureSubType(targetBaseType, targetChild, model, originalType);
+                ConfigureSubType(targetBaseType, targetChild, model, originalType, appMode);
 
                 if (!recursive)
                     break;
             }
 
-            ConfigureTypeOnModel(type, model, originalType);
+            ConfigureTypeOnModel(type, model, originalType, appMode);
 
-            if (configureChildren && IsValidType(type, root))
+            if (configureChildren && IsValidType(type, appMode, root))
             {
-                var children = GetReferencedTypes(type, originalType).Concat(GetChildren(type, originalType)).Distinct().ToList();
+                var children = GetReferencedTypes(type, originalType, appMode).Concat(GetChildren(type, originalType, appMode)).Distinct().ToList();
 
-                if (AppMode.Mode == AppMode.ModeType.Wcf && children.Any(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null))
+                if (appMode == ModeType.Wcf && children.Any(x => IsValidType(x, appMode) && x.GetCustomAttribute<DataContractAttribute>() == null))
                 {
                     throw new InvalidOperationException("type does not have DataContract attribute: " +
-                        children.Where(x => IsValidType(x) && x.GetCustomAttribute<DataContractAttribute>() == null).Select(x => x.AssemblyQualifiedName)
+                        children.Where(x => IsValidType(x, appMode) && x.GetCustomAttribute<DataContractAttribute>() == null).Select(x => x.AssemblyQualifiedName)
                         .Aggregate((s, s1) => s + Environment.NewLine + s1));
                 }
 
@@ -121,7 +121,7 @@ namespace ProtoBuf.Services.Serialization
                     if (!navigatedTypes.Add(child))
                         continue;
 
-                    ConfigureType<NullType>(child, recursive, true, navigatedTypes, model, originalType);
+                    ConfigureType<NullType>(child, recursive, true, navigatedTypes, model, originalType, appMode);
                 }
             }
 
@@ -142,39 +142,39 @@ namespace ProtoBuf.Services.Serialization
         private class NullType
         { }
 
-        private void ConfigureSubType(Type baseType, Type type, RuntimeTypeModel model, Type originalType)
+        private void ConfigureSubType(Type baseType, Type type, RuntimeTypeModel model, Type originalType, ModeType appMode)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            if (IsValidType(baseType) && _heirarchySet.Add(GetHashKey(originalType, type)))
+            if (IsValidType(baseType, appMode) && _heirarchySet.Add(GetHashKey(originalType, type)))
             {
-                model.Add(baseType, false).AddSubType(GetAndStoreBaseFieldNumber(baseType, GetChildren(baseType, originalType).ToArray(), type), type);
+                model.Add(baseType, false).AddSubType(GetAndStoreBaseFieldNumber(baseType, GetChildren(baseType, originalType, appMode).ToArray(), type, appMode), type);
             }
         }
 
-        private void ConfigureTypeOnModel(Type type, RuntimeTypeModel model, Type originalType)
+        private void ConfigureTypeOnModel(Type type, RuntimeTypeModel model, Type originalType, ModeType appMode)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            if (!IsValidType(type) || !_typeSet.Add(type))
+            if (!IsValidType(type, appMode) || !_typeSet.Add(type))
                 return;
 
             var baseType = type.BaseType;
 
-            ConfigureTypeOnModel(baseType, model, originalType);
+            ConfigureTypeOnModel(baseType, model, originalType, appMode);
 
-            var fields = GetValidProperties(type).Concat(GetValidFields(type));
+            var fields = GetValidProperties(type, appMode).Concat(GetValidFields(type, appMode));
 
             var metaData = _typeMetaData;
 
             var fieldNumber = _usePreDefinedFieldNumbers ? 0 :
-                metaData.GetMaxFieldNumber(GetTypeNameSpace(baseType), GetTypeName(baseType));
+                metaData.GetMaxFieldNumber(GetTypeNameSpace(baseType, appMode), GetTypeName(baseType));
 
             foreach (var fieldInfo in fields)
             {
-                var typeNamespace = GetTypeNameSpace(type);
+                var typeNamespace = GetTypeNameSpace(type, appMode);
 
                 var typeName = GetTypeName(type);
 
@@ -202,9 +202,9 @@ namespace ProtoBuf.Services.Serialization
             }
         }
 
-        private string GetTypeNameSpace(Type type)
+        private string GetTypeNameSpace(Type type, ModeType appMode)
         {
-            if (AppMode.Mode != AppMode.ModeType.Wcf)
+            if (appMode != ModeType.Wcf)
                 return string.Empty;
 
             var attribute = type.GetCustomAttribute<DataContractAttribute>();
@@ -225,9 +225,9 @@ namespace ProtoBuf.Services.Serialization
 
         private readonly IDictionary<Type, SortedList<string, string>> _typeDic = new Dictionary<Type, SortedList<string, string>>();
 
-        private int GetAndStoreBaseFieldNumber(Type baseType, Type[] subTypes, Type subType)
+        private int GetAndStoreBaseFieldNumber(Type baseType, Type[] subTypes, Type subType, ModeType appMode)
         {
-            var typeNamespace = GetTypeNameSpace(subType);
+            var typeNamespace = GetTypeNameSpace(subType, appMode);
 
             var typeName = GetTypeName(subType);
 
@@ -241,7 +241,7 @@ namespace ProtoBuf.Services.Serialization
 
             SortedList<string, string> sortedList;
 
-            var bases = GetRecursiveBase(subType).ToArray();
+            var bases = GetRecursiveBase(subType, appMode).ToArray();
 
             var baseMost = subType;
             if (bases.Any())
@@ -280,7 +280,7 @@ namespace ProtoBuf.Services.Serialization
             return Math.Abs(number % nFactor);
         }
 
-        private bool IsValidType(Type type, bool root = false)
+        private bool IsValidType(Type type, ModeType appMode, bool root = false)
         {
             if (root)
             {
@@ -294,7 +294,7 @@ namespace ProtoBuf.Services.Serialization
                          && type.IsPrimitive == false
                          && (type.Namespace != "System" && !type.Namespace.StartsWith("System."))
                          && type.GetCustomAttribute<ProtoIgnoreAttribute>() == null
-                         && (AppMode.Mode != AppMode.ModeType.Wcf || type.GetCustomAttribute<DataContractAttribute>() != null);
+                         && (appMode != ModeType.Wcf || type.GetCustomAttribute<DataContractAttribute>() != null);
         }
 
         private void PrepareSerializer<T>(RuntimeTypeModel model)
@@ -316,35 +316,35 @@ namespace ProtoBuf.Services.Serialization
 
         }
 
-        private IEnumerable<Type> GetReferencedTypes(Type type, Type originalType)
+        private IEnumerable<Type> GetReferencedTypes(Type type, Type originalType, ModeType appMode)
         {
-            var fields = GetValidFields(type).Concat(GetValidProperties(type));
+            var fields = GetValidFields(type, appMode).Concat(GetValidProperties(type, appMode));
 
-            var baseTypes = GetRecursiveBase(type);
+            var baseTypes = GetRecursiveBase(type, appMode);
 
             foreach (var baseType in baseTypes)
             {
-                fields = fields.Concat(GetValidFields(baseType)).Concat(GetValidProperties(baseType));
+                fields = fields.Concat(GetValidFields(baseType, appMode)).Concat(GetValidProperties(baseType, appMode));
             }
 
             return fields
-                .Where(x => IsFieldTypeValid(x, originalType))
+                .Where(x => IsFieldTypeValid(x, originalType, appMode))
                 .SelectMany(x => GetDetailedTypes(GetTypeFromMemberInfo(x)))
                 .Concat(GetDetailedTypes(type))
                 .Distinct();
         }
 
-        private bool IsFieldTypeValid(MemberInfo memberInfo, Type originalType)
+        private bool IsFieldTypeValid(MemberInfo memberInfo, Type originalType, ModeType appMode)
         {
             var memberType = GetTypeFromMemberInfo(memberInfo);
 
             if (!(memberInfo.GetCustomAttribute<ProtoIgnoreAttribute>() == null &&
                    memberType != typeof(object) &&
-                   (AppMode.Mode != AppMode.ModeType.Wcf || memberInfo.GetCustomAttribute<DataMemberAttribute>() != null
+                   (appMode != ModeType.Wcf || memberInfo.GetCustomAttribute<DataMemberAttribute>() != null
                     || memberInfo.GetCustomAttribute<EnumMemberAttribute>() != null)))
                 return false;
 
-            if (AppMode.Mode != AppMode.ModeType.Wcf && originalType != typeof(TypeMetaData))
+            if (appMode != ModeType.Wcf && originalType != typeof(TypeMetaData))
             {
                 var propertyType = memberInfo as PropertyInfo;
 
@@ -395,13 +395,13 @@ namespace ProtoBuf.Services.Serialization
             throw new ArgumentOutOfRangeException("memberInfo", "memberinfo was of unexpected type - " + memberInfo.GetType());
         }
 
-        private static IEnumerable<MemberInfo> GetValidFields(Type type)
+        private static IEnumerable<MemberInfo> GetValidFields(Type type, ModeType appMode)
         {
             if (type.IsEnum)
             {
                 return type
                     .GetFields(BindingFlags.Static | BindingFlags.Public)
-                    .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<EnumMemberAttribute>() != null);
+                    .Where(x => appMode != ModeType.Wcf || x.GetCustomAttribute<EnumMemberAttribute>() != null);
             }
 
             var flags = BindingFlags.Instance | BindingFlags.Public;
@@ -411,14 +411,14 @@ namespace ProtoBuf.Services.Serialization
 
             return type
                 .GetFields(flags)
-                .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
+                .Where(x => appMode != ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
-        private static IEnumerable<MemberInfo> GetValidProperties(Type type)
+        private static IEnumerable<MemberInfo> GetValidProperties(Type type, ModeType appMode)
         {
             return type
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => AppMode.Mode != AppMode.ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
+                .Where(x => appMode != ModeType.Wcf || x.GetCustomAttribute<DataMemberAttribute>() != null);
         }
 
         private IEnumerable<Type> GetDetailedTypes(Type type)
@@ -426,7 +426,7 @@ namespace ProtoBuf.Services.Serialization
             return TypeFinder.GetDetailedTypes(type);
         }
 
-        private IEnumerable<Type> GetChildren(Type baseType, Type originalType)
+        private IEnumerable<Type> GetChildren(Type baseType, Type originalType, ModeType appMode)
         {
             if (baseType == null)
                 throw new ArgumentNullException("baseType");
@@ -458,12 +458,12 @@ namespace ProtoBuf.Services.Serialization
 
                     if (parameterlessConstructor != null)
                     {
-                        list.AddRange(GetChildren(type, originalType));
+                        list.AddRange(GetChildren(type, originalType, appMode));
                         list.Add(type);
                     }
                 }
             }
-            list.AddRange(GetRecursiveBase(baseType));
+            list.AddRange(GetRecursiveBase(baseType, appMode));
 
             return list.Distinct();
         }
@@ -476,11 +476,11 @@ namespace ProtoBuf.Services.Serialization
             return validAssemblies;
         }
 
-        private IEnumerable<Type> GetRecursiveBase(Type type)
+        private IEnumerable<Type> GetRecursiveBase(Type type, ModeType appMode)
         {
             var lType = type;
 
-            while (IsValidType(lType.BaseType))
+            while (IsValidType(lType.BaseType, appMode))
             {
                 yield return lType.BaseType;
 
