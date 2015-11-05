@@ -84,7 +84,7 @@ csx
 
 # Windows Store app package directory
 AppPackages/
-
+OutputAssemblies/
 # Others
 [Bb]in
 [Oo]bj
