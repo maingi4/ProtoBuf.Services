@@ -38,7 +38,7 @@ namespace ProtoBuf.Services.WebAPI.Client
             if (protoRequest == null)
                 throw new ArgumentNullException("protoRequest");
 
-            var requestPayload = protoRequest.Request == null ? null : JsonSerializer.ConvertToJson(protoRequest.Request);
+            var requestPayload = protoRequest.Request == null ? null : SerializeToJson(protoRequest.Request);
 
             var requestHeaders = protoRequest.RequestHeaders ?? new Dictionary<string, string>();
 
@@ -143,6 +143,11 @@ namespace ProtoBuf.Services.WebAPI.Client
         protected virtual T DeserializeData<T>(string contentType, byte[] data)
         {
             throw new NotSupportedException("This operation is not supported on this class, a child class should override this method.");
+        }
+
+        protected virtual string SerializeToJson(object request)
+        {
+            return JsonSerializer.ConvertToJson(request);
         }
 
         #endregion
