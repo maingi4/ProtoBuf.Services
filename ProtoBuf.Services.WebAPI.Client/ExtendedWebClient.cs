@@ -14,10 +14,12 @@ namespace ProtoBuf.Services.WebAPI.Client
 
         protected override WebRequest GetWebRequest(Uri address)
         {
-            var rq = base.GetWebRequest(address);
+            var rq = base.GetWebRequest(address) as HttpWebRequest;
 
             if (rq != null)
             {
+                rq.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+
                 rq.Timeout = Convert.ToInt32(_timeout.TotalMilliseconds);
             }
 

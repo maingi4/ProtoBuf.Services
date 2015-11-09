@@ -32,8 +32,15 @@ namespace ProtoBuf.Wcf.Tests
         public void ListTest()
         {
             var client = new ProtoBufWebClient();
-
-            var response = client.SendRequest<List<SampleModel>>(new ProtoRequest(GetUri("getlist"), null, "GET"));
+ 
+            var response = client.SendRequest<List<SampleModel>>(
+                new ProtoRequest(GetUri("getlist"), null, "GET")
+                    {
+                        RequestHeaders = new Dictionary<string, string>()
+                                             {
+                                                 {"accept-encoding", "gzip"}
+                                             }
+                    });
 
             Assert.IsNotNull(response);
 
@@ -121,7 +128,7 @@ namespace ProtoBuf.Wcf.Tests
 
         private static Uri GetUri(string methodPath, string controller = "sample")
         {
-            return new Uri(string.Join(string.Empty, "http://localhost:62965/api/", controller, "/", methodPath));
+            return new Uri(string.Join(string.Empty, "http://protoWebAPISample.com/api/", controller, "/", methodPath));
         }
 
         #endregion
