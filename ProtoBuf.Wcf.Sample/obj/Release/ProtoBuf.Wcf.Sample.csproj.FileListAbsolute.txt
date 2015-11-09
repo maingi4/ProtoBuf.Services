@@ -12,3 +12,5 @@ D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Wcf.dll
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Infrastructure.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Serialization.pdb
 D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\ProtoBuf.Services.Wcf.pdb
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\Newtonsoft.Json.dll
+D:\Research\ProtoBuf.Wcf\ProtoBuf.Wcf.Sample\bin\Newtonsoft.Json.xml
