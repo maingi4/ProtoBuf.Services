@@ -4,7 +4,7 @@ ProtoBuf.Wcf
 What does it do?
 ----------------
 
-Its a library which you can plug into your solution (no code changes required) and expose an endpoint which uses protoBuf serialization without the drawbacks that come with it. It makes the wcf anywhere between 2-20 times faster depending upon the size of the contract. Check the advantages list in the below section.
+Its a library which you can plug into your solution (no code changes required for WCF) and expose an endpoint which uses protoBuf serialization without the drawbacks that come with it. It makes wcf or web API anywhere between 2-20 times faster depending upon the size of the contract. Check the advantages list in the below section.
 
 What is this Proto-Buf thingie?
 -------------------------------
@@ -27,6 +27,8 @@ Its a custom binding, a custom channel for WCF which basically uses proto-buf se
 3) It also solves the problem where if the data contract changes on server side, the serialization fails on the client side, this was a major deterrent in using protoBuf as all the clients would need to update their proxy before it can be successfully consumed. This makes the management easy and makes it possible for you to give out the channel to customers as long as they use this library on client side as well.<br/>
 4) The solution works seamlessly with other endpoints, i.e. you can have a basic http endpoint, a webhttp endpoint and the protoBuf endpoint all in the same service without any issues.<br/>
 5) The larger your datacontract the bigger the benefit will be (checkout the wiki page for some numbers).
+
+In case of Web API clients use a protoBuf client provided in a client library for communication, it gives nearly the same benefits as WCF above and follows restful standards for communication with a graceful failover to json if the server does not support protoBuf (this library). The key difference between the WCF implementation and WebAPI one is that in case of WebAPI requests are always sent in Json (using Json.net) serialization, while proto format is used (if available) in the response.
 
 What is it not?
 ---------------
